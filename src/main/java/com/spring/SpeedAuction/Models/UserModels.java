@@ -29,7 +29,7 @@ public class UserModels {
     @Size(max = 100)
     private String email;
     @NotBlank
-    private int phone_number;
+    private String phone_number;
     @NotBlank
     @Size(max = 100)
     private String address;
@@ -52,7 +52,7 @@ public class UserModels {
     }
 
     public UserModels(String id, String username, String first_name, String last_name, String password,
-                      String email, int phone_number, String address, String country, String city, String postal_code) {
+                      String email, String phone_number, String address, String country, String city, String postal_code) {
         this.id = id;
         this.username = username;
         this.first_name = first_name;
@@ -114,11 +114,11 @@ public class UserModels {
         this.email = email;
     }
 
-    public int getPhone_number() {
+    public String getPhone_number() {
         return phone_number;
     }
 
-    public void setPhone_number(int phone_number) {
+    public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
 
