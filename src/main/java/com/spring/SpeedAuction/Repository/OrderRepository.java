@@ -1,4 +1,8 @@
 package com.spring.SpeedAuction.Repository;
 
-public interface OrderRepository {
+import com.spring.SpeedAuction.Models.OrderModels;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface OrderRepository extends MongoRepository<OrderModels, String> {
+
 }
