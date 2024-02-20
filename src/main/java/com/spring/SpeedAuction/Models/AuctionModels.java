@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Document(collection = "auctions")
 public class AuctionModels {
+    //very simple model, add more fields following the ER diagram.
     @Id
     private String id;
 
