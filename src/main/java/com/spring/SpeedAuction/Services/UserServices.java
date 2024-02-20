@@ -65,11 +65,6 @@ public class UserServices {
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
 
     }
-
-   /* public UserModels updateUser (UserModels userModels) {   // Put Updatera en användares information
-        return userRepository.save(userModels);
-    }*/
-
     public String deleteUser(String id) {        // DELETE Ta bort en användare
         userRepository.deleteById(id);
         return "User is deleted";

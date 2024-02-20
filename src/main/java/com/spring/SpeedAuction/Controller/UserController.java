@@ -48,12 +48,6 @@ public class UserController {
         }
     }
 
-    /*  // PUT
-    @PutMapping()
-    public UserModels updateUser(@RequestBody UserModels userModels) {
-        return userServices.updateUser(userModels);
-    }*/
-
     // DELETE
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteUser(@PathVariable String id) {
