@@ -43,7 +43,7 @@ public class UserModels {
     @Size(max = 20)
     private String postal_code;
 
-    // private List<String> roles = new ArrayList<>();
+    //  private List<String> roles = new ArrayList<>();
 
     //@DBref
     // private List<String> favourites_auction_id = new ArrayList<>();
