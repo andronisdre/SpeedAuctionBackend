@@ -69,5 +69,4 @@ public class UserServices {
         userRepository.deleteById(id);
         return "User is deleted";
     }
-
 }
