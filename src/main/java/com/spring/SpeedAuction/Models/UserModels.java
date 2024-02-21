@@ -5,7 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "User")
 public class UserModels {
@@ -45,8 +49,8 @@ public class UserModels {
 
     //  private List<String> roles = new ArrayList<>();
 
-    //@DBref
-    // private List<String> favourites_auction_id = new ArrayList<>();
+    @DBRef
+    private List<String> favourites_auction_id = new ArrayList<>();
 
     public UserModels() {
     }
@@ -64,6 +68,10 @@ public class UserModels {
         this.country = country;
         this.city = city;
         this.postal_code = postal_code;
+    }
+
+    public UserModels(List<String> favourites_auction_id) {
+        this.favourites_auction_id = favourites_auction_id;
     }
 
     public String getId() {
@@ -152,5 +160,13 @@ public class UserModels {
 
     public void setPostal_code(String postal_code) {
         this.postal_code = postal_code;
+    }
+
+    public List<String> getFavourites_auction_id() {
+        return favourites_auction_id;
+    }
+
+    public void setFavourites_auction_id(List<String> favourites_auction_id) {
+        this.favourites_auction_id = favourites_auction_id;
     }
 }

@@ -69,4 +69,25 @@ public class UserServices {
         userRepository.deleteById(id);
         return "User is deleted";
     }
+
+    public UserModels addFavouriteAuctions(String id, String auctionsId) {  // POST Lägg till favoritAuctions
+        UserModels userModels = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Not found this: " + id));
+        userModels.getFavourites_auction_id().add(auctionsId);
+        return userRepository.save(userModels);
+    }
+
+    public UserModels deleteFavouriteAuctions(String id, String auctionId) {    // DELETE Ta bort favoritAuctions
+        UserModels userModels = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Not found this: " + id));
+        userModels.getFavourites_auction_id().remove(auctionId);
+        return userRepository.save(userModels);
+    }
+
+
+
+
+
+
+
 }
