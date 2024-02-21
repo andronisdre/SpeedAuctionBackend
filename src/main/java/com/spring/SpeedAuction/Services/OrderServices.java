@@ -31,6 +31,18 @@ public class OrderServices {
         orderRepository.deleteById(id);
     }
 
+    public OrderModels updateOrder(String id, OrderModels updatedOrders) {
+        OrderModels existingOrders = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order with id: " + id + " was not found!"));
+
+        existingOrders.setId(updatedOrders.getId());
+        existingOrders.setBooks(updatedOrders.getBooks());
+        existingOrders.setId(updatedOrders.getId());
+        existingOrders.setCreated_at(updatedOrders.getCreated_at());
+        existingOrders.setReturned_at(updatedOrders.getReturned_at());
+
+        return orderRepository.save(existingOrders);
+    }
 
 
 
