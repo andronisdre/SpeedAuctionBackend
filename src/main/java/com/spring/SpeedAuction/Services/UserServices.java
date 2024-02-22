@@ -75,23 +75,22 @@ public class UserServices {
         return "User is deleted";
     }
 
-    public UserModels addFavouriteAuctions(String id, String auctionId) {    // POST
-        UserModels userModels = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
-        AuctionModels auction = auctionRepository.findById(auctionId)
-                .orElseThrow(() -> new NoSuchElementException("Auction not found with ID: " + auctionId));
-        userModels.getFavourites_auction_id().add(auction);
-        return userRepository.save(userModels);
+    public UserModels addFavouriteAuctions(String id, String auctionsId) { // POST lägga till favorit auction // Denna jobbar vi med nu
+        UserModels user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+        List<AuctionModels> favouritesAuctions = user.getFavourites_auction_id();
+        favouritesAuctions.add(new AuctionModels(auctionsId));
+        user.setFavourites_auction_id(favouritesAuctions);
+        return userRepository.save(user);
     }
 
-    public UserModels deleteFavouriteAuctions(String userId, String auctionId) {  // DELETE
+  /*  public UserModels deleteFavouriteAuctions(String userId, String auctionId) {  // DELETE // denna funkar inte som den ska
         UserModels userModels = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
         AuctionModels auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new NoSuchElementException("Auction not found with ID: " + auctionId));
         userModels.getFavourites_auction_id().remove(auction);
         return userRepository.save(userModels);
-    }
+    }*/
 
 
 

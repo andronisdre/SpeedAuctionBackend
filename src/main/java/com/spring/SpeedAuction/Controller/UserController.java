@@ -56,20 +56,16 @@ public class UserController {
     }
 
 
-  /* // POST
-    @PostMapping("/favourite/add/{id}")
-    public ResponseEntity<?> addFavouriteAuctions(@PathVariable String id, @RequestBody String auctionsId) {
-        try {
-            UserModels updatedUser = userServices.addFavouriteAuctions(id, auctionsId);
-            return ResponseEntity.ok(updatedUser);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @PostMapping("/favourite/add/{id}") // denna jobbar vi med nu
+    public ResponseEntity<UserModels> addFavouriteAuctions(@PathVariable String id, @RequestBody String auctionsId) {
+        UserModels addAuctions = userServices.addFavouriteAuctions(id, auctionsId);
+        return new ResponseEntity<>(addAuctions, HttpStatus.CREATED);
     }
 
 
-    // DELETE
-    @DeleteMapping("/favourite/remove/{id}")
+
+   /* // DELETE
+    @DeleteMapping("/favourite/remove/{id}") // denna funkar inte som den ska
     public ResponseEntity<?> deleteFavouriteAuctions(@PathVariable String id, @RequestBody String auctionsId) {
         try {
             UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionsId);
@@ -78,27 +74,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }*/
-
-    // POST
-    @PostMapping("/favourite/add/{id}")
-    public ResponseEntity<?> addFavouriteAuctions(@PathVariable String id, @RequestBody String auctionId) {
-        try {
-            UserModels updatedUser = userServices.addFavouriteAuctions(id, auctionId);
-            return ResponseEntity.ok(updatedUser);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
-    // DELETE
-    @DeleteMapping("/favourite/remove/{Id}")
-    public ResponseEntity<?> deleteFavouriteAuctions(@PathVariable String userId, @PathVariable String auctionId) {
-        try {
-            UserModels updatedUser = userServices.deleteFavouriteAuctions(userId, auctionId);
-            return ResponseEntity.ok(updatedUser);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
 
 }
