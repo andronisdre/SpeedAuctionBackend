@@ -81,4 +81,7 @@ public class AuctionModels {
         this.reg_number = reg_number;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 }

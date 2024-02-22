@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServices {
@@ -83,22 +84,16 @@ public class UserServices {
         return userRepository.save(user);
     }
 
-  /*  public UserModels deleteFavouriteAuctions(String userId, String auctionId) {  // DELETE // denna funkar inte som den ska
-        UserModels userModels = userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
-        AuctionModels auction = auctionRepository.findById(auctionId)
-                .orElseThrow(() -> new NoSuchElementException("Auction not found with ID: " + auctionId));
-        userModels.getFavourites_auction_id().remove(auction);
-        return userRepository.save(userModels);
-    }*/
+    public UserModels deleteFavouriteAuctions(String userId, String auctionId) {
+        UserModels user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
 
+        user.setFavourites_auction_id(
+                user.getFavourites_auction_id().stream()
+                        .filter(auction -> !auction.getId().equals(auctionId))
+                        .collect(Collectors.toList())
+        );
 
-
-
-
-
-
-
-
-
+        return userRepository.save(user);
+    }
 }

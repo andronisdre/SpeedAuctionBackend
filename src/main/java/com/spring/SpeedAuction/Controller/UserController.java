@@ -56,23 +56,17 @@ public class UserController {
     }
 
 
-    @PostMapping("/favourite/add/{id}") // denna jobbar vi med nu
+    @PostMapping("/favourite/add/{id}") // IN PROGRESS
     public ResponseEntity<UserModels> addFavouriteAuctions(@PathVariable String id, @RequestBody String auctionsId) {
         UserModels addAuctions = userServices.addFavouriteAuctions(id, auctionsId);
         return new ResponseEntity<>(addAuctions, HttpStatus.CREATED);
     }
 
-
-
-   /* // DELETE
-    @DeleteMapping("/favourite/remove/{id}") // denna funkar inte som den ska
-    public ResponseEntity<?> deleteFavouriteAuctions(@PathVariable String id, @RequestBody String auctionsId) {
-        try {
-            UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionsId);
-            return ResponseEntity.ok(updatedUser);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }*/
+    // DELEE
+    @DeleteMapping("/favourite/delete/{id}/{auctionId}")
+    public ResponseEntity<UserModels> deleteFavouriteAuctions(@PathVariable String id, @PathVariable String auctionId) {
+        UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionId);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
 
 }
