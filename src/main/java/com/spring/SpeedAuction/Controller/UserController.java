@@ -19,6 +19,7 @@ public class UserController {
     @Autowired
     UserServices userServices;
 
+
     // POST
     @PostMapping()
     public UserModels addUser(@RequestBody UserModels userModels) {
@@ -53,4 +54,51 @@ public class UserController {
     public String deleteUser(@PathVariable String id) {
         return userServices.deleteUser(id);
     }
+
+
+  /* // POST
+    @PostMapping("/favourite/add/{id}")
+    public ResponseEntity<?> addFavouriteAuctions(@PathVariable String id, @RequestBody String auctionsId) {
+        try {
+            UserModels updatedUser = userServices.addFavouriteAuctions(id, auctionsId);
+            return ResponseEntity.ok(updatedUser);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+    // DELETE
+    @DeleteMapping("/favourite/remove/{id}")
+    public ResponseEntity<?> deleteFavouriteAuctions(@PathVariable String id, @RequestBody String auctionsId) {
+        try {
+            UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionsId);
+            return ResponseEntity.ok(updatedUser);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }*/
+
+    // POST
+    @PostMapping("/favourite/add/{id}")
+    public ResponseEntity<?> addFavouriteAuctions(@PathVariable String id, @RequestBody String auctionId) {
+        try {
+            UserModels updatedUser = userServices.addFavouriteAuctions(id, auctionId);
+            return ResponseEntity.ok(updatedUser);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    // DELETE
+    @DeleteMapping("/favourite/remove/{Id}")
+    public ResponseEntity<?> deleteFavouriteAuctions(@PathVariable String userId, @PathVariable String auctionId) {
+        try {
+            UserModels updatedUser = userServices.deleteFavouriteAuctions(userId, auctionId);
+            return ResponseEntity.ok(updatedUser);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 }

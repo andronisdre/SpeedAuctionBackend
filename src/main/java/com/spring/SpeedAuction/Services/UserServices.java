@@ -1,6 +1,8 @@
 package com.spring.SpeedAuction.Services;
 
+import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.UserModels;
+import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class UserServices {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AuctionRepository auctionRepository;
 
 
     public UserModels addUser(UserModels user) {    // POST Registrera ny användare
@@ -70,19 +75,26 @@ public class UserServices {
         return "User is deleted";
     }
 
-    public UserModels addFavouriteAuctions(String id, String auctionsId) {  // POST Lägg till favoritAuctions
+    public UserModels addFavouriteAuctions(String id, String auctionId) {    // POST
         UserModels userModels = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Not found this: " + id));
-        userModels.getFavourites_auction_id().add(auctionsId);
+                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
+        AuctionModels auction = auctionRepository.findById(auctionId)
+                .orElseThrow(() -> new NoSuchElementException("Auction not found with ID: " + auctionId));
+        userModels.getFavourites_auction_id().add(auction);
         return userRepository.save(userModels);
     }
 
-    public UserModels deleteFavouriteAuctions(String id, String auctionId) {    // DELETE Ta bort favoritAuctions
-        UserModels userModels = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Not found this: " + id));
-        userModels.getFavourites_auction_id().remove(auctionId);
+    public UserModels deleteFavouriteAuctions(String userId, String auctionId) {  // DELETE
+        UserModels userModels = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + userId));
+        AuctionModels auction = auctionRepository.findById(auctionId)
+                .orElseThrow(() -> new NoSuchElementException("Auction not found with ID: " + auctionId));
+        userModels.getFavourites_auction_id().remove(auction);
         return userRepository.save(userModels);
     }
+
+
+
 
 
 

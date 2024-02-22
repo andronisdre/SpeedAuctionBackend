@@ -5,7 +5,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
 
 @Document(collection = "auctions")
 public class AuctionModels {
@@ -26,7 +25,6 @@ public class AuctionModels {
     @CreatedDate
     private Date created_at;
 
-    private List<String> favoriteUsers;
 
     public AuctionModels() {
     }
@@ -79,11 +77,4 @@ public class AuctionModels {
         this.reg_number = reg_number;
     }
 
-    public List<String> getFavoriteUsers() {
-        return favoriteUsers;
-    }
-
-    public void setFavoriteUsers(List<String> favoriteUsers) {
-        this.favoriteUsers = favoriteUsers;
-    }
 }

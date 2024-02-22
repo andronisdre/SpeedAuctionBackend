@@ -50,7 +50,7 @@ public class UserModels {
     //  private List<String> roles = new ArrayList<>();
 
     @DBRef
-    private List<String> favourites_auction_id = new ArrayList<>();
+    private List<AuctionModels> favourites_auction_id = new ArrayList<>();
 
     public UserModels() {
     }
@@ -70,7 +70,7 @@ public class UserModels {
         this.postal_code = postal_code;
     }
 
-    public UserModels(List<String> favourites_auction_id) {
+    public UserModels(List<AuctionModels> favourites_auction_id) {
         this.favourites_auction_id = favourites_auction_id;
     }
 
@@ -162,11 +162,12 @@ public class UserModels {
         this.postal_code = postal_code;
     }
 
-    public List<String> getFavourites_auction_id() {
+
+    public List<AuctionModels> getFavourites_auction_id() {
         return favourites_auction_id;
     }
 
-    public void setFavourites_auction_id(List<String> favourites_auction_id) {
+    public void setFavourites_auction_id(List<AuctionModels> favourites_auction_id) {
         this.favourites_auction_id = favourites_auction_id;
     }
 }
