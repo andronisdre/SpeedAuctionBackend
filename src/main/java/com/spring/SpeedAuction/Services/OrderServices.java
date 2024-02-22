@@ -1,12 +1,12 @@
 package com.spring.SpeedAuction.Services;
 
-import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -32,16 +32,14 @@ public class OrderServices {
     }
 
     public OrderModels updateOrder(String id, OrderModels updatedOrders) {
-        OrderModels existingOrders = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Order with id: " + id + " was not found!"));
+        OrderModels existingOrder = orderRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Order with id: " + id + " was not found!"));
 
-        existingOrders.setId(updatedOrders.getId());
-        existingOrders.setBooks(updatedOrders.getBooks());
-        existingOrders.setId(updatedOrders.getId());
-        existingOrders.setCreated_at(updatedOrders.getCreated_at());
-        existingOrders.setReturned_at(updatedOrders.getReturned_at());
+        existingOrder.setId(updatedOrders.getId());
+        existingOrder.setOrder_finalized(updatedOrders.getOrder_finalized());
+        existingOrder.setOrder_created(updatedOrders.getOrder_created());
 
-        return orderRepository.save(existingOrders);
+        return orderRepository.save(existingOrder);
     }
 
 
