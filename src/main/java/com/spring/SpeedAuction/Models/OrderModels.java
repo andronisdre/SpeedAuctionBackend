@@ -32,8 +32,12 @@ public class OrderModels {
         //this.auctions = auctions;
         //this.seller_id = seller_id;
         //this.buyer_id = buyer_id;
-        this.order_created = order_created;
-        this.order_finalized = order_finalized;
+
+    }
+
+
+
+    public OrderModels() {
     }
 
     public String getId() {
