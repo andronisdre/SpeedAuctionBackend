@@ -27,15 +27,13 @@ public class OrderModels {
     private Date order_finalized;
 
 
-    public OrderModels(String id, List<AuctionModels> auctions, String seller_id, String buyer_id, Date order_created, Date order_finalized) {
+    /*public OrderModels(String id, List<AuctionModels> auctions, String seller_id, String buyer_id, Date order_created, Date order_finalized) {
         this.id = id;
         //this.auctions = auctions;
         //this.seller_id = seller_id;
         //this.buyer_id = buyer_id;
 
-    }
-
-
+    }*/
 
     public OrderModels() {
     }
