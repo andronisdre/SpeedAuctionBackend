@@ -85,4 +85,5 @@ public class OrderModels {
     public void setOrder_finalized(Date order_finalized) {
         this.order_finalized = order_finalized;
     }
+
 }
