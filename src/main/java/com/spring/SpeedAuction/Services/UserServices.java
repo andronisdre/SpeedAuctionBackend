@@ -7,6 +7,7 @@ import com.spring.SpeedAuction.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -84,7 +85,22 @@ public class UserServices {
         return userRepository.save(user);
     }
 
-    public UserModels deleteFavouriteAuctions(String userId, String auctionId) {
+    public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions finish
+        List<UserModels> users = userRepository.findAll();
+        List<UserModels> usersWithFavouriteAuctions = new ArrayList<>();
+
+        for (UserModels user : users) {
+            List<AuctionModels> favouriteAuctions = user.getFavourites_auction_id();
+            if (favouriteAuctions != null && !favouriteAuctions.isEmpty()) {
+                usersWithFavouriteAuctions.add(user);
+            }
+        }
+
+        return usersWithFavouriteAuctions;
+    }
+
+
+    public UserModels deleteFavouriteAuctions(String userId, String auctionId) { // DELETE Ta bort favorit auktioner finish
         UserModels user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
 

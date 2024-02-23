@@ -56,14 +56,23 @@ public class UserController {
     }
 
 
-    @PostMapping("/favourite/add/{id}") // IN PROGRESS
+   @PostMapping("/favourite/add/{id}") // IN PROGRESS
     public ResponseEntity<UserModels> addFavouriteAuctions(@PathVariable String id, @RequestBody String auctionsId) {
         UserModels addAuctions = userServices.addFavouriteAuctions(id, auctionsId);
         return new ResponseEntity<>(addAuctions, HttpStatus.CREATED);
     }
 
+
+    // GET ALL USERS WITH FAVOURITE AUCTIONS
+    @GetMapping("/all/favourite") // Finish
+    public ResponseEntity<List<UserModels>> getUsersWithFavouriteAuctions() {
+        List<UserModels> usersWithFavouriteAuctions = userServices.getUsersWithFavouriteAuctions();
+        return new ResponseEntity<>(usersWithFavouriteAuctions, HttpStatus.OK);
+    }
+
+
     // DELEE
-    @DeleteMapping("/favourite/delete/{id}/{auctionId}")
+    @DeleteMapping("/favourite/delete/{id}/{auctionId}") // Finish
     public ResponseEntity<UserModels> deleteFavouriteAuctions(@PathVariable String id, @PathVariable String auctionId) {
         UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
