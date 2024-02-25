@@ -5,7 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Document(collection = "User")
 public class UserModels {
@@ -43,7 +47,9 @@ public class UserModels {
     @Size(max = 20)
     private String postal_code;
 
-    //  private List<String> roles = new ArrayList<>();
+    //Roles
+    @DBRef
+    private Set<Role> roles = new HashSet<>();
 
     //@DBref
     // private List<String> favourites_auction_id = new ArrayList<>();
@@ -152,5 +158,13 @@ public class UserModels {
 
     public void setPostal_code(String postal_code) {
         this.postal_code = postal_code;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
