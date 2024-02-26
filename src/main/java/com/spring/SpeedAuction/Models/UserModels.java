@@ -46,11 +46,10 @@ public class UserModels {
     @NotBlank
     @Size(max = 20)
     private String postal_code;
-
-    //  private List<String> roles = new ArrayList<>();
-
     @DBRef
     private List<AuctionModels> favourites_auction_id = new ArrayList<>();
+
+    //  private List<String> roles = new ArrayList<>();
 
     public UserModels() {
     }

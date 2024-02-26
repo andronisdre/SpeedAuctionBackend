@@ -2,7 +2,6 @@ package com.spring.SpeedAuction.Services;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.UserModels;
-import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +16,6 @@ public class UserServices {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    AuctionRepository auctionRepository;
 
 
     public UserModels addUser(UserModels user) {    // POST Registrera ny användare
@@ -67,7 +63,7 @@ public class UserServices {
                     if (updatedUser.getPostal_code() != null) {
                         existingUserModels.setPostal_code(updatedUser.getPostal_code());
                     }
-                    if (updatedUser.getFavourites_auction_id() != null) {  // Denna är för att uppdatera en favorit auktion
+                    if (updatedUser.getFavourites_auction_id() != null) {  // Denna är för att uppdatera/lägga till en favorit auktion
                         List<AuctionModels> existingFavourites = existingUserModels.getFavourites_auction_id();
                         List<AuctionModels> updatedFavourites = updatedUser.getFavourites_auction_id();
                         existingFavourites.addAll(updatedFavourites);
@@ -77,11 +73,11 @@ public class UserServices {
                         })
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
+
     public String deleteUser(String id) {        // DELETE Ta bort en användare
         userRepository.deleteById(id);
         return "User is deleted";
     }
-
 
     public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions finish
         List<UserModels> users = userRepository.findAll();
@@ -93,10 +89,8 @@ public class UserServices {
                 usersWithFavouriteAuctions.add(user);
             }
         }
-
         return usersWithFavouriteAuctions;
     }
-
 
     public UserModels deleteFavouriteAuctions(String userId, String auctionId) { // DELETE Ta bort favorit auktioner finish
         UserModels user = userRepository.findById(userId)
@@ -107,7 +101,6 @@ public class UserServices {
                         .filter(auction -> !auction.getId().equals(auctionId))
                         .collect(Collectors.toList())
         );
-
         return userRepository.save(user);
     }
 }
