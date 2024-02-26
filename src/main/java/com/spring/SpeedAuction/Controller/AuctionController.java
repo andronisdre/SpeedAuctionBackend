@@ -26,6 +26,12 @@ public class AuctionController {
         return auctionServices.getAllAuctionModels();
     }
 
+    //SORT by yearManufactured
+    @GetMapping("/SortByYearManufactured/{yearManufactured}")
+    public List<AuctionModels> getAuctionModelsByYearManufactured(@PathVariable int yearManufactured) {
+        return auctionServices.getAuctionModelsByYearManufactured(yearManufactured);
+    }
+
     //PUT by id
     @PutMapping(value = "/{id}")
     public AuctionModels updateAuctionModels(@RequestBody AuctionModels auctionModels) {

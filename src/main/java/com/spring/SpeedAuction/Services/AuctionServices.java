@@ -33,6 +33,11 @@ public class AuctionServices {
         return auctionRepository.findById(id).get();
     }
 
+    //get all auctions with matching yearManufactured
+    public List<AuctionModels> getAuctionModelsByYearManufactured(int yearManufactured) {
+        return auctionRepository.findAuctionModelsByYearManufactured(yearManufactured);
+    }
+
     //delete auction
     public String deleteAuctionModels(String id) {
         auctionRepository.deleteById(id);

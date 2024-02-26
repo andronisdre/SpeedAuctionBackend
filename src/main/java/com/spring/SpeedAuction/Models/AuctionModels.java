@@ -13,7 +13,7 @@ public class AuctionModels {
     @Id
     private String id;
 
-    private int year_manufactured;
+    private int yearManufactured;
 
     private String description;
 
@@ -41,12 +41,12 @@ public class AuctionModels {
         return created_at;
     }
 
-    public int getYear_manufactured() {
-        return year_manufactured;
+    public int getYearManufactured() {
+        return yearManufactured;
     }
 
-    public void setYear_manufactured(int year_manufactured) {
-        this.year_manufactured = year_manufactured;
+    public void setYearManufactured(int yearManufactured) {
+        this.yearManufactured = yearManufactured;
     }
 
     public String getDescription() {
