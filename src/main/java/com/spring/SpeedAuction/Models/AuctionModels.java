@@ -23,6 +23,8 @@ public class AuctionModels {
 
     private String reg_number;
 
+    private boolean isActive;
+
     @CreatedDate
     private Date created_at;
 
@@ -79,6 +81,14 @@ public class AuctionModels {
 
     public void setReg_number(String reg_number) {
         this.reg_number = reg_number;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public void setId(String id) {

@@ -38,6 +38,11 @@ public class AuctionServices {
         return auctionRepository.findAuctionModelsByYearManufactured(yearManufactured);
     }
 
+    //get all auctions that are either active or inactive
+    public List<AuctionModels> getAuctionModelsByIsActive(boolean isActive) {
+        return auctionRepository.findAuctionModelsByIsActive(isActive);
+    }
+
     //delete auction
     public String deleteAuctionModels(String id) {
         auctionRepository.deleteById(id);

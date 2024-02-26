@@ -26,10 +26,16 @@ public class AuctionController {
         return auctionServices.getAllAuctionModels();
     }
 
-    //SORT by yearManufactured
-    @GetMapping("/SortByYearManufactured/{yearManufactured}")
+    //FILTER by yearManufactured
+    @GetMapping("/filterByYearManufactured/{yearManufactured}")
     public List<AuctionModels> getAuctionModelsByYearManufactured(@PathVariable int yearManufactured) {
         return auctionServices.getAuctionModelsByYearManufactured(yearManufactured);
+    }
+
+    //FILTER by isActive
+    @GetMapping("/filterByIsActive/{isActive}")
+    public List<AuctionModels> getAuctionModelsByIsActive(@PathVariable boolean isActive) {
+        return auctionServices.getAuctionModelsByIsActive(isActive);
     }
 
     //PUT by id
