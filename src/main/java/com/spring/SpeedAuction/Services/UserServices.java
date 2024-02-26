@@ -1,12 +1,15 @@
 package com.spring.SpeedAuction.Services;
 
+import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServices {
@@ -60,13 +63,45 @@ public class UserServices {
                     if (updatedUser.getPostal_code() != null) {
                         existingUserModels.setPostal_code(updatedUser.getPostal_code());
                     }
+                    if (updatedUser.getFavourites_auction_id() != null) {  // Denna är för att uppdatera/lägga till en favorit auktion
+                        List<AuctionModels> existingFavourites = existingUserModels.getFavourites_auction_id();
+                        List<AuctionModels> updatedFavourites = updatedUser.getFavourites_auction_id();
+                        existingFavourites.addAll(updatedFavourites);
+                        existingUserModels.setFavourites_auction_id(existingFavourites);
+                    }
                     return userRepository.save(existingUserModels);
                         })
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
-
     }
+
     public String deleteUser(String id) {        // DELETE Ta bort en användare
         userRepository.deleteById(id);
         return "User is deleted";
     }
+
+    public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions finish
+        List<UserModels> users = userRepository.findAll();
+        List<UserModels> usersWithFavouriteAuctions = new ArrayList<>();
+
+        for (UserModels user : users) {
+            List<AuctionModels> favouriteAuctions = user.getFavourites_auction_id();
+            if (favouriteAuctions != null && !favouriteAuctions.isEmpty()) {
+                usersWithFavouriteAuctions.add(user);
+            }
+        }
+        return usersWithFavouriteAuctions;
+    }
+
+    public UserModels deleteFavouriteAuctions(String userId, String auctionId) { // DELETE Ta bort favorit auktioner finish
+        UserModels user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        user.setFavourites_auction_id(
+                user.getFavourites_auction_id().stream()
+                        .filter(auction -> !auction.getId().equals(auctionId))
+                        .collect(Collectors.toList())
+        );
+        return userRepository.save(user);
+    }
+
 }
