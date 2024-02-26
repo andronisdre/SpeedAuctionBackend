@@ -62,7 +62,7 @@ public class UserController {
         return new ResponseEntity<>(usersWithFavouriteAuctions, HttpStatus.OK);
     }
 
-    // DELEE
+    // DELETE
     @DeleteMapping("/favourite/delete/{id}/{auctionId}")
     public ResponseEntity<UserModels> deleteFavouriteAuctions(@PathVariable String id, @PathVariable String auctionId) {
         UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionId);
