@@ -67,23 +67,21 @@ public class UserServices {
                     if (updatedUser.getPostal_code() != null) {
                         existingUserModels.setPostal_code(updatedUser.getPostal_code());
                     }
+                    if (updatedUser.getFavourites_auction_id() != null) {  // Denna är för att uppdatera en favorit auktion
+                        List<AuctionModels> existingFavourites = existingUserModels.getFavourites_auction_id();
+                        List<AuctionModels> updatedFavourites = updatedUser.getFavourites_auction_id();
+                        existingFavourites.addAll(updatedFavourites);
+                        existingUserModels.setFavourites_auction_id(existingFavourites);
+                    }
                     return userRepository.save(existingUserModels);
                         })
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
-
     }
     public String deleteUser(String id) {        // DELETE Ta bort en användare
         userRepository.deleteById(id);
         return "User is deleted";
     }
 
-    public UserModels addFavouriteAuctions(String id, String auctionsId) { // POST lägga till favorit auction // Denna jobbar vi med nu
-        UserModels user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
-        List<AuctionModels> favouritesAuctions = user.getFavourites_auction_id();
-        favouritesAuctions.add(new AuctionModels(auctionsId));
-        user.setFavourites_auction_id(favouritesAuctions);
-        return userRepository.save(user);
-    }
 
     public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions finish
         List<UserModels> users = userRepository.findAll();

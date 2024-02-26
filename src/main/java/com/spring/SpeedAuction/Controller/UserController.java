@@ -56,13 +56,6 @@ public class UserController {
     }
 
 
-   @PostMapping("/favourite/add/{id}") // IN PROGRESS
-    public ResponseEntity<UserModels> addFavouriteAuctions(@PathVariable String id, @RequestBody String auctionsId) {
-        UserModels addAuctions = userServices.addFavouriteAuctions(id, auctionsId);
-        return new ResponseEntity<>(addAuctions, HttpStatus.CREATED);
-    }
-
-
     // GET ALL USERS WITH FAVOURITE AUCTIONS
     @GetMapping("/all/favourite") // Finish
     public ResponseEntity<List<UserModels>> getUsersWithFavouriteAuctions() {
