@@ -79,7 +79,7 @@ public class UserServices {
         return "User is deleted";
     }
 
-    public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions finish
+    public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions
         List<UserModels> users = userRepository.findAll();
         List<UserModels> usersWithFavouriteAuctions = new ArrayList<>();
 
@@ -92,8 +92,8 @@ public class UserServices {
         return usersWithFavouriteAuctions;
     }
 
-    public UserModels deleteFavouriteAuctions(String userId, String auctionId) { // DELETE Ta bort favorit auktioner finish
-        UserModels user = userRepository.findById(userId)
+    public UserModels deleteFavouriteAuctions(String id, String auctionId) { // DELETE Ta bort favorit auktioner
+        UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
 
         user.setFavourites_auction_id(
