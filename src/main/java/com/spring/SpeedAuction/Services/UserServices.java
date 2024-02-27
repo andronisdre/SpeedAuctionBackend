@@ -64,10 +64,10 @@ public class UserServices {
                         existingUserModels.setPostal_code(updatedUser.getPostal_code());
                     }
                     if (updatedUser.getFavourites_auction_id() != null) {  // Denna är för att uppdatera/lägga till en favorit auktion
-                        List<AuctionModels> existingFavourites = existingUserModels.getFavourites_auction_id();
+                        List<AuctionModels> Favourites = existingUserModels.getFavourites_auction_id();
                         List<AuctionModels> updatedFavourites = updatedUser.getFavourites_auction_id();
-                        existingFavourites.addAll(updatedFavourites);
-                        existingUserModels.setFavourites_auction_id(existingFavourites);
+                        Favourites.addAll(updatedFavourites);
+                        existingUserModels.setFavourites_auction_id(Favourites);
                     }
                     return userRepository.save(existingUserModels);
                         })
