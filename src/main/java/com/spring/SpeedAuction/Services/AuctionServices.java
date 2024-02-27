@@ -53,6 +53,11 @@ public class AuctionServices {
         return auctionRepository.findAuctionModelsByStartingBidBetweenOrderByStartingBidAsc(minStartingBid, maxStartingBid);
     }
 
+    //customised filter to choose between different fields to filter by in a single query
+    public List<AuctionModels> getAuctionModelsByCustomFilter(int minStartingBid, int maxStartingBid, int yearManufactured, boolean isActive) {
+        return auctionRepository.findAuctionModelsByStartingBidBetweenAndYearManufacturedAndIsActiveOrderByStartingBidAsc(minStartingBid, maxStartingBid, yearManufactured, isActive);
+    }
+
     //delete auction
     public String deleteAuctionModels(String id) {
         auctionRepository.deleteById(id);

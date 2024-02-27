@@ -50,6 +50,12 @@ public class AuctionController {
         return auctionServices.getAuctionModelsByStartingBidBetween(minStartingBid, maxStartingBid);
     }
 
+    //FILTER by custom filter
+    @GetMapping("/filterByCustomFilter/{minStartingBid}/{maxStartingBid}/{yearManufactured}/{isActive}")
+    public List<AuctionModels> getAuctionModelsByCustomFilter(@PathVariable int minStartingBid, @PathVariable int maxStartingBid, @PathVariable int yearManufactured, @PathVariable boolean isActive) {
+        return auctionServices.getAuctionModelsByCustomFilter(minStartingBid, maxStartingBid, yearManufactured, isActive);
+    }
+
     //PUT by id
     @PutMapping(value = "/{id}")
     public AuctionModels updateAuctionModels(@RequestBody AuctionModels auctionModels) {

@@ -9,7 +9,8 @@ import java.util.List;
 @Repository
 public interface AuctionRepository extends MongoRepository<AuctionModels, String> {
     List<AuctionModels> findAuctionModelsByYearManufactured(int yearManufactured);
-    List<AuctionModels> findAuctionModelsByIsActive(boolean isActive);
+    List<AuctionModels> findAuctionModelsByIsActive(boolean active);
     List<AuctionModels> findAuctionModelsByStartingBid(int startingBid);
     List<AuctionModels> findAuctionModelsByStartingBidBetweenOrderByStartingBidAsc(int minStartingBid, int maxStartingBid);
+    List<AuctionModels> findAuctionModelsByStartingBidBetweenAndYearManufacturedAndIsActiveOrderByStartingBidAsc(int minStartingBid, int maxStartingBid, int yearManufactured, boolean isActive);
 }
