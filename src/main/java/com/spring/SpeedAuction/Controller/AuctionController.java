@@ -44,11 +44,11 @@ public class AuctionController {
         return auctionServices.getAuctionModelsByStartingBid(startingBid);
     }
 
-    //FILTER by startingBid smaller than
-
-    //FILTER by startingBid greater than
-
     //FILTER by startingBid in range
+    @GetMapping("/filterByStartingBidBetween/{minStartingBid}/{maxStartingBid}")
+    public List<AuctionModels> getAuctionModelsByStartingBidBetween(@PathVariable int minStartingBid, @PathVariable int maxStartingBid) {
+        return auctionServices.getAuctionModelsByStartingBidBetween(minStartingBid, maxStartingBid);
+    }
 
     //PUT by id
     @PutMapping(value = "/{id}")

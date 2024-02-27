@@ -48,6 +48,11 @@ public class AuctionServices {
         return auctionRepository.findAuctionModelsByStartingBid(startingBid);
     }
 
+    //get all auctions in the range between minStartingBid and maxStartingBid
+    public List<AuctionModels> getAuctionModelsByStartingBidBetween(int minStartingBid, int maxStartingBid) {
+        return auctionRepository.findAuctionModelsByStartingBidBetween(minStartingBid, maxStartingBid);
+    }
+
     //delete auction
     public String deleteAuctionModels(String id) {
         auctionRepository.deleteById(id);
