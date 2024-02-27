@@ -38,6 +38,18 @@ public class AuctionController {
         return auctionServices.getAuctionModelsByIsActive(isActive);
     }
 
+    //FILTER by startingBid exact value
+    @GetMapping("/filterByStartingBid/{startingBid}")
+    public List<AuctionModels> getAuctionModelsByStartingBid(@PathVariable int startingBid) {
+        return auctionServices.getAuctionModelsByStartingBid(startingBid);
+    }
+
+    //FILTER by startingBid smaller than
+
+    //FILTER by startingBid greater than
+
+    //FILTER by startingBid in range
+
     //PUT by id
     @PutMapping(value = "/{id}")
     public AuctionModels updateAuctionModels(@RequestBody AuctionModels auctionModels) {

@@ -43,6 +43,11 @@ public class AuctionServices {
         return auctionRepository.findAuctionModelsByIsActive(isActive);
     }
 
+    //get all auctions with matching price/startingBid
+    public List<AuctionModels> getAuctionModelsByStartingBid(int startingBid) {
+        return auctionRepository.findAuctionModelsByStartingBid(startingBid);
+    }
+
     //delete auction
     public String deleteAuctionModels(String id) {
         auctionRepository.deleteById(id);

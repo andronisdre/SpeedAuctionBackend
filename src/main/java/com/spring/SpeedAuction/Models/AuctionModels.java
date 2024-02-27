@@ -19,7 +19,7 @@ public class AuctionModels {
 
     private int miles_driven;
 
-    private int starting_bid;
+    private int startingBid;
 
     private String reg_number;
 
@@ -67,12 +67,12 @@ public class AuctionModels {
         this.miles_driven = miles_driven;
     }
 
-    public int getStarting_bid() {
-        return starting_bid;
+    public int getStartingBid() {
+        return startingBid;
     }
 
-    public void setStarting_bid(int starting_bid) {
-        this.starting_bid = starting_bid;
+    public void setStartingBid(int startingBid) {
+        this.startingBid = startingBid;
     }
 
     public String getReg_number() {
