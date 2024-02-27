@@ -1,2 +1,5 @@
-package com.spring.SpeedAuction.Models;public enum ERole {
+package com.spring.SpeedAuction.Models;
+
+public enum ERole {
+    ROLE_USER, ROLE_AMIN
 }

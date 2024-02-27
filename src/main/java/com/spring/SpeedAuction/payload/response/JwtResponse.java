@@ -1,2 +1,4 @@
-package com.spring.SpeedAuction.payload.response;public class JwtResponse {
+package com.spring.SpeedAuction.payload.response;
+
+public class JwtResponse {
 }

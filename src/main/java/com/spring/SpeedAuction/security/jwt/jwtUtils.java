@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.security;
+package com.spring.SpeedAuction.security.jwt;
 
 public class jwtUtils {
 }

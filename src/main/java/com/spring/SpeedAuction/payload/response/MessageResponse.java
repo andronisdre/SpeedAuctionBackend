@@ -1,2 +1,4 @@
-package com.spring.SpeedAuction.payload.response;public class MessageResponse {
+package com.spring.SpeedAuction.payload.response;
+
+public class MessageResponse {
 }

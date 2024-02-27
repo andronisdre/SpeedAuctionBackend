@@ -1,2 +1,5 @@
-package com.spring.SpeedAuction.Controller;public class AuthController {
+package com.spring.SpeedAuction.Controller;
+
+public class AuthController {
+// kommer
 }

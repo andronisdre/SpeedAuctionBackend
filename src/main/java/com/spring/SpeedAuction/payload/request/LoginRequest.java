@@ -1,2 +1,4 @@
-package com.spring.SpeedAuction.request;public class LoginRequest {
+package com.spring.SpeedAuction.payload.request;
+
+public class LoginRequest {
 }

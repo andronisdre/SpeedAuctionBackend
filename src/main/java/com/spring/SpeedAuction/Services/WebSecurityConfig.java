@@ -1,2 +1,4 @@
-package com.spring.SpeedAuction.Services;public class WebSecurityConfig {
+package com.spring.SpeedAuction.Services;
+
+public class WebSecurityConfig {
 }
