@@ -50,7 +50,7 @@ public class AuctionServices {
 
     //get all auctions in the range between minStartingBid and maxStartingBid
     public List<AuctionModels> getAuctionModelsByStartingBidBetween(int minStartingBid, int maxStartingBid) {
-        return auctionRepository.findAuctionModelsByStartingBidBetween(minStartingBid, maxStartingBid);
+        return auctionRepository.findAuctionModelsByStartingBidBetweenOrderByStartingBidAsc(minStartingBid, maxStartingBid);
     }
 
     //delete auction
