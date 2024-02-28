@@ -64,10 +64,10 @@ public class UserServices {
                         existingUserModels.setPostal_code(updatedUser.getPostal_code());
                     }
                     if (updatedUser.getFavourites_auction_id() != null) {  // Denna är för att uppdatera/lägga till en favorit auktion
-                        List<AuctionModels> existingFavourites = existingUserModels.getFavourites_auction_id();
+                        List<AuctionModels> Favourites = existingUserModels.getFavourites_auction_id();
                         List<AuctionModels> updatedFavourites = updatedUser.getFavourites_auction_id();
-                        existingFavourites.addAll(updatedFavourites);
-                        existingUserModels.setFavourites_auction_id(existingFavourites);
+                        Favourites.addAll(updatedFavourites);
+                        existingUserModels.setFavourites_auction_id(Favourites);
                     }
                     return userRepository.save(existingUserModels);
                         })
@@ -79,7 +79,7 @@ public class UserServices {
         return "User is deleted";
     }
 
-    public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions finish
+    public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions
         List<UserModels> users = userRepository.findAll();
         List<UserModels> usersWithFavouriteAuctions = new ArrayList<>();
 
@@ -92,8 +92,8 @@ public class UserServices {
         return usersWithFavouriteAuctions;
     }
 
-    public UserModels deleteFavouriteAuctions(String userId, String auctionId) { // DELETE Ta bort favorit auktioner finish
-        UserModels user = userRepository.findById(userId)
+    public UserModels deleteFavouriteAuctions(String id, String auctionId) { // DELETE Ta bort favorit auktioner
+        UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
 
         user.setFavourites_auction_id(
