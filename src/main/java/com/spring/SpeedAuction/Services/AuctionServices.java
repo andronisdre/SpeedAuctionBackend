@@ -43,6 +43,11 @@ public class AuctionServices {
         return auctionRepository.findAuctionModelsByIsActive(isActive);
     }
 
+    //get all auctions that match with brand
+    public List<AuctionModels> getAuctionModelsByBrand(String brand) {
+        return auctionRepository.findAuctionModelsByBrand(brand);
+    }
+
     //get all auctions in the range between minStartingBid and maxStartingBid
     public List<AuctionModels> getAuctionModelsByStartingBidBetween(int minStartingBid, int maxStartingBid) {
         return auctionRepository.findAuctionModelsByStartingBidBetweenOrderByStartingBidAsc(minStartingBid, maxStartingBid);

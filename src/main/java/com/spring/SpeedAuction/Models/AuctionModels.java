@@ -28,6 +28,8 @@ public class AuctionModels {
     @CreatedDate
     private Date created_at;
 
+    private EBrand brand;
+
     public AuctionModels(String id) {
         this.id = id;
     }
@@ -89,6 +91,14 @@ public class AuctionModels {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public EBrand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(EBrand brand) {
+        this.brand = brand;
     }
 
     public void setId(String id) {

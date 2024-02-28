@@ -26,31 +26,37 @@ public class AuctionController {
         return auctionServices.getAllAuctionModels();
     }
 
-    //FILTER by yearManufactured in a range
+    //get FILTER by yearManufactured in a range
     @GetMapping("/filterByYearManufacturedBetween/{minYearManufactured}/{maxYearManufactured}")
     public List<AuctionModels> getAuctionModelsByYearManufacturedBetween(@PathVariable int minYearManufactured, @PathVariable int maxYearManufactured) {
         return auctionServices.getAuctionModelsByYearManufacturedBetween(minYearManufactured, maxYearManufactured);
     }
 
-    //FILTER by isActive
+    //get FILTER by isActive
     @GetMapping("/filterByIsActive/{isActive}")
     public List<AuctionModels> getAuctionModelsByIsActive(@PathVariable boolean isActive) {
         return auctionServices.getAuctionModelsByIsActive(isActive);
     }
 
-    //FILTER by startingBid in a range
+    //get FILTER by brand
+    @GetMapping("/filterByBrand/{brand}")
+    public List<AuctionModels> getAuctionModelsByBrand(@PathVariable String brand) {
+        return auctionServices.getAuctionModelsByBrand(brand);
+    }
+
+    //get FILTER by startingBid in a range
     @GetMapping("/filterByStartingBidBetween/{minStartingBid}/{maxStartingBid}")
     public List<AuctionModels> getAuctionModelsByStartingBidBetween(@PathVariable int minStartingBid, @PathVariable int maxStartingBid) {
         return auctionServices.getAuctionModelsByStartingBidBetween(minStartingBid, maxStartingBid);
     }
 
-    //FILTER by milesDriven in a range
+    //get FILTER by milesDriven in a range
     @GetMapping("/filterByMilesDrivenBetween/{minMilesDriven}/{maxMilesDriven}")
     public List<AuctionModels> getAuctionModelsByMilesDrivenBetween(@PathVariable int minMilesDriven, @PathVariable int maxMilesDriven) {
         return auctionServices.getAuctionModelsByMilesDrivenBetween(minMilesDriven, maxMilesDriven);
     }
 
-    //FILTER by custom filter
+    //get FILTER by custom filter
     @GetMapping("/filterByCustomFilter/{minStartingBid}/{maxStartingBid}/{yearManufactured}/{isActive}")
     public List<AuctionModels> getAuctionModelsByCustomFilter(@PathVariable int minStartingBid, @PathVariable int maxStartingBid, @PathVariable int yearManufactured, @PathVariable boolean isActive) {
         return auctionServices.getAuctionModelsByCustomFilter(minStartingBid, maxStartingBid, yearManufactured, isActive);
