@@ -19,6 +19,11 @@ public class ReviewModels {
     @CreatedDate
     private Date created_at;
 
+    //@DBRef
+    //private UserModels sellerId;
+    //@DBRef
+    //private UserModels buyerId;
+
 
     public ReviewModels() {
     }
