@@ -17,7 +17,7 @@ public class AuctionModels {
 
     private String description;
 
-    private int miles_driven;
+    private int milesDriven;
 
     private int startingBid;
 
@@ -59,12 +59,12 @@ public class AuctionModels {
         this.description = description;
     }
 
-    public int getMiles_driven() {
-        return miles_driven;
+    public int getMilesDriven() {
+        return milesDriven;
     }
 
-    public void setMiles_driven(int miles_driven) {
-        this.miles_driven = miles_driven;
+    public void setMilesDriven(int milesDriven) {
+        this.milesDriven = milesDriven;
     }
 
     public int getStartingBid() {

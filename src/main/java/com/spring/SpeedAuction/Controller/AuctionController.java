@@ -50,6 +50,12 @@ public class AuctionController {
         return auctionServices.getAuctionModelsByStartingBidBetween(minStartingBid, maxStartingBid);
     }
 
+    //FILTER by milesDriven in range
+    @GetMapping("/filterByMilesDrivenBetween/{minMilesDriven}/{maxMilesDriven}")
+    public List<AuctionModels> getAuctionModelsByMilesDrivenBetween(@PathVariable int minMilesDriven, @PathVariable int maxMilesDriven) {
+        return auctionServices.getAuctionModelsByMilesDrivenBetween(minMilesDriven, maxMilesDriven);
+    }
+
     //FILTER by custom filter
     @GetMapping("/filterByCustomFilter/{minStartingBid}/{maxStartingBid}/{yearManufactured}/{isActive}")
     public List<AuctionModels> getAuctionModelsByCustomFilter(@PathVariable int minStartingBid, @PathVariable int maxStartingBid, @PathVariable int yearManufactured, @PathVariable boolean isActive) {

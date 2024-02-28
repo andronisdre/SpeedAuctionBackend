@@ -53,6 +53,11 @@ public class AuctionServices {
         return auctionRepository.findAuctionModelsByStartingBidBetweenOrderByStartingBidAsc(minStartingBid, maxStartingBid);
     }
 
+    //get all auctions in the range between minMilesDriven and maxMilesDriven
+    public List<AuctionModels> getAuctionModelsByMilesDrivenBetween(int minMilesDriven, int maxMilesDriven) {
+        return auctionRepository.findAuctionModelsByMilesDrivenBetweenOrderByMilesDrivenAsc(minMilesDriven, maxMilesDriven);
+    }
+
     //customised filter to choose between different fields to filter by in a single query
     public List<AuctionModels> getAuctionModelsByCustomFilter(int minStartingBid, int maxStartingBid, int yearManufactured, boolean isActive) {
         return auctionRepository.findAuctionModelsByStartingBidBetweenAndYearManufacturedAndIsActiveOrderByStartingBidAsc(minStartingBid, maxStartingBid, yearManufactured, isActive);
