@@ -57,9 +57,17 @@ public class AuctionController {
     }
 
     //get FILTER by custom filter
-    @GetMapping("/filterByCustomFilter/{minStartingBid}/{maxStartingBid}/{yearManufactured}/{isActive}")
-    public List<AuctionModels> getAuctionModelsByCustomFilter(@PathVariable int minStartingBid, @PathVariable int maxStartingBid, @PathVariable int yearManufactured, @PathVariable boolean isActive) {
-        return auctionServices.getAuctionModelsByCustomFilter(minStartingBid, maxStartingBid, yearManufactured, isActive);
+    @GetMapping("/filterByCustomFilter/{minStartingBid}/{maxStartingBid}/{minYearManufactured}/{maxYearManufactured}/{isActive}/{brand}/{minMilesDriven}/{maxMilesDriven}")
+    public List<AuctionModels> getAuctionModelsByCustomFilter(
+            @PathVariable int minStartingBid,
+            @PathVariable int maxStartingBid,
+            @PathVariable int minYearManufactured,
+            @PathVariable int maxYearManufactured,
+            @PathVariable boolean isActive,
+            @PathVariable String brand,
+            @PathVariable int minMilesDriven,
+            @PathVariable int maxMilesDriven) {
+        return auctionServices.getAuctionModelsByCustomFilter(minStartingBid, maxStartingBid, minYearManufactured, maxYearManufactured, isActive, brand, minMilesDriven, maxMilesDriven);
     }
 
     //PUT by id

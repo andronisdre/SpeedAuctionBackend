@@ -59,8 +59,10 @@ public class AuctionServices {
     }
 
     //customised filter to choose between different fields to filter by in a single query
-    public List<AuctionModels> getAuctionModelsByCustomFilter(int minStartingBid, int maxStartingBid, int yearManufactured, boolean isActive) {
-        return auctionRepository.findAuctionModelsByStartingBidBetweenAndYearManufacturedAndIsActiveOrderByStartingBidAsc(minStartingBid, maxStartingBid, yearManufactured, isActive);
+    public List<AuctionModels> getAuctionModelsByCustomFilter(
+            int minStartingBid, int maxStartingBid, int minYearManufactured, int maxYearManufactured, boolean isActive, String brand, int minMilesDriven, int maxMilesDriven) {
+        return auctionRepository.findAuctionModelsByStartingBidBetweenAndYearManufacturedBetweenAndIsActiveAndBrandAndMilesDrivenBetweenOrderByStartingBidAsc(
+                minStartingBid, maxStartingBid, minYearManufactured, maxYearManufactured, isActive, brand, minMilesDriven, maxMilesDriven);
     }
 
     //delete auction

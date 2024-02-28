@@ -13,5 +13,6 @@ public interface AuctionRepository extends MongoRepository<AuctionModels, String
     List<AuctionModels> findAuctionModelsByBrand(String brand);
     List<AuctionModels> findAuctionModelsByStartingBidBetweenOrderByStartingBidAsc(int minStartingBid, int maxStartingBid);
     List<AuctionModels> findAuctionModelsByMilesDrivenBetweenOrderByMilesDrivenAsc(int minMilesDriven, int maxMilesDriven);
-    List<AuctionModels> findAuctionModelsByStartingBidBetweenAndYearManufacturedAndIsActiveOrderByStartingBidAsc(int minStartingBid, int maxStartingBid, int yearManufactured, boolean isActive);
+    List<AuctionModels> findAuctionModelsByStartingBidBetweenAndYearManufacturedBetweenAndIsActiveAndBrandAndMilesDrivenBetweenOrderByStartingBidAsc(
+            int minStartingBid, int maxStartingBid, int minYearManufactured, int maxYearManufactured, boolean isActive, String brand, int minMilesDriven, int maxMilesDriven);
 }
