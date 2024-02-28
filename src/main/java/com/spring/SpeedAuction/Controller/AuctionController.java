@@ -26,10 +26,10 @@ public class AuctionController {
         return auctionServices.getAllAuctionModels();
     }
 
-    //FILTER by yearManufactured
-    @GetMapping("/filterByYearManufactured/{yearManufactured}")
-    public List<AuctionModels> getAuctionModelsByYearManufactured(@PathVariable int yearManufactured) {
-        return auctionServices.getAuctionModelsByYearManufactured(yearManufactured);
+    //FILTER by yearManufactured in a range
+    @GetMapping("/filterByYearManufacturedBetween/{minYearManufactured}/{maxYearManufactured}")
+    public List<AuctionModels> getAuctionModelsByYearManufacturedBetween(@PathVariable int minYearManufactured, @PathVariable int maxYearManufactured) {
+        return auctionServices.getAuctionModelsByYearManufacturedBetween(minYearManufactured, maxYearManufactured);
     }
 
     //FILTER by isActive
@@ -38,19 +38,13 @@ public class AuctionController {
         return auctionServices.getAuctionModelsByIsActive(isActive);
     }
 
-    //FILTER by startingBid exact value
-    @GetMapping("/filterByStartingBid/{startingBid}")
-    public List<AuctionModels> getAuctionModelsByStartingBid(@PathVariable int startingBid) {
-        return auctionServices.getAuctionModelsByStartingBid(startingBid);
-    }
-
-    //FILTER by startingBid in range
+    //FILTER by startingBid in a range
     @GetMapping("/filterByStartingBidBetween/{minStartingBid}/{maxStartingBid}")
     public List<AuctionModels> getAuctionModelsByStartingBidBetween(@PathVariable int minStartingBid, @PathVariable int maxStartingBid) {
         return auctionServices.getAuctionModelsByStartingBidBetween(minStartingBid, maxStartingBid);
     }
 
-    //FILTER by milesDriven in range
+    //FILTER by milesDriven in a range
     @GetMapping("/filterByMilesDrivenBetween/{minMilesDriven}/{maxMilesDriven}")
     public List<AuctionModels> getAuctionModelsByMilesDrivenBetween(@PathVariable int minMilesDriven, @PathVariable int maxMilesDriven) {
         return auctionServices.getAuctionModelsByMilesDrivenBetween(minMilesDriven, maxMilesDriven);

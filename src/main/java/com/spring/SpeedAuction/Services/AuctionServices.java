@@ -33,19 +33,14 @@ public class AuctionServices {
         return auctionRepository.findById(id).get();
     }
 
-    //get all auctions with matching yearManufactured
-    public List<AuctionModels> getAuctionModelsByYearManufactured(int yearManufactured) {
-        return auctionRepository.findAuctionModelsByYearManufactured(yearManufactured);
+    //get all auctions in the range between minYearManufactured and maxYearManufactured
+    public List<AuctionModels> getAuctionModelsByYearManufacturedBetween(int minYearManufactured, int maxYearManufactured) {
+        return auctionRepository.findAuctionModelsByYearManufacturedBetweenOrderByYearManufacturedDesc(minYearManufactured, maxYearManufactured);
     }
 
     //get all auctions that are either active or inactive
     public List<AuctionModels> getAuctionModelsByIsActive(boolean isActive) {
         return auctionRepository.findAuctionModelsByIsActive(isActive);
-    }
-
-    //get all auctions with matching price/startingBid
-    public List<AuctionModels> getAuctionModelsByStartingBid(int startingBid) {
-        return auctionRepository.findAuctionModelsByStartingBid(startingBid);
     }
 
     //get all auctions in the range between minStartingBid and maxStartingBid
