@@ -14,8 +14,10 @@ public class ReviewModels {
 
     @Id
     private String id;
+
     @NotBlank (message = "write a content")
     private String reviewContent;
+
     @Min(value = 1, message = "Rating must be at least 1")
     @Max(value = 5, message = "Rating must be at most 5")
     private int rating;
