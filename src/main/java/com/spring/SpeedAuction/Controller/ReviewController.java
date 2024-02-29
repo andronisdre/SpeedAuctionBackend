@@ -38,7 +38,7 @@ public class ReviewController {
     }
 
     // PUT
-    @PutMapping("/{id]")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateReview(@PathVariable String id, @Valid @RequestBody ReviewModels reviewDetails) {
         try {
             ReviewModels updateReview = reviewServices.updateReview(id,reviewDetails);
