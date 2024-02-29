@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ReviewServices {
@@ -25,21 +26,23 @@ public class ReviewServices {
         return reviewRepository.findById(id).get();
     }
 
-    public ReviewModels updateReview(ReviewModels review) { // PUT updatera review
-        return reviewRepository.save(review);
+    public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review
+        return reviewRepository.findById(id)
+                .map(existingReviewModels -> {
+                    if (updateReview.getReviewContent() != null) {
+                        existingReviewModels.setReviewContent(updateReview.getReviewContent());
+                    }
+                    if (updateReview.getRating() != 0) {
+                        existingReviewModels.setRating(updateReview.getRating());
+                    }
+                    return reviewRepository.save(existingReviewModels);
+                })
+                .orElseThrow(() -> new NoSuchElementException("Review not found with id: " + id));
+
     }
 
     public String deleteReview(String id) {  // DELETE ta bort en review
         reviewRepository.deleteById(id);
         return "Your review is deleted";
     }
-
-
-
-
-
-
-
-
-
 }
