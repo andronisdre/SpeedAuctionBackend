@@ -36,6 +36,9 @@ public class OrderServices {
                 .orElseThrow(() -> new NoSuchElementException("Order with id: " + id + " was not found!"));
 
         existingOrder.setId(updatedOrders.getId());
+        existingOrder.setBuyer_id(updatedOrders.getBuyer_id());
+        updatedOrders.setAuctions(existingOrder.getAuctions());
+        existingOrder.setSeller_id(updatedOrders.getSeller_id());
         existingOrder.setOrder_finalized(updatedOrders.getOrder_finalized());
         existingOrder.setOrder_created(updatedOrders.getOrder_created());
 

@@ -15,28 +15,29 @@ public class OrderModels {
     @Id
     private String id;
 
-    //private List<AuctionModels> auctions;
-    //@DBRef
-    //private String seller_id;
-    //@DBRef
-    //private String buyer_id;
+    private List<AuctionModels> auctions;
+    @DBRef
+    private String seller_id;
+    @DBRef
+    private String buyer_id;
 
     @CreatedDate
     private Date order_created;
     @DateTimeFormat
     private Date order_finalized;
 
-
-    /*public OrderModels(String id, List<AuctionModels> auctions, String seller_id, String buyer_id, Date order_created, Date order_finalized) {
+    public OrderModels(String id, List<AuctionModels> auctions, String seller_id, String buyer_id, Date order_created, Date order_finalized) {
         this.id = id;
-        //this.auctions = auctions;
-        //this.seller_id = seller_id;
-        //this.buyer_id = buyer_id;
+        this.auctions = auctions;
+        this.seller_id = seller_id;
+        this.buyer_id = buyer_id;
+        this.order_created = order_created;
+        this.order_finalized = order_finalized;
 
-    }*/
-
-    public OrderModels() {
     }
+
+    /*public OrderModels() {
+    }*/
 
     public String getId() {
         return id;
@@ -46,11 +47,11 @@ public class OrderModels {
         this.id = id;
     }
 
-    /*public List<AuctionModels> getAuctions() {
+    public List<AuctionModels> getAuctions() {
         return auctions;
-    }*/
+    }
 
-    /*public void setAuctions(List<AuctionModels> auctions) {
+    public void setAuctions(List<AuctionModels> auctions) {
         this.auctions = auctions;
     }
 
@@ -68,7 +69,7 @@ public class OrderModels {
 
     public void setBuyer_id(String buyer_id) {
         this.buyer_id = buyer_id;
-    }*/
+    }
 
     public Date getOrder_created() {
         return order_created;
@@ -86,4 +87,11 @@ public class OrderModels {
         this.order_finalized = order_finalized;
     }
 
+    /*public void setAuctions(String auctions_id) {
+        this.auctions_id = auctions_id;
+    }
+
+    public String getAuctions() {
+        return auctions_id;
+    }*/
 }

@@ -37,7 +37,7 @@ public class OrderController {
     @PutMapping("/{id}")
     public ResponseEntity<OrderModels> updateOrders(@PathVariable String id, @RequestBody OrderModels orderDetails) {
         OrderModels updatedOrder = orderService.updateOrder(id, orderDetails);
-        return ResponseEntity.ok(updatedOrder);
+        return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
