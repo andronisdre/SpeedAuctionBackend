@@ -73,7 +73,7 @@ public class UserServices {
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
 
-    public String deleteUser(String id) {        // DELETE Ta bort en användare
+    public String deleteUser(String id) {   // DELETE Ta bort en användare
         userRepository.deleteById(id);
         return "User is deleted";
     }
