@@ -91,7 +91,7 @@ public class UserServices {
         return usersWithFavouriteAuctions;
     }
 
-    public UserModels deleteFavouriteAuctions(String id, String auctionId) {
+    public UserModels deleteFavouriteAuctions(String id, String auctionId) { // DELETE Ta bort favoritAucktions
         UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
 
