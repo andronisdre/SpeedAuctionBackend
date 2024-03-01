@@ -13,18 +13,22 @@ public class AuctionModels {
     @Id
     private String id;
 
-    private int year_manufactured;
+    private int yearManufactured;
 
     private String description;
 
-    private int miles_driven;
+    private int milesDriven;
 
-    private int starting_bid;
+    private int startingBid;
 
     private String reg_number;
 
+    private boolean isActive;
+
     @CreatedDate
     private Date created_at;
+
+    private EBrand brand;
 
     public AuctionModels(String id) {
         this.id = id;
@@ -41,12 +45,12 @@ public class AuctionModels {
         return created_at;
     }
 
-    public int getYear_manufactured() {
-        return year_manufactured;
+    public int getYearManufactured() {
+        return yearManufactured;
     }
 
-    public void setYear_manufactured(int year_manufactured) {
-        this.year_manufactured = year_manufactured;
+    public void setYearManufactured(int yearManufactured) {
+        this.yearManufactured = yearManufactured;
     }
 
     public String getDescription() {
@@ -57,20 +61,20 @@ public class AuctionModels {
         this.description = description;
     }
 
-    public int getMiles_driven() {
-        return miles_driven;
+    public int getMilesDriven() {
+        return milesDriven;
     }
 
-    public void setMiles_driven(int miles_driven) {
-        this.miles_driven = miles_driven;
+    public void setMilesDriven(int milesDriven) {
+        this.milesDriven = milesDriven;
     }
 
-    public int getStarting_bid() {
-        return starting_bid;
+    public int getStartingBid() {
+        return startingBid;
     }
 
-    public void setStarting_bid(int starting_bid) {
-        this.starting_bid = starting_bid;
+    public void setStartingBid(int startingBid) {
+        this.startingBid = startingBid;
     }
 
     public String getReg_number() {
@@ -79,6 +83,22 @@ public class AuctionModels {
 
     public void setReg_number(String reg_number) {
         this.reg_number = reg_number;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public EBrand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(EBrand brand) {
+        this.brand = brand;
     }
 
     public void setId(String id) {
