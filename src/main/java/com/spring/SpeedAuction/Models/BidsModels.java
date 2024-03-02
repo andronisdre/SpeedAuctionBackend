@@ -13,7 +13,7 @@ public class BidsModels {
     @Id
     String id;
     String auction_id;
-    String user_id;
+    String bidder_id;
     Float amount;
     LocalDateTime time;
     Boolean priority; //if true activ (highestbidder) else history
@@ -38,12 +38,12 @@ public class BidsModels {
         this.auction_id = auction_id;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getBidder_id() {
+        return bidder_id;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setBidder_id(String bidder_id) {
+        this.bidder_id = bidder_id;
     }
 
     public Float getAmount() {

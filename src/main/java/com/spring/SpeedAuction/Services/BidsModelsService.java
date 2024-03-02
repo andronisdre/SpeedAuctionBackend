@@ -53,8 +53,8 @@ public class BidsModelsService {
         if (updatedBidModel.getAuction_id() != null) {
             existingBidsModel.setAuction_id(updatedBidModel.getAuction_id());
         }
-        if (updatedBidModel.getUser_id() != null) {
-            existingBidsModel.setUser_id(updatedBidModel.getUser_id());
+        if (updatedBidModel.getBidder_id() != null) {
+            existingBidsModel.setBidder_id(updatedBidModel.getBidder_id());
         }
         if (updatedBidModel.getAmount() != null){
             existingBidsModel.setAmount(updatedBidModel.getAmount());
