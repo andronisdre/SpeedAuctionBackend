@@ -7,11 +7,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-@Document(collection = "user")
+@Document(collection = "User")
+
 public class UserModels {
 
     @Id
@@ -46,6 +48,8 @@ public class UserModels {
     @NotBlank
     @Size(max = 20)
     private String postal_code;
+    @DBRef
+    private List<AuctionModels> favourites_auction_id = new ArrayList<>();
 
     //roll
     @DBRef
@@ -53,14 +57,10 @@ public class UserModels {
     // ["ROLE_USER", "ROLE MODERATOR"]
 
 
-
-    //@DBref
-    // private List<String> favourites_auction_id = new ArrayList<>();
-
     public UserModels() {
     }
 
-    public UserModels( String username, String first_name, String last_name, String password,
+    public UserModels(String username, String first_name, String last_name, String password,
                       String email, String phone_number, String address, String country, String city, String postal_code) {
 
         this.username = username;
@@ -76,7 +76,9 @@ public class UserModels {
     }
 
 
-
+    public UserModels(List<AuctionModels> favourites_auction_id) {
+        this.favourites_auction_id = favourites_auction_id;
+    }
 
 
     public String getId() {
@@ -167,11 +169,24 @@ public class UserModels {
         this.postal_code = postal_code;
     }
 
+
+
     public Set<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+
+
     }
+
+    public List<AuctionModels> getFavourites_auction_id() {
+        return favourites_auction_id;
+    }
+
+    public void setFavourites_auction_id(List<AuctionModels> favourites_auction_id) {
+        this.favourites_auction_id = favourites_auction_id;
+    }
+
 }
