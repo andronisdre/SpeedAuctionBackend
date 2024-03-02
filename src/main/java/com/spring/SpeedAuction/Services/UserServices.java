@@ -19,7 +19,7 @@ public class UserServices {
 
     // HELENA:
     // den här metoden ska tas bort när det finns en register metod, det är genom den en user
-    // ska sparas
+    // ska sparas    // ABO LÖSER DETTA
     public UserModels addUser(UserModels user) {    // POST Registrera ny användare
         return userRepository.save(user);
     }

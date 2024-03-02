@@ -22,7 +22,7 @@ public class UserController {
 
     // POST
     @PostMapping()
-    public UserModels addUser(@RequestBody UserModels userModels) {
+    public UserModels addUser(@Valid @RequestBody UserModels userModels) {
         return userServices.addUser(userModels);
     }
 
