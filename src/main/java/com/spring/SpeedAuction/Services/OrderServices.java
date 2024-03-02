@@ -12,6 +12,9 @@ import java.util.Optional;
 @Service
 public class OrderServices {
 
+    //HELENA:
+    // ni bör kunna fixa order nu efter det vi gått igenom på lektionerna så att ni får
+    // en ref till en User och en Auction
     @Autowired
     OrderRepository orderRepository;
 
