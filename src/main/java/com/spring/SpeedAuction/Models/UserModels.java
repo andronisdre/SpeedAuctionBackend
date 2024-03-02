@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.HashSet;
 import java.util.Set;
 
-@Document(collection = "User")
+@Document(collection = "user")
 public class UserModels {
 
     @Id
@@ -60,9 +60,9 @@ public class UserModels {
     public UserModels() {
     }
 
-    public UserModels(String id, String username, String first_name, String last_name, String password,
+    public UserModels( String username, String first_name, String last_name, String password,
                       String email, String phone_number, String address, String country, String city, String postal_code) {
-        this.id = id;
+
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -74,6 +74,10 @@ public class UserModels {
         this.city = city;
         this.postal_code = postal_code;
     }
+
+
+
+
 
     public String getId() {
         return id;
