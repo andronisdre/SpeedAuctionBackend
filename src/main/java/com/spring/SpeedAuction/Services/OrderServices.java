@@ -37,15 +37,12 @@ public class OrderServices {
 
         existingOrder.setId(updatedOrders.getId());
         existingOrder.setBuyer_id(updatedOrders.getBuyer_id());
-        updatedOrders.setAuctions(existingOrder.getAuctions());
+        existingOrder.setAuctions(updatedOrders.getAuctions());
         existingOrder.setSeller_id(updatedOrders.getSeller_id());
         existingOrder.setOrder_finalized(updatedOrders.getOrder_finalized());
         existingOrder.setOrder_created(updatedOrders.getOrder_created());
 
         return orderRepository.save(existingOrder);
     }
-
-
-
 
 }
