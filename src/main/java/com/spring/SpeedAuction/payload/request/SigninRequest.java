@@ -3,6 +3,11 @@ package com.spring.SpeedAuction.payload.request;
 import jakarta.validation.constraints.NotBlank;
 
 public class SigninRequest {
+    @NotBlank
+    private String username;
+    @NotBlank
+    private String password;
+
     public String getUsername() {
         return username;
     }
@@ -19,9 +24,5 @@ public class SigninRequest {
         this.password = password;
     }
 
-    @NotBlank
-    private String username;
-    @NotBlank
-    private String password;
 
 }
