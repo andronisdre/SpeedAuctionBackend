@@ -5,18 +5,28 @@ import com.spring.SpeedAuction.Models.Role;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.RoleRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
+import com.spring.SpeedAuction.Services.UserDetailImpl;
+import com.spring.SpeedAuction.payload.request.SigninRequest;
 import com.spring.SpeedAuction.payload.request.SignupRequest;
 import com.spring.SpeedAuction.payload.response.MessageResponse;
+import com.spring.SpeedAuction.payload.response.UserInfoResponse;
 import com.spring.SpeedAuction.security.jwt.JwtUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -39,11 +49,51 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    //logga in
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigninRequest signinRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(signinRequest.getUsername(), signinRequest.getPassword())
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        //jwt utan cookie
+        //String jwt = jwtUtils.generateJwtToken((authentication));
+
+        UserDetailImpl userDetails = (UserDetailImpl) authentication.getPrincipal();
+
+        //for jwt i cookie
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+
+        //jwt utan cookie
+
+        /*
+        return ResponseEntity.ok(new JwtResponse(jwt,
+        userDetails.getID(),
+        userDetails.getUsername();
+        userDetail.getEmail(),
+        roles));
+         */
+
+        //Jwt med cookie
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(new UserInfoResponse(userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getEmail(),
+                        roles));
+    }
+
+
     //geistera en user
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody SignupRequest signupRequest) {
         // KOLLAR OM USERN FINNS
-        if (userRepository.existByUsername((signupRequest.getUsername()))) {
+        if (userRepository.existsByUsername((signupRequest.getUsername()))) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error username already exist!"));
@@ -65,22 +115,30 @@ public class AuthController {
         Set<String> strRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
-        if(strRoles == null){
+        if (strRoles == null) {
 
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(()-> new RuntimeException("Error: roles is not found"));
+                    .orElseThrow(() -> new RuntimeException("Error: roles is not found"));
             roles.add(userRole);
-        }else {
+        } else {
             strRoles.forEach(role -> {
-                if (role.equals("amin")) {
-                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role not found"));
-                    roles.add(adminRole);
-                } else {
-                    Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role not found"));
+                switch (role) {
+                    case "amin" -> {
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role not found"));
+                        roles.add(adminRole);
+                    }
+                    case "mod" -> {
+                        Role modeRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role not found"));
+                    }
+                    default -> {
 
-                    roles.add(userRole);
+                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role not found"));
+
+                        roles.add(userRole);
+                    }
                 }
             });
         }
