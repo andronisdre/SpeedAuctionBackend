@@ -5,10 +5,8 @@ import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsModelsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -53,8 +51,8 @@ public class BidsModelsService {
         if (updatedBidModel.getAuction_id() != null) {
             existingBidsModel.setAuction_id(updatedBidModel.getAuction_id());
         }
-        if (updatedBidModel.getBidder_id() != null) {
-            existingBidsModel.setBidder_id(updatedBidModel.getBidder_id());
+        if (updatedBidModel.getBidderId() != null) {
+            existingBidsModel.setBidderId(updatedBidModel.getBidderId());
         }
         if (updatedBidModel.getAmount() != null){
             existingBidsModel.setAmount(updatedBidModel.getAmount());
@@ -72,6 +70,11 @@ public class BidsModelsService {
     public String deleteBidmodels(String id){
         bidsModelsRepository.deleteById(id);
         return "Bid deleted";
+    }
+
+    //find all by userId
+    public List<BidsModels> getBidsModelByUserId(String bidderId) {
+        return bidsModelsRepository.findBidsModelsByBidderIdOrderByTimeDesc(bidderId);
     }
 
 }

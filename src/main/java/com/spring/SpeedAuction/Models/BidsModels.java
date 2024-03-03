@@ -3,7 +3,6 @@ package com.spring.SpeedAuction.Models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
 
 @Document (collection = "bids")
@@ -13,10 +12,10 @@ public class BidsModels {
     @Id
     String id;
     String auction_id;
-    String bidder_id;
-    Float amount;
+    String bidderId;
+    Integer amount;
     LocalDateTime time;
-    Boolean priority; //if true activ (highestbidder) else history
+    boolean priority; //if true activ (highestbidder) else history
 
     public BidsModels(){
 
@@ -38,19 +37,19 @@ public class BidsModels {
         this.auction_id = auction_id;
     }
 
-    public String getBidder_id() {
-        return bidder_id;
+    public String getBidderId() {
+        return bidderId;
     }
 
-    public void setBidder_id(String bidder_id) {
-        this.bidder_id = bidder_id;
+    public void setBidderId(String bidderId) {
+        this.bidderId = bidderId;
     }
 
-    public Float getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 

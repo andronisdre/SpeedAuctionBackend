@@ -18,29 +18,34 @@ public class BidsModelsController {
         return bidsModelsService.createBidModels(bidsModel);
     }
 
-    //GET /bids - Hämta en lista över alla recept.
+    //GET /bids - Hämta en lista över alla bids.
     @GetMapping("/all")
     public List<BidsModels> getAllBidsModels() {
         return bidsModelsService.getAllBidsModel();
     }
 
-    //GET /bids/{id} - Hämta ett specifikt recept baserat på id.
+    //GET /bids/{id} - Hämta ett specifikt bid baserat på id.
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public BidsModels getAllBidsModels(@PathVariable String id) {
         return bidsModelsService.getBidsModel(id);
     }
 
-    //PUT /bids/{id} - Uppdatera ett specifikt recept baserat på id.
+    //PUT /bids/{id} - Uppdatera ett specifikt bid baserat på id.
     @PutMapping("/{id}")
     public BidsModels updateBidModel(@PathVariable String id, @RequestBody BidsModels bidsModels) {
         return bidsModelsService.updateBidModels(id, bidsModels);
     }
 
-    //DELETE /bids/{id} - Ta bort ett recept baserat på id.
+    //DELETE /bids/{id} - Ta bort ett bid baserat på id.
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteBidModel(@PathVariable String id){
          return bidsModelsService.deleteBidmodels(id);
 
+    }
+
+    @GetMapping("/filter/{bidderId}")
+    public List<BidsModels> getBidsModelByUserId(@PathVariable String bidderId) {
+        return bidsModelsService.getBidsModelByUserId(bidderId);
     }
 
 }
