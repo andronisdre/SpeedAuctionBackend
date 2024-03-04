@@ -48,8 +48,8 @@ public class BidsModelsService {
         // Kontroll om User ID Finns
 
         //update field
-        if (updatedBidModel.getAuction_id() != null) {
-            existingBidsModel.setAuction_id(updatedBidModel.getAuction_id());
+        if (updatedBidModel.getAuctionId() != null) {
+            existingBidsModel.setAuctionId(updatedBidModel.getAuctionId());
         }
         if (updatedBidModel.getBidderId() != null) {
             existingBidsModel.setBidderId(updatedBidModel.getBidderId());
@@ -57,8 +57,8 @@ public class BidsModelsService {
         if (updatedBidModel.getAmount() != null){
             existingBidsModel.setAmount(updatedBidModel.getAmount());
         }
-        if (updatedBidModel.getTime() != null){
-            existingBidsModel.setTime(updatedBidModel.getTime());
+        if (updatedBidModel.getTimeBidded() != null){
+            existingBidsModel.setTimeBidded(updatedBidModel.getTimeBidded());
         }
         if (updatedBidModel.getPriority() != null){
             existingBidsModel.setPriority(updatedBidModel.getPriority());
@@ -72,9 +72,16 @@ public class BidsModelsService {
         return "Bid deleted";
     }
 
+    //bid history for a user
     //find all by userId
     public List<BidsModels> getBidsModelByUserId(String bidderId) {
-        return bidsModelsRepository.findBidsModelsByBidderIdOrderByTimeDesc(bidderId);
+        return bidsModelsRepository.findBidsModelsByBidderIdOrderByTimeBiddedDesc(bidderId);
+    }
+
+    //bid history for an auction
+    //find all by auctionId
+    public List<BidsModels> getBidsModelByAuctionId(String auctionId) {
+        return bidsModelsRepository.findBidsModelsByAuctionIdOrderByTimeBiddedDesc(auctionId);
     }
 
 }

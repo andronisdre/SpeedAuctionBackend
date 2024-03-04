@@ -11,11 +11,11 @@ public class BidsModels {
     //initiering av attributer
     @Id
     String id;
-    String auction_id;
+    String auctionId;
     String bidderId;
     Integer amount;
-    LocalDateTime time;
-    boolean priority; //if true activ (highestbidder) else history
+    LocalDateTime timeBidded;
+    Boolean priority; //if true activ (highestbidder) else history
 
     public BidsModels(){
 
@@ -27,14 +27,6 @@ public class BidsModels {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getAuction_id() {
-        return auction_id;
-    }
-
-    public void setAuction_id(String auction_id) {
-        this.auction_id = auction_id;
     }
 
     public String getBidderId() {
@@ -53,12 +45,20 @@ public class BidsModels {
         this.amount = amount;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public String getAuctionId() {
+        return auctionId;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setAuctionId(String auctionId) {
+        this.auctionId = auctionId;
+    }
+
+    public LocalDateTime getTimeBidded() {
+        return timeBidded;
+    }
+
+    public void setTimeBidded(LocalDateTime timeBidded) {
+        this.timeBidded = timeBidded;
     }
 
     public Boolean getPriority() {

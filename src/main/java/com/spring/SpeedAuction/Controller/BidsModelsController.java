@@ -43,9 +43,16 @@ public class BidsModelsController {
 
     }
 
-    @GetMapping("/filter/{bidderId}")
+    //Hämtar alla bids med ett specifikt bidderId
+    @GetMapping("/filterByBidderId/{bidderId}")
     public List<BidsModels> getBidsModelByUserId(@PathVariable String bidderId) {
         return bidsModelsService.getBidsModelByUserId(bidderId);
+    }
+
+    //Hämtar alla bids med ett specifikt auctionId
+    @GetMapping("/filterByAuctionId/{auctionId}")
+    public List<BidsModels> getBidsModelByAuctionId(@PathVariable String auctionId) {
+        return bidsModelsService.getBidsModelByAuctionId(auctionId);
     }
 
 }

@@ -6,5 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface BidsModelsRepository extends MongoRepository<BidsModels,String> {
-    List<BidsModels> findBidsModelsByBidderIdOrderByTimeDesc(String bidderId);
+    List<BidsModels> findBidsModelsByBidderIdOrderByTimeBiddedDesc(String bidderId);
+    List<BidsModels> findBidsModelsByAuctionIdOrderByTimeBiddedDesc(String auctionId);
 }
