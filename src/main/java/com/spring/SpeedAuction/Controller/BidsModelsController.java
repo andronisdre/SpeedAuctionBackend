@@ -1,8 +1,6 @@
 package com.spring.SpeedAuction.Controller;
 
-import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
-import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Services.BidsModelsService;
 import com.spring.SpeedAuction.dto.BidsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +40,19 @@ public class BidsModelsController {
     //DELETE /bids/{id} - Ta bort ett bid baserat på id.
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteBidModel(@PathVariable String id){
-         return bidsModelsService.deleteBidmodels(id);
+         return bidsModelsService.deleteBidModels(id);
 
     }
 
     //Hämtar alla bids med ett specifikt bidderId
     @GetMapping("/filterByBidderId/{bidderId}")
-    public List<BidsModels> getBidsModelByUserId(@PathVariable UserModels bidderId) {
+    public List<BidsDTO> getBidsModelByUserId(@PathVariable String bidderId) {
         return bidsModelsService.getBidsModelByUserId(bidderId);
     }
 
     //Hämtar alla bids med ett specifikt auctionId
     @GetMapping("/filterByAuctionId/{auctionId}")
-    public List<BidsModels> getBidsModelByAuctionId(@PathVariable AuctionModels auctionId) {
+    public List<BidsDTO> getBidsModelByAuctionId(@PathVariable String auctionId) {
         return bidsModelsService.getBidsModelByAuctionId(auctionId);
     }
 
