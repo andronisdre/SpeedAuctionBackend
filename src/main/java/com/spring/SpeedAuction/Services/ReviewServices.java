@@ -2,11 +2,11 @@ package com.spring.SpeedAuction.Services;
 
 import com.spring.SpeedAuction.Models.ReviewModels;
 import com.spring.SpeedAuction.Repository.ReviewRepository;
+import com.spring.SpeedAuction.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ReviewServices {
@@ -14,9 +14,18 @@ public class ReviewServices {
     @Autowired
     ReviewRepository reviewRepository;
 
-    public ReviewModels addReview(ReviewModels review) {  // POST att lägga till review
+    @Autowired
+    UserRepository userRepository;
+
+
+
+     // FÖRSÖK FIXA POST/ADDREVIEW MED DTO
+
+   /* public ReviewModels addReview(ReviewModels review, UserModels user_id, UserModels reviewer_id) {    // POST att lägga till review
+        review.setUser_id(user_id);
+        review.setReviewer_id(reviewer_id);
         return reviewRepository.save(review);
-    }
+    }*/
 
     public List<ReviewModels> getAllReviews() {  // GET hämta alla reviews
         return reviewRepository.findAll();
@@ -26,7 +35,10 @@ public class ReviewServices {
         return reviewRepository.findById(id).get();
     }
 
-    public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review
+
+    // FÖRSÖK FIXA PUT/UPDATEREVIEW MED DTO
+
+  /*  public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review
         return reviewRepository.findById(id)
                 .map(existingReviewModels -> {
                     if (updateReview.getReviewContent() != null) {
@@ -38,7 +50,7 @@ public class ReviewServices {
                     return reviewRepository.save(existingReviewModels);
                 })
                 .orElseThrow(() -> new NoSuchElementException("Review not found with id: " + id));
-    }
+    }*/
 
     public String deleteReview(String id) {  // DELETE ta bort en review
         reviewRepository.deleteById(id);
