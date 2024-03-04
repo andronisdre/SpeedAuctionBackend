@@ -1,6 +1,8 @@
 package com.spring.SpeedAuction.Controller;
 
+import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
+import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Services.BidsModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,13 +47,13 @@ public class BidsModelsController {
 
     //Hämtar alla bids med ett specifikt bidderId
     @GetMapping("/filterByBidderId/{bidderId}")
-    public List<BidsModels> getBidsModelByUserId(@PathVariable String bidderId) {
+    public List<BidsModels> getBidsModelByUserId(@PathVariable UserModels bidderId) {
         return bidsModelsService.getBidsModelByUserId(bidderId);
     }
 
     //Hämtar alla bids med ett specifikt auctionId
     @GetMapping("/filterByAuctionId/{auctionId}")
-    public List<BidsModels> getBidsModelByAuctionId(@PathVariable String auctionId) {
+    public List<BidsModels> getBidsModelByAuctionId(@PathVariable AuctionModels auctionId) {
         return bidsModelsService.getBidsModelByAuctionId(auctionId);
     }
 

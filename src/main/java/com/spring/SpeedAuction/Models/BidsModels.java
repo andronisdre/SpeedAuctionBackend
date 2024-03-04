@@ -1,21 +1,26 @@
 package com.spring.SpeedAuction.Models;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Document (collection = "bids")
 public class BidsModels {
 
     //initiering av attributer
     @Id
-    String id;
-    String auctionId;
-    String bidderId;
-    Integer amount;
-    LocalDateTime timeBidded;
-    Boolean priority; //if true activ (highestbidder) else history
+    private String id;
+    @DBRef
+    private AuctionModels auctionId;
+    @DBRef
+    private UserModels bidderId;
+    private Integer amount;
+    @CreatedDate
+    private Date timeBidded;
+    private Boolean priority; //if true activ (highestbidder) else history
 
     public BidsModels(){
 
@@ -29,11 +34,11 @@ public class BidsModels {
         this.id = id;
     }
 
-    public String getBidderId() {
+    public UserModels getBidderId() {
         return bidderId;
     }
 
-    public void setBidderId(String bidderId) {
+    public void setBidderId(UserModels bidderId) {
         this.bidderId = bidderId;
     }
 
@@ -45,20 +50,20 @@ public class BidsModels {
         this.amount = amount;
     }
 
-    public String getAuctionId() {
-        return auctionId;
-    }
-
-    public void setAuctionId(String auctionId) {
-        this.auctionId = auctionId;
-    }
-
-    public LocalDateTime getTimeBidded() {
+    public Date getTimeBidded() {
         return timeBidded;
     }
 
-    public void setTimeBidded(LocalDateTime timeBidded) {
+    public void setTimeBidded(Date timeBidded) {
         this.timeBidded = timeBidded;
+    }
+
+    public AuctionModels getAuctionId() {
+        return auctionId;
+    }
+
+    public void setAuctionId(AuctionModels auctionId) {
+        this.auctionId = auctionId;
     }
 
     public Boolean getPriority() {

@@ -1,6 +1,8 @@
 package com.spring.SpeedAuction.Services;
 
+import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
+import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsModelsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
@@ -14,8 +16,27 @@ public class BidsModelsService {
     //logic
     @Autowired
     BidsModelsRepository bidsModelsRepository;
+    @Autowired
     AuctionRepository auctionRepository;
+    @Autowired
     UserRepository userRepository;
+
+    public BidsModels checkIds(BidsModels bidsModel) {
+        UserModels user = userRepository.findById(bidsModel.getBidderId().getId()).orElse(null);
+        if (user == null) {
+            throw new IllegalArgumentException("Invalid userId");
+        }
+        bidsModel.getBidderId().setUsername(user.getUsername());
+
+        AuctionModels auction = auctionRepository.findById(bidsModel.getAuctionId().getId()).orElse(null);
+        if (auction == null) {
+            throw new IllegalArgumentException("Invalid auctionId");
+        }
+        bidsModel.getAuctionId().setDescription(auction.getDescription());
+
+
+        return bidsModelsRepository.save(bidsModel);
+    }
 
     // Alla PostMan Funktioner
 
@@ -36,7 +57,7 @@ public class BidsModelsService {
 
         // Kontroll om User ID Finns
 
-        return bidsModelsRepository.save(bidsModel);
+        return checkIds(bidsModel);
     }
 
     // PUT
@@ -74,13 +95,13 @@ public class BidsModelsService {
 
     //bid history for a user
     //find all by userId
-    public List<BidsModels> getBidsModelByUserId(String bidderId) {
+    public List<BidsModels> getBidsModelByUserId(UserModels bidderId) {
         return bidsModelsRepository.findBidsModelsByBidderIdOrderByTimeBiddedDesc(bidderId);
     }
 
     //bid history for an auction
     //find all by auctionId
-    public List<BidsModels> getBidsModelByAuctionId(String auctionId) {
+    public List<BidsModels> getBidsModelByAuctionId(AuctionModels auctionId) {
         return bidsModelsRepository.findBidsModelsByAuctionIdOrderByTimeBiddedDesc(auctionId);
     }
 
