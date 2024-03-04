@@ -4,6 +4,7 @@ import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Services.BidsModelsService;
+import com.spring.SpeedAuction.dto.BidsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,13 +17,13 @@ public class BidsModelsController {
 
     //POST Lägg till ett nytt bid
     @PostMapping
-    public BidsModels createBidModel(@RequestBody BidsModels bidsModel) {
-        return bidsModelsService.createBidModels(bidsModel);
+    public BidsModels createBidModel(@RequestBody BidsDTO bidsDTO) {
+        return bidsModelsService.createBidModels(bidsDTO);
     }
 
     //GET /bids - Hämta en lista över alla bids.
     @GetMapping("/all")
-    public List<BidsModels> getAllBidsModels() {
+    public List<BidsDTO> getAllBidsModels() {
         return bidsModelsService.getAllBidsModel();
     }
 

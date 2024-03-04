@@ -6,10 +6,12 @@ import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsModelsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
+import com.spring.SpeedAuction.dto.BidsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BidsModelsService {
@@ -21,30 +23,47 @@ public class BidsModelsService {
     @Autowired
     UserRepository userRepository;
 
-    public BidsModels checkIds(BidsModels bidsModel) {
-        UserModels user = userRepository.findById(bidsModel.getBidderId().getId()).orElse(null);
+    public BidsModels checkIds(BidsDTO bidsDTO) {
+        UserModels user = userRepository.findById(bidsDTO.getBidderId()).orElse(null);
         if (user == null) {
             throw new IllegalArgumentException("Invalid userId");
         }
-        bidsModel.getBidderId().setUsername(user.getUsername());
 
-        AuctionModels auction = auctionRepository.findById(bidsModel.getAuctionId().getId()).orElse(null);
+        AuctionModels auction = auctionRepository.findById(bidsDTO.getAuctionId()).orElse(null);
         if (auction == null) {
             throw new IllegalArgumentException("Invalid auctionId");
         }
-        bidsModel.getAuctionId().setDescription(auction.getDescription());
 
+        BidsModels newBid = new BidsModels();
+        newBid.setBidder(user);
+        newBid.setAuction(auction);
+        newBid.setTimeBidded(bidsDTO.getTimeBidded());
+        newBid.setAmount(bidsDTO.getAmount());
+        newBid.setPriority(bidsDTO.getPriority());
 
-        return bidsModelsRepository.save(bidsModel);
+        return bidsModelsRepository.save(newBid);
+    }
+
+    private BidsDTO convertToDTO(BidsModels bidsModels) {
+        BidsDTO bidsDTO = new BidsDTO();
+        bidsDTO.setBidderId(bidsModels.getBidder().getId());
+        bidsDTO.setAuctionId(bidsModels.getAuction().getId());
+        bidsDTO.setAmount(bidsModels.getAmount());
+        bidsDTO.setTimeBidded(bidsModels.getTimeBidded());
+        bidsDTO.setPriority(bidsModels.getPriority());
+
+        return bidsDTO;
     }
 
     // Alla PostMan Funktioner
 
-    // GET
-    public List<BidsModels> getAllBidsModel() {
-        return bidsModelsRepository.findAll();
+    // GET all
+    public List<BidsDTO> getAllBidsModel() {
+        List<BidsModels> bidsModels = bidsModelsRepository.findAll();
+        return bidsModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    // GET by id
     public BidsModels getBidsModel(String id) {
         return bidsModelsRepository.findById(id).get();
     }
@@ -52,12 +71,12 @@ public class BidsModelsService {
 
 
     // POST
-    public BidsModels createBidModels(BidsModels bidsModel) {
+    public BidsModels createBidModels(BidsDTO bidsDTO) {
         // Kontroll om Auction ID finns
 
         // Kontroll om User ID Finns
 
-        return checkIds(bidsModel);
+        return checkIds(bidsDTO);
     }
 
     // PUT
@@ -69,11 +88,11 @@ public class BidsModelsService {
         // Kontroll om User ID Finns
 
         //update field
-        if (updatedBidModel.getAuctionId() != null) {
-            existingBidsModel.setAuctionId(updatedBidModel.getAuctionId());
+        if (updatedBidModel.getAuction() != null) {
+            existingBidsModel.setAuction(updatedBidModel.getAuction());
         }
-        if (updatedBidModel.getBidderId() != null) {
-            existingBidsModel.setBidderId(updatedBidModel.getBidderId());
+        if (updatedBidModel.getBidder() != null) {
+            existingBidsModel.setBidder(updatedBidModel.getBidder());
         }
         if (updatedBidModel.getAmount() != null){
             existingBidsModel.setAmount(updatedBidModel.getAmount());

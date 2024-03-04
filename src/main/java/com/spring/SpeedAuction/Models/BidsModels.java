@@ -14,9 +14,9 @@ public class BidsModels {
     @Id
     private String id;
     @DBRef
-    private AuctionModels auctionId;
+    private AuctionModels auction;
     @DBRef
-    private UserModels bidderId;
+    private UserModels bidder;
     private Integer amount;
     @CreatedDate
     private Date timeBidded;
@@ -34,12 +34,20 @@ public class BidsModels {
         this.id = id;
     }
 
-    public UserModels getBidderId() {
-        return bidderId;
+    public AuctionModels getAuction() {
+        return auction;
     }
 
-    public void setBidderId(UserModels bidderId) {
-        this.bidderId = bidderId;
+    public void setAuction(AuctionModels auction) {
+        this.auction = auction;
+    }
+
+    public UserModels getBidder() {
+        return bidder;
+    }
+
+    public void setBidder(UserModels bidder) {
+        this.bidder = bidder;
     }
 
     public Integer getAmount() {
@@ -56,14 +64,6 @@ public class BidsModels {
 
     public void setTimeBidded(Date timeBidded) {
         this.timeBidded = timeBidded;
-    }
-
-    public AuctionModels getAuctionId() {
-        return auctionId;
-    }
-
-    public void setAuctionId(AuctionModels auctionId) {
-        this.auctionId = auctionId;
     }
 
     public Boolean getPriority() {
