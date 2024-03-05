@@ -2,6 +2,7 @@ package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Services.OrderServices;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class OrderController {
         return orders.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     @PutMapping("/{id}")
-    public ResponseEntity<OrderModels> updateOrder(@PathVariable String id, @RequestBody OrderModels ordersDetails) {
+    public ResponseEntity<OrderModels> updateOrder(@PathVariable String id,@Valid @RequestBody OrderModels ordersDetails) {
         OrderModels updatedOrders = orderService.updateOrder(id, ordersDetails);
         return ResponseEntity.ok(updatedOrders);
     }
