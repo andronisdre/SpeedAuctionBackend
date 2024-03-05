@@ -44,6 +44,7 @@ public class UserServices {
     // - removeFromFavourotes: ta bort från favoritlistan OCH NI HAR EN SÅN FUNKTION SER JAG :)
     // har ni en addToFavourites() funktion?
     // istället för att en user ska "uppdatera" sin favoritlista
+    // HELENA SA ATT DENNA KODEN ÄR OKEJ
     public UserModels updateUser(String id, UserModels updatedUser) {       // Put Updatera en användares information
         return userRepository.findById(id)
                 .map(existingUserModels -> {
