@@ -1,8 +1,10 @@
 package com.spring.SpeedAuction.Controller;
 
+import DTO.ReviewDTO;
 import com.spring.SpeedAuction.Models.ReviewModels;
 import com.spring.SpeedAuction.Services.ReviewServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,18 +17,12 @@ public class ReviewController {
     ReviewServices reviewServices;
 
 
-   /* // POST
-    @PostMapping()
-    public ReviewModels addReview(@RequestBody ReviewDTO reviewDTO) {
-        return reviewServices.addReview(reviewDTO);
-    }*/
-
-
     // POST
-  /*  @PostMapping()
-    public ReviewModels addReview(@RequestBody ReviewModels review) {
-        return reviewServices.addReview(review);
-    }*/
+   @PostMapping()
+   public ResponseEntity<ReviewModels> addReview(@RequestBody ReviewDTO reviewDTO) {
+       ReviewModels newReview = reviewServices.addReview(reviewDTO);
+       return ResponseEntity.ok(newReview);
+   }
 
     // GET ALL
     @GetMapping("/all")
@@ -41,7 +37,7 @@ public class ReviewController {
     }
 
 
-    // PUT
+    // PUT FRÅN BASIC
   /*  @PutMapping("/{id}")
     public ResponseEntity<?> updateReview(@PathVariable String id, @Valid @RequestBody ReviewModels reviewDetails) {
         try {

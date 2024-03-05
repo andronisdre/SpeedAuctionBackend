@@ -36,9 +36,8 @@ public class ReviewModels {
     public ReviewModels() {
     }
 
-
-    public ReviewModels(String id, String reviewContent, int rating,
-                        Date created_at, UserModels user_id, UserModels reviewer_id) {
+    public ReviewModels(String id, String reviewContent,
+                        int rating, Date created_at, UserModels user_id, UserModels reviewer_id) {
         this.id = id;
         this.reviewContent = reviewContent;
         this.rating = rating;
