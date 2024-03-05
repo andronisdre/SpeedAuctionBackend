@@ -33,7 +33,9 @@ public class ReviewModels {
     private UserModels reviewer_id;
 
 
-    // Lägg tom konstruktor
+    public ReviewModels() {
+    }
+
 
     public ReviewModels(String id, String reviewContent, int rating,
                         Date created_at, UserModels user_id, UserModels reviewer_id) {
@@ -44,7 +46,6 @@ public class ReviewModels {
         this.user_id = user_id;
         this.reviewer_id = reviewer_id;
     }
-
 
     public String getId() {
         return id;
