@@ -32,6 +32,9 @@ public class ReviewModels {
     @DBRef
     private UserModels reviewer_id;
 
+
+    // Lägg tom konstruktor
+
     public ReviewModels(String id, String reviewContent, int rating,
                         Date created_at, UserModels user_id, UserModels reviewer_id) {
         this.id = id;
