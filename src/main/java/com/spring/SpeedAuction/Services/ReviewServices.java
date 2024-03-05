@@ -41,17 +41,17 @@ public class ReviewServices {
  }
 
     public List<ReviewModels> getAllReviews() {  // GET hämta alla reviews
-        return reviewRepository.findAll();
+        return reviewRepository.findAll();  // FIXA MED DTO
     }
 
     public ReviewModels getReviewById(String id) {  // GET hämta review genom id
-        return reviewRepository.findById(id).get();
+        return reviewRepository.findById(id).get(); // FIXA MED DTO
     }
 
 
    public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review
         return reviewRepository.findById(id)
-                .map(existingReviewModels -> {
+                .map(existingReviewModels -> {  // Jag vill att man bara ska kunna uppdatera Content och raiting
                     if (updateReview.getReviewContent() != null) {
                         existingReviewModels.setReviewContent(updateReview.getReviewContent());
                     }
@@ -60,7 +60,7 @@ public class ReviewServices {
                     }
                     return reviewRepository.save(existingReviewModels);
                 })
-                .orElseThrow(() -> new NoSuchElementException("Review not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Invalid reviewer id"));
     }
 
     public String deleteReview(String id) {  // DELETE ta bort en review
