@@ -48,7 +48,7 @@ public class BidsModelsService {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
         }
 
-        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByTimeBiddedDesc(bidsDTO.getAuctionId());
+        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(bidsDTO.getAuctionId());
         for (BidsModels existingBid : bidsModels) {
             if (newBid.getAmount() < (existingBid.getAmount() + 1000)) {
                 throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");
@@ -141,7 +141,7 @@ public class BidsModelsService {
     //bid history for an auction
     //find all by auctionId
     public List<BidsDTO> getBidsModelByAuctionId(String auctionId) {
-        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByTimeBiddedDesc(auctionId);
+        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(auctionId);
         if (bidsModels.isEmpty()) {
             throw new IllegalArgumentException("no bids exist for this auctionId");
         }
