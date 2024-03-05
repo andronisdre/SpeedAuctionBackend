@@ -7,7 +7,6 @@ public class BidsDTO {
     private String auctionId;
     private Integer amount;
     private Date timeBidded;
-    private Boolean priority;
 
     public String getBidderId() {
         return bidderId;
@@ -39,13 +38,5 @@ public class BidsDTO {
 
     public void setTimeBidded(Date timeBidded) {
         this.timeBidded = timeBidded;
-    }
-
-    public Boolean getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Boolean priority) {
-        this.priority = priority;
     }
 }

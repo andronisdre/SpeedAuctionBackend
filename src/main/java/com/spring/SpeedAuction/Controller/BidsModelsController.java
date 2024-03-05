@@ -33,8 +33,8 @@ public class BidsModelsController {
 
     //PUT /bids/{id} - Uppdatera ett specifikt bid baserat på id.
     @PutMapping("/{id}")
-    public BidsModels updateBidModel(@RequestBody BidsModels bidsModels, @RequestBody BidsDTO bidsDTO) {
-        return bidsModelsService.updateBidModels(bidsModels, bidsDTO);
+    public BidsModels updateBidModel(@PathVariable String id, @RequestBody BidsModels bidsModels) {
+        return bidsModelsService.updateBidModels(id, bidsModels);
     }
 
     //DELETE /bids/{id} - Ta bort ett bid baserat på id.
@@ -44,16 +44,21 @@ public class BidsModelsController {
 
     }
 
-    //Hämtar alla bids med ett specifikt bidderId
+    //Hämtar alla bids med ett specifikt bidderId, nyaste budet kommer först
     @GetMapping("/filterByBidderId/{bidderId}")
     public List<BidsDTO> getBidsModelByUserId(@PathVariable String bidderId) {
         return bidsModelsService.getBidsModelByUserId(bidderId);
     }
 
-    //Hämtar alla bids med ett specifikt auctionId
+    //Hämtar alla bids med ett specifikt auctionId, nyaste och därmed största budet kommer först
     @GetMapping("/filterByAuctionId/{auctionId}")
     public List<BidsDTO> getBidsModelByAuctionId(@PathVariable String auctionId) {
         return bidsModelsService.getBidsModelByAuctionId(auctionId);
     }
 
+    //Hämtar det senaste och därmed största budet (senaste budet på en auktion är alltid störst) i en auction
+    @GetMapping("/getTopBidByAuctionId/{auctionId}")
+    public BidsDTO getTopBidByAuctionId(@PathVariable String auctionId) {
+        return bidsModelsService.getTopBidByAuctionId(auctionId);
+    }
 }

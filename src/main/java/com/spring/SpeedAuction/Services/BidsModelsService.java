@@ -23,6 +23,7 @@ public class BidsModelsService {
     @Autowired
     UserRepository userRepository;
 
+    //util functions
     public UserModels checkUserId(BidsDTO bidsDTO) {
         return userRepository.findById(bidsDTO.getBidderId()).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
     }
@@ -37,12 +38,11 @@ public class BidsModelsService {
         newBid.setAuction(auction);
         newBid.setTimeBidded(bidsDTO.getTimeBidded());
         newBid.setAmount(bidsDTO.getAmount());
-        newBid.setPriority(bidsDTO.getPriority());
 
-        return bidLogic(bidsDTO, newBid, auction);
+        return newBid;
     }
 
-    public BidsModels bidLogic(BidsDTO bidsDTO, BidsModels newBid, AuctionModels auction) {
+    public void bidLargeEnough(BidsDTO bidsDTO, BidsModels newBid, AuctionModels auction) {
 
         if (newBid.getAmount() < auction.getStartingBid()) {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
@@ -54,8 +54,6 @@ public class BidsModelsService {
                 throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");
             }
         }
-
-        return bidsModelsRepository.save(newBid);
     }
 
     private BidsDTO convertToDTO(BidsModels bidsModels) {
@@ -64,10 +62,12 @@ public class BidsModelsService {
         bidsDTO.setAuctionId(bidsModels.getAuction().getId());
         bidsDTO.setAmount(bidsModels.getAmount());
         bidsDTO.setTimeBidded(bidsModels.getTimeBidded());
-        bidsDTO.setPriority(bidsModels.getPriority());
 
         return bidsDTO;
     }
+    //util functions end
+
+
 
     // Alla PostMan Funktioner
 
@@ -84,39 +84,37 @@ public class BidsModelsService {
 
     // POST
     public BidsModels createBidModels(BidsDTO bidsDTO) {
-        // Kontroll om Auction ID finns
-
-        // Kontroll om User ID Finns
-
         UserModels user = checkUserId(bidsDTO);
-        AuctionModels auctions = checkAuctionId(bidsDTO);
-
-        return retrieveData(bidsDTO, auctions, user);
+        AuctionModels auction = checkAuctionId(bidsDTO);
+        BidsModels newBid = retrieveData(bidsDTO, auction, user);
+        bidLargeEnough(bidsDTO, newBid, auction);
+        return bidsModelsRepository.save(newBid);
     }
 
     // PUT
-    public BidsModels updateBidModels(BidsModels updatedBidModel, BidsDTO bidsDTO) {
-        BidsModels existingBidsModel = bidsModelsRepository.findById(updatedBidModel.getId()).orElseThrow(() -> new IllegalArgumentException("invalid id"));
+    public BidsModels updateBidModels(String id, BidsModels bidsModels) {
+        BidsModels existingBid = bidsModelsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
-        if (updatedBidModel.getAuction() != null) {
-            existingBidsModel.setAuction(updatedBidModel.getAuction());
+        if (bidsModels.getAuction() != null) {
+            existingBid.setAuction(bidsModels.getAuction());
         }
-        if (updatedBidModel.getBidder() != null) {
-            existingBidsModel.setBidder(updatedBidModel.getBidder());
+        if (bidsModels.getBidder() != null) {
+            existingBid.setBidder(bidsModels.getBidder());
         }
-        if (updatedBidModel.getAmount() != null){
-            existingBidsModel.setAmount(updatedBidModel.getAmount());
+        if (bidsModels.getAmount() != null){
+            existingBid.setAmount(bidsModels.getAmount());
         }
-        if (updatedBidModel.getTimeBidded() != null){
-            existingBidsModel.setTimeBidded(updatedBidModel.getTimeBidded());
+        if (bidsModels.getTimeBidded() != null){
+            existingBid.setTimeBidded(bidsModels.getTimeBidded());
         }
-        if (updatedBidModel.getPriority() != null){
-            existingBidsModel.setPriority(updatedBidModel.getPriority());
-        }
+        existingBid.setId(id);
+        BidsDTO bidsDTO = convertToDTO(existingBid);
         checkUserId(bidsDTO);
-        checkAuctionId(bidsDTO);
-        return bidsModelsRepository.save(existingBidsModel);
+        AuctionModels auction = checkAuctionId(bidsDTO);
+        bidLargeEnough(bidsDTO, existingBid, auction);
+
+        return bidsModelsRepository.save(existingBid);
     }
     // DELETE
 
@@ -134,6 +132,9 @@ public class BidsModelsService {
     //find all by bidderId
     public List<BidsDTO> getBidsModelByUserId(String bidderId) {
         List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByBidderIdOrderByTimeBiddedDesc(bidderId);
+        if (bidsModels.isEmpty()) {
+            throw new IllegalArgumentException("no bids exist for this userId");
+        }
         return bidsModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
@@ -141,7 +142,19 @@ public class BidsModelsService {
     //find all by auctionId
     public List<BidsDTO> getBidsModelByAuctionId(String auctionId) {
         List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByTimeBiddedDesc(auctionId);
+        if (bidsModels.isEmpty()) {
+            throw new IllegalArgumentException("no bids exist for this auctionId");
+        }
         return bidsModels.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    //GET top bid for an auction
+    public BidsDTO getTopBidByAuctionId(String auctionId) {
+        BidsModels bidsModel = bidsModelsRepository.findFirstByAuctionIdOrderByAmountDesc(auctionId);
+        if (bidsModel == null) {
+            throw new IllegalArgumentException("no bids exist for this auctionId");
+        }
+        return convertToDTO(bidsModel);
     }
 
 }

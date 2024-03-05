@@ -20,7 +20,6 @@ public class BidsModels {
     private Integer amount;
     @CreatedDate
     private Date timeBidded;
-    private Boolean priority; //if true activ (highestbidder) else history
 
     public BidsModels(){
 
@@ -64,13 +63,5 @@ public class BidsModels {
 
     public void setTimeBidded(Date timeBidded) {
         this.timeBidded = timeBidded;
-    }
-
-    public Boolean getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Boolean priority) {
-        this.priority = priority;
     }
 }
