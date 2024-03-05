@@ -23,10 +23,12 @@ public class BidsModelsService {
     @Autowired
     UserRepository userRepository;
 
-    public BidsModels checkIds(BidsDTO bidsDTO) {
-        UserModels user = userRepository.findById(bidsDTO.getBidderId()).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
-        AuctionModels auction = auctionRepository.findById(bidsDTO.getAuctionId()).orElseThrow(() -> new IllegalArgumentException("Invalid auctionId"));
-        return retrieveData(bidsDTO, auction, user);
+    public UserModels checkUserId(BidsDTO bidsDTO) {
+        return userRepository.findById(bidsDTO.getBidderId()).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+    }
+
+    public AuctionModels checkAuctionId(BidsDTO bidsDTO) {
+        return auctionRepository.findById(bidsDTO.getAuctionId()).orElseThrow(() -> new IllegalArgumentException("Invalid auctionId"));
     }
 
     public BidsModels retrieveData(BidsDTO bidsDTO, AuctionModels auction, UserModels user) {
@@ -37,10 +39,10 @@ public class BidsModelsService {
         newBid.setAmount(bidsDTO.getAmount());
         newBid.setPriority(bidsDTO.getPriority());
 
-        return bidLogic(bidsDTO, auction, newBid);
+        return bidLogic(bidsDTO, newBid, auction);
     }
 
-    public BidsModels bidLogic(BidsDTO bidsDTO, AuctionModels auction, BidsModels newBid) {
+    public BidsModels bidLogic(BidsDTO bidsDTO, BidsModels newBid, AuctionModels auction) {
 
         if (newBid.getAmount() < auction.getStartingBid()) {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
@@ -86,16 +88,15 @@ public class BidsModelsService {
 
         // Kontroll om User ID Finns
 
-        return checkIds(bidsDTO);
+        UserModels user = checkUserId(bidsDTO);
+        AuctionModels auctions = checkAuctionId(bidsDTO);
+
+        return retrieveData(bidsDTO, auctions, user);
     }
 
     // PUT
-    public BidsModels updateBidModels(String id, BidsModels updatedBidModel) {
-        BidsModels existingBidsModel = bidsModelsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
-
-        // Kontroll om Auction ID finns
-
-        // Kontroll om User ID Finns
+    public BidsModels updateBidModels(BidsModels updatedBidModel, BidsDTO bidsDTO) {
+        BidsModels existingBidsModel = bidsModelsRepository.findById(updatedBidModel.getId()).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
         if (updatedBidModel.getAuction() != null) {
@@ -113,6 +114,8 @@ public class BidsModelsService {
         if (updatedBidModel.getPriority() != null){
             existingBidsModel.setPriority(updatedBidModel.getPriority());
         }
+        checkUserId(bidsDTO);
+        checkAuctionId(bidsDTO);
         return bidsModelsRepository.save(existingBidsModel);
     }
     // DELETE

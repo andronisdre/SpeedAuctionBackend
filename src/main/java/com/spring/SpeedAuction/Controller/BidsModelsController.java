@@ -33,8 +33,8 @@ public class BidsModelsController {
 
     //PUT /bids/{id} - Uppdatera ett specifikt bid baserat på id.
     @PutMapping("/{id}")
-    public BidsModels updateBidModel(@PathVariable String id, @RequestBody BidsModels bidsModels) {
-        return bidsModelsService.updateBidModels(id, bidsModels);
+    public BidsModels updateBidModel(@RequestBody BidsModels bidsModels, @RequestBody BidsDTO bidsDTO) {
+        return bidsModelsService.updateBidModels(bidsModels, bidsDTO);
     }
 
     //DELETE /bids/{id} - Ta bort ett bid baserat på id.
