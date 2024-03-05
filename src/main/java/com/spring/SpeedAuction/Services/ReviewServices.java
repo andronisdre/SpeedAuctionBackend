@@ -49,9 +49,7 @@ public class ReviewServices {
     }
 
 
-    // FÖRSÖK FIXA PUT/UPDATEREVIEW MED DTO
-
-  /*  public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review FRÅN BASIC
+   public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review
         return reviewRepository.findById(id)
                 .map(existingReviewModels -> {
                     if (updateReview.getReviewContent() != null) {
@@ -63,7 +61,7 @@ public class ReviewServices {
                     return reviewRepository.save(existingReviewModels);
                 })
                 .orElseThrow(() -> new NoSuchElementException("Review not found with id: " + id));
-    }*/
+    }
 
     public String deleteReview(String id) {  // DELETE ta bort en review
         reviewRepository.deleteById(id);
