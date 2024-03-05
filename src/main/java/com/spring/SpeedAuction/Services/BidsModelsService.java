@@ -23,23 +23,24 @@ public class BidsModelsService {
     @Autowired
     UserRepository userRepository;
 
-    public BidsModels checkIdsGetData(BidsDTO bidsDTO) {
-        UserModels user = userRepository.findById(bidsDTO.getBidderId()).orElse(null);
-        if (user == null) {
-            throw new IllegalArgumentException("Invalid userId");
-        }
+    public BidsModels checkIds(BidsDTO bidsDTO) {
+        UserModels user = userRepository.findById(bidsDTO.getBidderId()).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+        AuctionModels auction = auctionRepository.findById(bidsDTO.getAuctionId()).orElseThrow(() -> new IllegalArgumentException("Invalid auctionId"));
+        return retrieveData(bidsDTO, auction, user);
+    }
 
-        AuctionModels auction = auctionRepository.findById(bidsDTO.getAuctionId()).orElse(null);
-        if (auction == null) {
-            throw new IllegalArgumentException("Invalid auctionId");
-        }
-
+    public BidsModels retrieveData(BidsDTO bidsDTO, AuctionModels auction, UserModels user) {
         BidsModels newBid = new BidsModels();
         newBid.setBidder(user);
         newBid.setAuction(auction);
         newBid.setTimeBidded(bidsDTO.getTimeBidded());
         newBid.setAmount(bidsDTO.getAmount());
         newBid.setPriority(bidsDTO.getPriority());
+
+        return bidLogic(bidsDTO, auction, newBid);
+    }
+
+    public BidsModels bidLogic(BidsDTO bidsDTO, AuctionModels auction, BidsModels newBid) {
 
         if (newBid.getAmount() < auction.getStartingBid()) {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
@@ -85,7 +86,7 @@ public class BidsModelsService {
 
         // Kontroll om User ID Finns
 
-        return checkIdsGetData(bidsDTO);
+        return checkIds(bidsDTO);
     }
 
     // PUT
