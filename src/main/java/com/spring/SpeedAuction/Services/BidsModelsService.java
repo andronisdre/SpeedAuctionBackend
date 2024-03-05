@@ -96,12 +96,6 @@ public class BidsModelsService {
         BidsModels existingBid = bidsModelsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
-        if (bidsModels.getAuction() != null) {
-            existingBid.setAuction(bidsModels.getAuction());
-        }
-        if (bidsModels.getBidder() != null) {
-            existingBid.setBidder(bidsModels.getBidder());
-        }
         if (bidsModels.getAmount() != null){
             existingBid.setAmount(bidsModels.getAmount());
         }
@@ -109,6 +103,8 @@ public class BidsModelsService {
             existingBid.setTimeBidded(bidsModels.getTimeBidded());
         }
         existingBid.setId(id);
+        existingBid.setBidder(existingBid.getBidder());
+        existingBid.setAuction(existingBid.getAuction());
         BidsDTO bidsDTO = convertToDTO(existingBid);
         checkUserId(bidsDTO);
         AuctionModels auction = checkAuctionId(bidsDTO);
