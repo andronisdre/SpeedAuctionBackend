@@ -50,13 +50,13 @@ public class BidsModelsController {
         return bidsModelsService.getBidsModelByUserId(bidderId);
     }
 
-    //Hämtar alla bids med ett specifikt auctionId, nyaste och därmed största budet kommer först
+    //Hämtar alla bids med ett specifikt auctionId, största budet kommer först
     @GetMapping("/filterByAuctionId/{auctionId}")
     public List<BidsDTO> getBidsModelByAuctionId(@PathVariable String auctionId) {
         return bidsModelsService.getBidsModelByAuctionId(auctionId);
     }
 
-    //Hämtar det senaste och därmed största budet (senaste budet på en auktion är alltid störst) i en auction
+    //Hämtar det största budet (senaste budet på en auktion är alltid störst) i en auction
     @GetMapping("/getTopBidByAuctionId/{auctionId}")
     public BidsDTO getTopBidByAuctionId(@PathVariable String auctionId) {
         return bidsModelsService.getTopBidByAuctionId(auctionId);
