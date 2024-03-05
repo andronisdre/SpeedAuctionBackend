@@ -36,20 +36,6 @@ public class OrderServices {
         orderRepository.deleteById(id);
     }
 
-   /* public OrderModels updateOrder(String id, OrderModels updatedOrders) {
-        OrderModels existingOrder = orderRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Order with id: " + id + " was not found!"));
-
-        existingOrder.setId(updatedOrders.getId());
-        existingOrder.setBuyer_id(updatedOrders.getBuyer_id());
-        existingOrder.setAuctions(existingOrder.getAuctions());
-        existingOrder.setSeller_id(updatedOrders.getSeller_id());
-        existingOrder.setOrder_finalized(updatedOrders.getOrder_finalized());
-        existingOrder.setOrder_created(updatedOrders.getOrder_created());
-
-        return orderRepository.save(existingOrder);
-    }*/
-
     public OrderModels updateOrder(String id, OrderModels updateOrder) {
         return orderRepository.findById(id)
                 .map(existingOrderModels -> {
