@@ -22,7 +22,7 @@ public class ReviewServices {
     UserRepository userRepository;
 
 
-    public ReviewModels addReview(ReviewDTO reviewDTO) {
+    public ReviewModels addReview(ReviewDTO reviewDTO) {    // POST Lägg till en review
 
         UserModels user = userRepository.findById(reviewDTO.getUser_id())
                 .orElseThrow(() -> new NoSuchElementException("Invalid user id"));
@@ -42,18 +42,15 @@ public class ReviewServices {
  }
 
 
-    public List<ReviewDTO> getAllReviews() {  // GET hämta alla reviews OSÄKER PÅ DEN
+    public List<ReviewDTO> getAllReviews() {  // GET hämta alla reviews
         List<ReviewModels> review = reviewRepository.findAll();
 
         return review.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-  /*  public List<ReviewModels> getAllReviews() {  // GET hämta alla reviews FRÅN BASIC
-        return reviewRepository.findAll();  // FIXA MED DTO
-    }*/
 
     public ReviewModels getReviewById(String id) {  // GET hämta review genom id
-        return reviewRepository.findById(id).get(); // FIXA MED DTO
+        return reviewRepository.findById(id).get();
     }
 
 
@@ -71,12 +68,38 @@ public class ReviewServices {
                 .orElseThrow(() -> new NoSuchElementException("Invalid reviewer id"));
     }
 
-    public String deleteReview(String id) {  // DELETE ta bort en review
-        reviewRepository.deleteById(id);
-        return "Your review is deleted";
+
+
+    public String deleteReview(String id) {
+        ReviewModels reviewModels = reviewRepository.findById(id).orElse(null);
+        if (reviewModels != null) {
+            reviewRepository.deleteById(id);
+            return "review is deleted";
+        } else {
+            return "Review id doesn't exist";
+        }
     }
 
-    private ReviewDTO convertToDTO(ReviewModels reviewModels) {  // TEST
+
+
+
+    /*public String deleteBidModels(String id){
+        BidsModels bidsModels = bidsModelsRepository.findById(id).orElse(null);
+        if (bidsModels != null) {
+            bidsModelsRepository.deleteById(id);
+            return "bid deleted";
+        } else {
+            return "bid id doesn't exist";
+        }
+    }*/
+
+   /* public String deleteReview(String id) {  // DELETE ta bort en review
+        reviewRepository.deleteById(id);
+        return "Your review is deleted";
+    }*/
+
+    // Hjälpmetod
+    private ReviewDTO convertToDTO(ReviewModels reviewModels) {
         ReviewDTO reviewDTO = new ReviewDTO();
 
         reviewDTO.setUser_id(reviewModels.getUser_id().getId());
