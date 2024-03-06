@@ -67,4 +67,16 @@ public class ReviewServices {
         reviewRepository.deleteById(id);
         return "Your review is deleted";
     }
+
+    private ReviewDTO convertToDTO(ReviewModels reviewModels) {  // TEST
+        ReviewDTO reviewDTO = new ReviewDTO();
+
+        reviewDTO.setUser_id(reviewModels.getUser_id().getId());
+        reviewDTO.setReviewer_id(reviewModels.getReviewer_id().getId());
+
+        reviewDTO.setReviewContent(reviewModels.getReviewContent());
+        reviewDTO.setRating(reviewModels.getRating());
+
+        return reviewDTO;
+    }
 }
