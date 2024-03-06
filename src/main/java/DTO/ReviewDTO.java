@@ -7,6 +7,7 @@ public class ReviewDTO {
     private String user_id;
     private String reviewer_id;
 
+
     public String getReviewContent() {
         return reviewContent;
     }

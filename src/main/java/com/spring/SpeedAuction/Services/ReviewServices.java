@@ -30,13 +30,11 @@ public class ReviewServices {
         UserModels reviewer = userRepository.findById(reviewDTO.getReviewer_id())
                 .orElseThrow(() -> new NoSuchElementException("Invalid reviewer id"));
 
-
         ReviewModels review = new ReviewModels();
         review.setReviewContent(reviewDTO.getReviewContent());
         review.setRating(reviewDTO.getRating());
         review.setUser_id(user);
         review.setReviewer_id(reviewer);
-
 
         return reviewRepository.save(review);
  }
@@ -68,8 +66,6 @@ public class ReviewServices {
                 .orElseThrow(() -> new NoSuchElementException("Invalid reviewer id"));
     }
 
-
-
     public String deleteReview(String id) {
         ReviewModels reviewModels = reviewRepository.findById(id).orElse(null);
         if (reviewModels != null) {
@@ -79,24 +75,6 @@ public class ReviewServices {
             return "Review id doesn't exist";
         }
     }
-
-
-
-
-    /*public String deleteBidModels(String id){
-        BidsModels bidsModels = bidsModelsRepository.findById(id).orElse(null);
-        if (bidsModels != null) {
-            bidsModelsRepository.deleteById(id);
-            return "bid deleted";
-        } else {
-            return "bid id doesn't exist";
-        }
-    }*/
-
-   /* public String deleteReview(String id) {  // DELETE ta bort en review
-        reviewRepository.deleteById(id);
-        return "Your review is deleted";
-    }*/
 
     // Hjälpmetod
     private ReviewDTO convertToDTO(ReviewModels reviewModels) {
