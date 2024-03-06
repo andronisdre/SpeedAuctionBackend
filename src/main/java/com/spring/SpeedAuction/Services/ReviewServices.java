@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewServices {
@@ -40,9 +41,16 @@ public class ReviewServices {
         return reviewRepository.save(review);
  }
 
-    public List<ReviewModels> getAllReviews() {  // GET hämta alla reviews
-        return reviewRepository.findAll();  // FIXA MED DTO
+
+    public List<ReviewDTO> getAllReviews() {  // GET hämta alla reviews OSÄKER PÅ DEN
+        List<ReviewModels> review = reviewRepository.findAll();
+
+        return review.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
+
+  /*  public List<ReviewModels> getAllReviews() {  // GET hämta alla reviews FRÅN BASIC
+        return reviewRepository.findAll();  // FIXA MED DTO
+    }*/
 
     public ReviewModels getReviewById(String id) {  // GET hämta review genom id
         return reviewRepository.findById(id).get(); // FIXA MED DTO

@@ -27,11 +27,18 @@ public class ReviewController {
        return ResponseEntity.ok(newReview);
    }
 
-    // GET ALL
+   // GET ALL  OSÄKER PÅ DEN
+   @GetMapping("/all")
+   public ResponseEntity<List<ReviewDTO>> getAllReviews() {
+       List<ReviewDTO> review = reviewServices.getAllReviews();
+       return ResponseEntity.ok(review);
+   }
+
+   /* // GET ALL  FRÅN BASIC
     @GetMapping("/all")
     public List<ReviewModels> getAllReviews() {
         return reviewServices.getAllReviews();
-    }
+    }*/
 
     // GET BY ID
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
