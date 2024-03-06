@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.Services;
+package com.spring.SpeedAuction.security.Services;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.SpeedAuction.Models.UserModels;
 import org.springframework.security.core.GrantedAuthority;

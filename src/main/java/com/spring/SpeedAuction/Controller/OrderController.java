@@ -1,7 +1,7 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.OrderModels;
-import com.spring.SpeedAuction.Services.OrderServices;
+import com.spring.SpeedAuction.security.Services.OrderServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/order")
+@RequestMapping("/api/order")
 public class OrderController {
 
     @Autowired
     OrderServices orderService;
 
-    @PostMapping
+    @PostMapping("/all")
     public ResponseEntity<OrderModels> createOrder(@RequestBody OrderModels orders) {
         OrderModels createdOrders = orderService.createOrder(orders);
         return new ResponseEntity<>(createdOrders, HttpStatus.CREATED);//ResponseEntity.status(HttpStatus.CREATED).body(createdOrders);
@@ -45,10 +45,5 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.ok("Orders with id: " + id + " has been deleted!");
     }
-
-
-
-
-
 
 }

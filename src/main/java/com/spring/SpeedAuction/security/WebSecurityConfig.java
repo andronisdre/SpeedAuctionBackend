@@ -1,5 +1,6 @@
-package com.spring.SpeedAuction.Services;
+package com.spring.SpeedAuction.security;
 
+import com.spring.SpeedAuction.security.Services.UserDetailsServiceImpl;
 import com.spring.SpeedAuction.security.jwt.AuthTokenFilter;
 import com.spring.SpeedAuction.security.jwt.AuthenticationEntryJwt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
+                                //permit all oder
+                                .requestMatchers("/api/order/**").permitAll()
+                                //permit all User
+                                .requestMatchers("/api/user/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 
@@ -69,6 +74,5 @@ public class WebSecurityConfig {
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 
 }

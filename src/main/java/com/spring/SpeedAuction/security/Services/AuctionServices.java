@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.Services;
+package com.spring.SpeedAuction.security.Services;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;

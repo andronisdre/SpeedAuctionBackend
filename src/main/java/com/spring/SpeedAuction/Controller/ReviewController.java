@@ -1,7 +1,7 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.ReviewModels;
-import com.spring.SpeedAuction.Services.ReviewServices;
+import com.spring.SpeedAuction.security.Services.ReviewServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

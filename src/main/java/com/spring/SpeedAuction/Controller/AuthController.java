@@ -5,8 +5,8 @@ import com.spring.SpeedAuction.Models.Role;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.RoleRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.Services.UserDetailImpl;
-import com.spring.SpeedAuction.payload.request.SigninRequest;
+import com.spring.SpeedAuction.security.Services.UserDetailImpl;
+import com.spring.SpeedAuction.payload.request.SigningRequest;
 import com.spring.SpeedAuction.payload.request.SignupRequest;
 import com.spring.SpeedAuction.payload.response.MessageResponse;
 import com.spring.SpeedAuction.payload.response.UserInfoResponse;
@@ -50,8 +50,8 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     //logga in
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigninRequest signinRequest) {
+    @PostMapping("/signing")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigningRequest signinRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signinRequest.getUsername(), signinRequest.getPassword())
         );
