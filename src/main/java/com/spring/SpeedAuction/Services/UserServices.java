@@ -17,15 +17,7 @@ public class UserServices {
     UserRepository userRepository;
 
 
-    // HELENA:
-    // den här metoden ska tas bort när det finns en register metod, det är genom den en user
-    // ska sparas
 
-   /* public UserModels addUser(UserModels user) {    // POST Registrera ny användare
-        return userRepository.save(user);
-    }
-
-    */
 
     public List<UserModels> getAllUsers() {     // GET Hämta en lista över alla användare
         return userRepository.findAll();
@@ -89,7 +81,7 @@ public class UserServices {
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
 
-    public String deleteUser(String id) {        // DELETE Ta bort en användare
+    public String deleteUser(String id) {   // DELETE Ta bort en användare
         userRepository.deleteById(id);
         return "User is deleted";
     }
@@ -107,7 +99,7 @@ public class UserServices {
         return usersWithFavouriteAuctions;
     }
 
-    public UserModels deleteFavouriteAuctions(String id, String auctionId) {
+    public UserModels deleteFavouriteAuctions(String id, String auctionId) { // DELETE Ta bort favoritAucktions
         UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
 

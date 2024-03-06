@@ -34,7 +34,7 @@ public class UserModels {
     @Indexed(unique = true)
     @Size(max = 100)
     private String email;
-    @NotBlank
+
     private String phone_number;
     @NotBlank
     @Size(max = 100)
