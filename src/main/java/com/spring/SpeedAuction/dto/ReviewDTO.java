@@ -1,4 +1,4 @@
-package DTO;
+package com.spring.SpeedAuction.dto;
 
 public class ReviewDTO {
 

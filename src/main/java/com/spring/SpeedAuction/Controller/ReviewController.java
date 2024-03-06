@@ -1,6 +1,6 @@
 package com.spring.SpeedAuction.Controller;
 
-import DTO.ReviewDTO;
+import com.spring.SpeedAuction.dto.ReviewDTO;
 import com.spring.SpeedAuction.Models.ReviewModels;
 import com.spring.SpeedAuction.Services.ReviewServices;
 import jakarta.validation.Valid;

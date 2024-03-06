@@ -1,6 +1,6 @@
 package com.spring.SpeedAuction.Services;
 
-import DTO.ReviewDTO;
+import com.spring.SpeedAuction.dto.ReviewDTO;
 import com.spring.SpeedAuction.Models.ReviewModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.ReviewRepository;
