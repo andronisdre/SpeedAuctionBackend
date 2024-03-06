@@ -17,12 +17,7 @@ public class UserServices {
     UserRepository userRepository;
 
 
-    // HELENA:
-    // den här metoden ska tas bort när det finns en register metod, det är genom den en user
-    // ska sparas    // ABO LÖSER DETTA
-    public UserModels addUser(UserModels user) {    // POST Registrera ny användare
-        return userRepository.save(user);
-    }
+
 
     public List<UserModels> getAllUsers() {     // GET Hämta en lista över alla användare
         return userRepository.findAll();
@@ -41,6 +36,7 @@ public class UserServices {
     // - removeFromFavourotes: ta bort från favoritlistan OCH NI HAR EN SÅN FUNKTION SER JAG :)
     // har ni en addToFavourites() funktion?
     // istället för att en user ska "uppdatera" sin favoritlista
+    // HELENA SA ATT DENNA KODEN ÄR OKEJ
     public UserModels updateUser(String id, UserModels updatedUser) {       // Put Updatera en användares information
         return userRepository.findById(id)
                 .map(existingUserModels -> {
