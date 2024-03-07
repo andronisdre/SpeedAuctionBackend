@@ -67,7 +67,13 @@ public class AuctionServices {
 
     //delete auction
     public String deleteAuctionModels(String id) {
-        auctionRepository.deleteById(id);
-        return "Auction deleted";
+        AuctionModels auctionModels = auctionRepository.findById(id).orElse(null);
+        if (auctionModels != null) {
+            auctionRepository.deleteById(id);
+            return "Auction deleted";
+        }
+        else {
+            return "auction id doesnt exist";
+        }
     }
 }

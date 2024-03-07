@@ -2,6 +2,7 @@ package com.spring.SpeedAuction.Models;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ public class AuctionModels {
     @Id
     private String id;
 
+    @DBRef
     private UserModels seller;
 
     private int startingBid;
