@@ -13,20 +13,26 @@ public class AuctionModels {
     @Id
     private String id;
 
-    private int yearManufactured;
-
-    private String description;
-
-    private int milesDriven;
+    private UserModels seller;
 
     private int startingBid;
 
-    private String reg_number;
-
     private boolean isActive;
+
+    private String description;
 
     @CreatedDate
     private Date created_at;
+
+    private Date updated_at;
+
+    private Date endOfAuction;
+
+    private int yearManufactured;
+
+    private int milesDriven;
+
+    private String reg_number;
 
     private EBrand brand;
 
@@ -103,5 +109,29 @@ public class AuctionModels {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public UserModels getSeller() {
+        return seller;
+    }
+
+    public void setSeller(UserModels seller) {
+        this.seller = seller;
+    }
+
+    public Date getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public Date getEndOfAuction() {
+        return endOfAuction;
+    }
+
+    public void setEndOfAuction(Date endOfAuction) {
+        this.endOfAuction = endOfAuction;
     }
 }
