@@ -32,6 +32,18 @@ public class BidsModelsService {
         return auctionRepository.findById(bidsDTO.getAuctionId()).orElseThrow(() -> new IllegalArgumentException("Invalid auctionId"));
     }
 
+    public void checkIsActive(AuctionModels auction) {
+        if (!auction.isActive()) {
+            throw new IllegalArgumentException("you cant bid on an inactive auction");
+        }
+    }
+
+    public void compareSellerAndBidder(AuctionModels auction, BidsModels newBid) {
+        if (auction.getSeller().getId().equals(newBid.getBidder().getId())) {
+            throw new IllegalArgumentException("you cant bid on your own auction");
+        }
+    }
+
     public BidsModels retrieveData(BidsDTO bidsDTO, AuctionModels auction, UserModels user) {
         BidsModels newBid = new BidsModels();
         newBid.setBidder(user);
@@ -87,6 +99,8 @@ public class BidsModelsService {
         UserModels user = checkUserId(bidsDTO);
         AuctionModels auction = checkAuctionId(bidsDTO);
         BidsModels newBid = retrieveData(bidsDTO, auction, user);
+        checkIsActive(auction);
+        compareSellerAndBidder(auction, newBid);
         bidLargeEnough(bidsDTO, newBid, auction);
         return bidsModelsRepository.save(newBid);
     }
@@ -108,6 +122,7 @@ public class BidsModelsService {
         BidsDTO bidsDTO = convertToDTO(existingBid);
         checkUserId(bidsDTO);
         AuctionModels auction = checkAuctionId(bidsDTO);
+        checkIsActive(auction);
         bidLargeEnough(bidsDTO, existingBid, auction);
 
         return bidsModelsRepository.save(existingBid);
