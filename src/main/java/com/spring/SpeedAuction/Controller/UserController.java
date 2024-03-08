@@ -59,14 +59,14 @@ public class UserController {
     }
 
     // GET ALL
-    @GetMapping("/all/favourite")   // DENNA ÄR NY OTESTAD
+    @GetMapping("/all/favourite")   // DENNA FUNKAR EJ
     public ResponseEntity<List<FavouriteDTO>> getUsersWithFavouriteAuctions() {
         List<FavouriteDTO> usersWithFavouriteAuctionsDTO = userServices.getUsersWithFavouriteAuctions();
         return new ResponseEntity<>(usersWithFavouriteAuctionsDTO, HttpStatus.OK);
     }
 
 
-     /* // GET ALL USERS WITH FAVOURITE AUCTIONS   DENNA ÄR GAMMAL FUNGERANDE
+    /*  // GET ALL USERS WITH FAVOURITE AUCTIONS   DENNA ÄR GAMMAL FUNGERANDE
     @GetMapping("/all/favourite")
     public ResponseEntity<List<UserModels>> getUsersWithFavouriteAuctions() {
         List<UserModels> usersWithFavouriteAuctions = userServices.getUsersWithFavouriteAuctions();

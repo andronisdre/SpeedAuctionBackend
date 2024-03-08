@@ -106,7 +106,7 @@ public class UserServices {
     }
 
     public List<FavouriteDTO> getUsersWithFavouriteAuctions() { // GET Hämta alla användare med favoritauctions
-        List<UserModels> users = userRepository.findAll();  // DENNA ÄR NY OTESTAD
+        List<UserModels> users = userRepository.findAll();  // DENNA FUNKAR EJ
 
         return users.stream()
                 .filter(user -> user.getFavourites_auction_id() != null && !user.getFavourites_auction_id().isEmpty())
@@ -115,7 +115,7 @@ public class UserServices {
     }
 
 
-       /* public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions
+      /*  public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions
         List<UserModels> users = userRepository.findAll(); // DENNA ÄR GAMMAL FUNGERANDE
         List<UserModels> usersWithFavouriteAuctions = new ArrayList<>();
 
