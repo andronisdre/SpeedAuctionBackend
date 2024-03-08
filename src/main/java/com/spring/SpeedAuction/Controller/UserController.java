@@ -2,6 +2,7 @@ package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Services.UserServices;
+import com.spring.SpeedAuction.dto.FavouriteDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,12 +51,27 @@ public class UserController {
         return userServices.deleteUser(id);
     }
 
-    // GET ALL USERS WITH FAVOURITE AUCTIONS
+    // POST
+    @PostMapping("/Add/favourite/{id}") // DENNA ÄR NY OTESTAD
+    public ResponseEntity<UserModels> addFavourite(@RequestParam String userId, @RequestBody FavouriteDTO favouriteDTO) {
+        UserModels updatedUser = userServices.addFavourite(userId, favouriteDTO);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    // GET ALL
+    @GetMapping("/all/favourite")   // DENNA ÄR NY OTESTAD
+    public ResponseEntity<List<FavouriteDTO>> getUsersWithFavouriteAuctions() {
+        List<FavouriteDTO> usersWithFavouriteAuctionsDTO = userServices.getUsersWithFavouriteAuctions();
+        return new ResponseEntity<>(usersWithFavouriteAuctionsDTO, HttpStatus.OK);
+    }
+
+
+     /* // GET ALL USERS WITH FAVOURITE AUCTIONS   DENNA ÄR GAMMAL FUNGERANDE
     @GetMapping("/all/favourite")
     public ResponseEntity<List<UserModels>> getUsersWithFavouriteAuctions() {
         List<UserModels> usersWithFavouriteAuctions = userServices.getUsersWithFavouriteAuctions();
         return new ResponseEntity<>(usersWithFavouriteAuctions, HttpStatus.OK);
-    }
+    }*/
 
     // DELETE
     @DeleteMapping("/favourite/delete/{id}/{auctionId}")
