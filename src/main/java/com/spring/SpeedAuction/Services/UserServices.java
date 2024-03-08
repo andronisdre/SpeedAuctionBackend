@@ -78,9 +78,13 @@ public class UserServices {
                         })
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
+    public String deleteUser(String id) {        // DELETE Ta bort en användare
+        userRepository.deleteById(id);
+        return "User is deleted";
+    }
 
-    public UserModels addFavourite(String id, FavouriteDTO favouriteDTO) { // HAR INTE TESTAT DEN KANSKE FUNKAR
-        UserModels user = userRepository.findById(id) // DENNA ÄR NY OTESTAT
+    public UserModels addFavourite(String id, FavouriteDTO favouriteDTO) { // POST lägg till en favorit aucktion den funkar
+        UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User id not found"));
 
         List<String> auctionIds = favouriteDTO.getFavouriteAutcktion();
@@ -90,11 +94,6 @@ public class UserServices {
             user.getFavourites_auction_id().add(auction);
         }
         return userRepository.save(user);
-    }
-
-    public String deleteUser(String id) {        // DELETE Ta bort en användare
-        userRepository.deleteById(id);
-        return "User is deleted";
     }
 
     public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions

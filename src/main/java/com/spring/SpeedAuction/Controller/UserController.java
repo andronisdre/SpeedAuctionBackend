@@ -57,7 +57,7 @@ public class UserController {
     }
 
     // POST
-    @PostMapping("/Add/favourite/{id}") // DENNA ÄR NY OTESTAD
+    @PostMapping("/Add/favourite/{id}") // DENNA FUNKAR
     public ResponseEntity<UserModels> addFavourite(@PathVariable String id, @RequestBody FavouriteDTO favouriteDTO) {
         UserModels updatedUser = userServices.addFavourite(id, favouriteDTO);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
