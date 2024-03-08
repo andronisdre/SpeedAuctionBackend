@@ -1,5 +1,6 @@
 package com.spring.SpeedAuction.Controller;
 
+import DTO.FavouriteDTO;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Services.UserServices;
 import jakarta.validation.Valid;
@@ -53,6 +54,13 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteUser(@PathVariable String id) {
         return userServices.deleteUser(id);
+    }
+
+    // POST
+    @PostMapping("/Add/favourite/{id}") // DENNA ÄR NY OTESTAD
+    public ResponseEntity<UserModels> addFavourite(@PathVariable String id, @RequestBody FavouriteDTO favouriteDTO) {
+        UserModels updatedUser = userServices.addFavourite(id, favouriteDTO);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     // GET ALL USERS WITH FAVOURITE AUCTIONS

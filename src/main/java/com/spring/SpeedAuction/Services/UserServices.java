@@ -1,7 +1,9 @@
 package com.spring.SpeedAuction.Services;
 
+import DTO.FavouriteDTO;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.UserModels;
+import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class UserServices {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AuctionRepository auctionRepository;
 
 
     public UserModels addUser(UserModels user) {    // POST Registrera ny användare
@@ -74,6 +79,19 @@ public class UserServices {
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
 
+    public UserModels addFavourite(String id, FavouriteDTO favouriteDTO) { // HAR INTE TESTAT DEN KANSKE FUNKAR
+        UserModels user = userRepository.findById(id) // DENNA ÄR NY OTESTAT
+                .orElseThrow(() -> new NoSuchElementException("User id not found"));
+
+        List<String> auctionIds = favouriteDTO.getFavouriteAutcktion();
+        for (String auctionId : auctionIds) {
+            AuctionModels auction = auctionRepository.findById(auctionId)
+                    .orElseThrow(() -> new NoSuchElementException("Auction id not found"));
+            user.getFavourites_auction_id().add(auction);
+        }
+        return userRepository.save(user);
+    }
+
     public String deleteUser(String id) {        // DELETE Ta bort en användare
         userRepository.deleteById(id);
         return "User is deleted";
@@ -102,6 +120,15 @@ public class UserServices {
                         .collect(Collectors.toList())
         );
         return userRepository.save(user);
+    }
+
+    // HJÄLPMETOD
+    private FavouriteDTO convertToDTO(UserModels userModels) {
+        FavouriteDTO favouriteDTO = new FavouriteDTO();
+
+        favouriteDTO.setFavouriteAutcktion(userModels.getFavourites_auction_id().stream().map(AuctionModels::getId).collect(Collectors.toList()));
+
+        return favouriteDTO;
     }
 
 }
