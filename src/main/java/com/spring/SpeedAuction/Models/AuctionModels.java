@@ -21,8 +21,6 @@ public class AuctionModels {
 
     private boolean isActive;
 
-    private String description;
-
     @CreatedDate
     private Date created_at;
 
@@ -63,14 +61,6 @@ public class AuctionModels {
 
     public void setYearManufactured(int yearManufactured) {
         this.yearManufactured = yearManufactured;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getMilesDriven() {
