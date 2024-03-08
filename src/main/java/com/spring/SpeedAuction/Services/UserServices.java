@@ -92,8 +92,8 @@ public class UserServices {
     }
 
 
-    public UserModels addFavourite(String userId, FavouriteDTO favouriteDTO) { // HAR INTE TESTAT DEN KANSKE FUNKAR
-        UserModels user = userRepository.findById(userId) // DENNA ÄR NY OTESTAT
+    public UserModels addFavourite(String id, FavouriteDTO favouriteDTO) { // POST lägg till en favorit aucktion den funkar
+        UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User id not found"));
 
         List<String> auctionIds = favouriteDTO.getFavouriteAutcktion();
