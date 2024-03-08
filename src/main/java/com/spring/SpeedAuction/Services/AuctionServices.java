@@ -23,6 +23,7 @@ public class AuctionServices {
     public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO) {
         UserModels user = checkUserId(auctionsDTO);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
+        newAuction.setActive(false);
         return auctionRepository.save(newAuction);
     }
 
