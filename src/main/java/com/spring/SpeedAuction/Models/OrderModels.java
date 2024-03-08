@@ -34,6 +34,11 @@ public class OrderModels {
         this.order_finalized = order_finalized;
 
     }
+
+    public OrderModels() {
+
+    }
+
     public String getId() {
         return id;
     }

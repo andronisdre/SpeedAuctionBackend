@@ -1,27 +1,56 @@
 package com.spring.SpeedAuction.Services;
 
+import com.spring.SpeedAuction.DTO.OrderDto;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Models.UserModels;
+import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.OrderRepository;
+import com.spring.SpeedAuction.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class OrderServices {
-
     //HELENA:
     // ni bör kunna fixa order nu efter det vi gått igenom på lektionerna så att ni får
     // en ref till en User och en Auction
     @Autowired
     OrderRepository orderRepository;
 
-    public OrderModels createOrder(OrderModels orders){
+    @Autowired
+    AuctionRepository auctionRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+
+    /*public OrderModels createOrder(OrderModels orders){
         return orderRepository.save(orders);
+    }*/
+
+    public OrderModels createOrder(OrderDto orderDto) {
+
+        UserModels user = userRepository.findById(orderDto.getUser_id())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
+
+        List<AuctionModels> auctions_id = new ArrayList<>();
+        for (String auction_id : orderDto.getAuction_id() {
+            auctions_id.add(auctionRepository.findById(auction_id)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid auction id")));
+        }
+
+        OrderModels orders = new OrderModels();
+        orders.setId(String.valueOf(user));
+        orders.setSeller_id();
+        orders.setOrder_created(orderDto.getCreated_at());
+
+        return  orderRepository.save(orders);
     }
 
     public List<OrderModels> getOrders() {
