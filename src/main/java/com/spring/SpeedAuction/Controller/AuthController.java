@@ -51,9 +51,9 @@ public class AuthController {
 
     //logga in
     @PostMapping("/signing")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigningRequest signinRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigningRequest signingRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(signinRequest.getUsername(), signinRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(signingRequest.getUsername(), signingRequest.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

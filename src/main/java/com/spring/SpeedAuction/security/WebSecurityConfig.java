@@ -61,12 +61,27 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement((session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
                 .authorizeHttpRequests(auth ->
+                        // for all user to register and log in
                         auth.requestMatchers("/api/auth/**").permitAll()
+
+                                //tesst endpooint delete later
                                 .requestMatchers("/api/test/**").permitAll()
+
+                                //permit all User to get all user with get user by id, delete user.
+                                .requestMatchers("/api/user/**").permitAll()
+
                                 //permit all oder
                                 .requestMatchers("/api/order/**").permitAll()
-                                //permit all User
-                                .requestMatchers("/api/user/**").permitAll()
+
+                                //permit all auction
+                                .requestMatchers("/api/auctions/**").permitAll()
+
+                                //permit all for bids
+                                .requestMatchers("/api/bids/**").permitAll()
+
+                                //permit all for user
+                                .requestMatchers("/api/review").permitAll()
+
                                 .anyRequest().authenticated()
                 );
 
