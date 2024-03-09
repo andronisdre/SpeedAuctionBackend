@@ -75,7 +75,7 @@ public class WebSecurityConfig {
                                 //permit all for bids
                                 .requestMatchers("/api/bids/**").permitAll()
 
-                                //permit all for user
+                                //permit all for user basic crud
                                 .requestMatchers("/api/review").permitAll()
                                 .anyRequest().authenticated()
                 );
