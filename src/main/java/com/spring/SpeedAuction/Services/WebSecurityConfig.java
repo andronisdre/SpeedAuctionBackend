@@ -19,8 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity
-
-
 public class WebSecurityConfig {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
@@ -61,19 +59,23 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement((session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
                 .authorizeHttpRequests(auth ->
-                        auth
-                                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/**").permitAll()
-                                .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
-
-                                .requestMatchers("/api/auth/**").permitAll()
+                        auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
+
+                                //permit all User to get all user with get user by id, delete user.
                                 .requestMatchers("/api/user/**").permitAll()
-                                .requestMatchers("/api/bids/**").permitAll()
-                                .requestMatchers("/api/auctions/**").permitAll()
-                                .requestMatchers("/api/review/**").permitAll()
+
+                                //permit all oder
                                 .requestMatchers("/api/order/**").permitAll()
+
+                                //permit all auction
+                                .requestMatchers("/api/auctions/**").permitAll()
+
+                                //permit all for bids
+                                .requestMatchers("/api/bids/**").permitAll()
+
+                                //permit all for user basic crud
+                                .requestMatchers("/api/review").permitAll()
                                 .anyRequest().authenticated()
                 );
 
