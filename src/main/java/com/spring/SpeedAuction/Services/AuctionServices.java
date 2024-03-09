@@ -126,7 +126,7 @@ public class AuctionServices {
 
     private AuctionsDTO convertToDTO(AuctionModels auctionModels) {
         AuctionsDTO auctionsDTO = new AuctionsDTO();
-        auctionsDTO.setSellerId(auctionModels.getSeller().getId());
+        auctionsDTO.setId(auctionModels.getId());
         auctionsDTO.setActive(auctionModels.isActive());
         auctionsDTO.setStartingBid(auctionModels.getStartingBid());
         auctionsDTO.setEndOfAuction(auctionModels.getEndOfAuction());
