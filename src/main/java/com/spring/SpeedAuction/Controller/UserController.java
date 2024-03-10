@@ -19,11 +19,7 @@ public class UserController {
     @Autowired
     UserServices userServices;
 
-    // POST
-    @PostMapping()
-    public UserModels addUser(@RequestBody UserModels userModels) {
-        return userServices.addUser(userModels);
-    }
+
 
     // GET ALL
     @GetMapping("/all")
@@ -53,4 +49,19 @@ public class UserController {
     public String deleteUser(@PathVariable String id) {
         return userServices.deleteUser(id);
     }
+
+    // GET ALL USERS WITH FAVOURITE AUCTIONS
+    @GetMapping("/all/favourite")
+    public ResponseEntity<List<UserModels>> getUsersWithFavouriteAuctions() {
+        List<UserModels> usersWithFavouriteAuctions = userServices.getUsersWithFavouriteAuctions();
+        return new ResponseEntity<>(usersWithFavouriteAuctions, HttpStatus.OK);
+    }
+
+    // DELETE
+    @DeleteMapping("/favourite/delete/{id}/{auctionId}")
+    public ResponseEntity<UserModels> deleteFavouriteAuctions(@PathVariable String id, @PathVariable String auctionId) {
+        UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionId);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
 }
