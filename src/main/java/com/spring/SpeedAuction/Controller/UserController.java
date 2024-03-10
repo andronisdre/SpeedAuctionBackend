@@ -59,14 +59,14 @@ public class UserController {
     }
 
     // GET ALL
-    @GetMapping("/all/favourite")   // DENNA FUNKAR EJ
+    @GetMapping("/all/favourite")  // denna kanske funkar med dto
     public ResponseEntity<List<FavouriteDTO>> getUsersWithFavouriteAuctions() {
-        List<FavouriteDTO> usersWithFavouriteAuctionsDTO = userServices.getUsersWithFavouriteAuctions();
+        List<FavouriteDTO> usersWithFavouriteAuctionsDTO = userServices.getUsersWithFavouriteAuction();
+
         return new ResponseEntity<>(usersWithFavouriteAuctionsDTO, HttpStatus.OK);
     }
 
-
-    /*  // GET ALL USERS WITH FAVOURITE AUCTIONS   DENNA ÄR GAMMAL FUNGERANDE
+    /*  // GET ALL USERS WITH FAVOURITE AUCTIONS   DENNA ÄR GAMMAL utan dto FUNGERANDE
     @GetMapping("/all/favourite")
     public ResponseEntity<List<UserModels>> getUsersWithFavouriteAuctions() {
         List<UserModels> usersWithFavouriteAuctions = userServices.getUsersWithFavouriteAuctions();

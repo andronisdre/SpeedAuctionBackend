@@ -22,8 +22,6 @@ public class UserServices {
     AuctionRepository auctionRepository;
 
 
-
-
     public List<UserModels> getAllUsers() {     // GET Hämta en lista över alla användare
         return userRepository.findAll();
     }
@@ -41,7 +39,7 @@ public class UserServices {
     // - removeFromFavourotes: ta bort från favoritlistan OCH NI HAR EN SÅN FUNKTION SER JAG :)
     // har ni en addToFavourites() funktion?
     // istället för att en user ska "uppdatera" sin favoritlista
-    // HELENA SA ATT DENNA KODEN ÄR OKEJ
+    // HELENAS FEEDBACK ÄR FIXAD
     public UserModels updateUser(String id, UserModels updatedUser) {       // Put Updatera en användares information
         return userRepository.findById(id)
                 .map(existingUserModels -> {
@@ -75,12 +73,6 @@ public class UserServices {
                     if (updatedUser.getPostal_code() != null) {
                         existingUserModels.setPostal_code(updatedUser.getPostal_code());
                     }
-                    if (updatedUser.getFavourites_auction_id() != null) { // OM ADDFAVOURITE FUNKAR DÅ KAN DU TA BORT DEN HÄR METODEN
-                        List<AuctionModels> Favourites = existingUserModels.getFavourites_auction_id();
-                        List<AuctionModels> updatedFavourites = updatedUser.getFavourites_auction_id();
-                        Favourites.addAll(updatedFavourites); // Denna är för att uppdatera/lägga till en favorit auktion
-                        existingUserModels.setFavourites_auction_id(Favourites);
-                    }
                     return userRepository.save(existingUserModels);
                         })
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
@@ -103,20 +95,23 @@ public class UserServices {
             user.getFavourites_auction_id().add(auction);
         }
         return userRepository.save(user);
+
     }
 
-    public List<FavouriteDTO> getUsersWithFavouriteAuctions() { // GET Hämta alla användare med favoritauctions
-        List<UserModels> users = userRepository.findAll();  // DENNA FUNKAR EJ
 
-        return users.stream()
-                .filter(user -> user.getFavourites_auction_id() != null && !user.getFavourites_auction_id().isEmpty())
+    public List<FavouriteDTO> getUsersWithFavouriteAuction() { // GET Hämta alla användare med favoritauctions
+        List<UserModels> users = userRepository.findAll(); // DENNA KANSKE FUNKAR MED DTO
+
+
+        List<FavouriteDTO> favourite = users.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+
+        return favourite;
     }
 
-
       /*  public List<UserModels> getUsersWithFavouriteAuctions() { // GET Hämta alla änvändare med favoritAuctions
-        List<UserModels> users = userRepository.findAll(); // DENNA ÄR GAMMAL FUNGERANDE
+        List<UserModels> users = userRepository.findAll(); // DENNA ÄR GAMMAL FUNGERANDE UTAN DTO
         List<UserModels> usersWithFavouriteAuctions = new ArrayList<>();
 
         for (UserModels user : users) {
@@ -141,20 +136,9 @@ public class UserServices {
     private FavouriteDTO convertToDTO(UserModels userModels) {
         FavouriteDTO favouriteDTO = new FavouriteDTO();
 
-        favouriteDTO.setFavouriteAutcktion(userModels.getFavourites_auction_id().stream().map(AuctionModels::getId).collect(Collectors.toList()));
+        favouriteDTO.setFavouriteAutcktion(userModels.getFavourites_auction_id().stream()
+                .map(AuctionModels::getId).collect(Collectors.toList()));
 
         return favouriteDTO;
     }
-
-    // HJÄLPMETOD
-  /*  private UserResponseDTO convertToUserResponseDTO(UserModels userModels) {
-        UserResponseDTO userResponseDTO = new UserResponseDTO();
-        userResponseDTO.setId(userModels.getId());
-        userResponseDTO.setUsername(userModels.getUsername());
-        // Lägg till fler fält efter behov
-
-        return userResponseDTO;
-    }*/
-
-
 }
