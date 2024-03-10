@@ -4,26 +4,20 @@ import java.util.Date;
 
 public class OrderDto {
 
-    private String auction_id;
+    private String auctionid;
 
-    private String user_id;
+    private String buyerid;
+
+    private String sellerid;
 
     private String username;
 
     private String email;
 
-    private int phone_number;
+    private String phone_number;
 
     private Date created_at;
 
-
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
 
     public String getUsername() {
         return username;
@@ -41,11 +35,11 @@ public class OrderDto {
         this.email = email;
     }
 
-    public int getPhone_number() {
+    public String getPhone_number() {
         return phone_number;
     }
 
-    public void setPhone_number(int phone_number) {
+    public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
 
@@ -57,11 +51,28 @@ public class OrderDto {
         this.created_at = created_at;
     }
 
-    public String getAuction_id() {
-        return auction_id;
+
+    public String getAuctionid() {
+        return auctionid;
     }
 
-    public void setAuction_id(String auction_id) {
-        this.auction_id = auction_id;
+    public void setAuctionid(String auctionid) {
+        this.auctionid = auctionid;
+    }
+
+    public String getBuyerid() {
+        return buyerid;
+    }
+
+    public void setBuyerid(String buyerid) {
+        this.buyerid = buyerid;
+    }
+
+    public String getSellerid() {
+        return sellerid;
+    }
+
+    public void setSellerid(String sellerid) {
+        this.sellerid = sellerid;
     }
 }

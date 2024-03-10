@@ -1,5 +1,7 @@
 package com.spring.SpeedAuction.Controller;
 
+import com.spring.SpeedAuction.DTO.OrderDto;
+import com.spring.SpeedAuction.DTO.OrderResponse;
 import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Services.OrderServices;
 import jakarta.validation.Valid;
@@ -19,20 +21,21 @@ public class OrderController {
     OrderServices orderService;
 
     @PostMapping
-    public ResponseEntity<OrderModels> createOrder(@RequestBody OrderModels orders) {
-        OrderModels createdOrders = orderService.createOrder(orders);
+    public ResponseEntity<OrderModels> createOrder(@RequestBody OrderDto orderDto) {
+        OrderModels createdOrders = orderService.createOrder(orderDto);
         return new ResponseEntity<>(createdOrders, HttpStatus.CREATED);//ResponseEntity.status(HttpStatus.CREATED).body(createdOrders);
     }
 
     @GetMapping("/all")
-    public List<OrderModels> getAllOrder() {
-        return orderService.getOrders();
+    public ResponseEntity<List<OrderResponse>> getAllOrder() {
+        List<OrderResponse> orders = orderService.getAllOrder();
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderModels> getOrderById(@PathVariable String id) {
-        Optional<OrderModels> orders = orderService.getOrderById(id);
-        return orders.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<OrderResponse>> getOrderById(@PathVariable String id) {
+        List<OrderResponse> orders = orderService.getOrderById(id);
+        return ResponseEntity.ok(orders);
     }
     @PutMapping("/{id}")
     public ResponseEntity<OrderModels> updateOrder(@PathVariable String id,@Valid @RequestBody OrderModels ordersDetails) {

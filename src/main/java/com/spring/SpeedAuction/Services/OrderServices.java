@@ -1,6 +1,7 @@
 package com.spring.SpeedAuction.Services;
 
 import com.spring.SpeedAuction.DTO.OrderDto;
+import com.spring.SpeedAuction.DTO.OrderResponse;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Models.UserModels;
@@ -10,10 +11,10 @@ import com.spring.SpeedAuction.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServices {
@@ -36,32 +37,47 @@ public class OrderServices {
 
     public OrderModels createOrder(OrderDto orderDto) {
 
-        UserModels user = userRepository.findById(orderDto.getUser_id())
+        UserModels user = userRepository.findById(orderDto.getSellerid())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
 
-        List<AuctionModels> auctions_id = new ArrayList<>();
-        for (String auction_id : orderDto.getAuction_id() {
-            auctions_id.add(auctionRepository.findById(auction_id)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid auction id")));
-        }
+        UserModels buyer = userRepository.findById(orderDto.getBuyerid())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
 
-        OrderModels orders = new OrderModels();
-        orders.setId(String.valueOf(user));
-        orders.setSeller_id();
-        orders.setOrder_created(orderDto.getCreated_at());
+        AuctionModels auction = auctionRepository.findById(orderDto.getAuctionid())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid auction id"));
 
-        return  orderRepository.save(orders);
+
+        OrderModels NewOrder = new OrderModels();
+        NewOrder.setBuyer_id(buyer);
+        NewOrder.setSeller_id(user);
+        NewOrder.setAuction_id(auction);
+
+        NewOrder.setOrder_created(orderDto.getCreated_at());
+
+        return  orderRepository.save(NewOrder);
     }
 
-    public List<OrderModels> getOrders() {
-        return orderRepository.findAll();
+    private OrderResponse convertToDto(OrderModels orderModels) {
+        OrderResponse orderesponse = new OrderResponse();
+        orderesponse.setBuyerId(orderModels.getBuyer_id().getId());
+        orderesponse.setSellerId(orderModels.getSeller_id().getId());
+        orderesponse.setUsername(orderesponse.getUsername());
+        orderesponse.setEmail(orderesponse.getEmail());
+        orderesponse.setPhone_number(orderesponse.getPhone_number());
+        orderesponse.setCreated_at(orderesponse.getCreated_at());
+        return orderesponse;
     }
 
-    public Optional<OrderModels> getOrderById(String id) {
-        return orderRepository.findById(id);
+    public List<OrderResponse> getAllOrder(){
+         List<OrderModels> orders = orderRepository.findAll();
+         return orders.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    public void deleteOrder(String id) {
+    public List<OrderResponse> getOrderById(String id) {
+         Optional<OrderModels> orders = orderRepository.findById(id);
+         return orders.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+        public void deleteOrder(String id) {
         orderRepository.deleteById(id);
     }
 
