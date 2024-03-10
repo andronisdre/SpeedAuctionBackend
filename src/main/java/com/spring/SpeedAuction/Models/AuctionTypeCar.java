@@ -1,14 +1,16 @@
 package com.spring.SpeedAuction.Models;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 @Document(collection = "AuctionCar")
-public class Auction_Type_Car {
+public class AuctionTypeCar {
 
     private int id;
     @DBRef
+    @Indexed(unique=true)
     private AuctionModels auction;
     private String car_brand;
 
@@ -28,7 +30,7 @@ public class Auction_Type_Car {
 
     private String description;
 
-    public Auction_Type_Car() {
+    public AuctionTypeCar() {
     }
 
     public int getId() {

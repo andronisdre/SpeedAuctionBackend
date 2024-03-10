@@ -1,7 +1,5 @@
 package com.spring.SpeedAuction.dto;
 
-import com.spring.SpeedAuction.Models.AuctionModels;
-import com.spring.SpeedAuction.Models.Auction_Type_Car;
 import com.spring.SpeedAuction.Models.EColor;
 import com.spring.SpeedAuction.Models.ECondition;
 
