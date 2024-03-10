@@ -3,6 +3,7 @@ package com.spring.SpeedAuction.Controller;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Services.UserServices;
 import com.spring.SpeedAuction.dto.FavouriteDTO;
+import com.spring.SpeedAuction.dto.UserResponsDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,6 @@ public class UserController {
 
     @Autowired
     UserServices userServices;
-
 
 
     // GET ALL
@@ -59,19 +59,12 @@ public class UserController {
     }
 
     // GET ALL
-    @GetMapping("/all/favourite")  // denna kanske funkar med dto
-    public ResponseEntity<List<FavouriteDTO>> getUsersWithFavouriteAuctions() {
-        List<FavouriteDTO> usersWithFavouriteAuctionsDTO = userServices.getUsersWithFavouriteAuction();
+    @GetMapping("/all/favourite") // DENNA FUNGERAR MEN BEHÖVER FIXAS LITE
+    public ResponseEntity<List<UserResponsDTO>> getUsersWithFavouriteAuction() {
+        List<UserResponsDTO> favourite = userServices.getUsersWithFavouriteAuction();
 
-        return new ResponseEntity<>(usersWithFavouriteAuctionsDTO, HttpStatus.OK);
+        return new ResponseEntity<>(favourite, HttpStatus.OK);
     }
-
-    /*  // GET ALL USERS WITH FAVOURITE AUCTIONS   DENNA ÄR GAMMAL utan dto FUNGERANDE
-    @GetMapping("/all/favourite")
-    public ResponseEntity<List<UserModels>> getUsersWithFavouriteAuctions() {
-        List<UserModels> usersWithFavouriteAuctions = userServices.getUsersWithFavouriteAuctions();
-        return new ResponseEntity<>(usersWithFavouriteAuctions, HttpStatus.OK);
-    }*/
 
     // DELETE
     @DeleteMapping("/favourite/delete/{id}/{auctionId}")
@@ -79,5 +72,4 @@ public class UserController {
         UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
-
 }
