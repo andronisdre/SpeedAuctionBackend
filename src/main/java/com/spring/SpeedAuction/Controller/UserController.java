@@ -52,14 +52,14 @@ public class UserController {
     }
 
     // POST
-    @PostMapping("/Add/favourite/{id}") // DENNA FUNKAR
+    @PostMapping("/Add/favourite/{id}")
     public ResponseEntity<UserModels> addFavourite(@PathVariable String id, @RequestBody FavouriteDTO favouriteDTO) {
         UserModels updatedUser = userServices.addFavourite(id, favouriteDTO);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     // GET ALL
-    @GetMapping("/all/favourite") // DENNA FUNGERAR MEN BEHÖVER FIXAS LITE
+    @GetMapping("/all/favourite")
     public ResponseEntity<List<UserResponsDTO>> getUsersWithFavouriteAuction() {
         List<UserResponsDTO> favourite = userServices.getUsersWithFavouriteAuction();
 
