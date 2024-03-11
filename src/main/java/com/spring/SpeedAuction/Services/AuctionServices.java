@@ -98,29 +98,6 @@ public class AuctionServices {
         return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    //get all auctions in the range between minYearManufactured and maxYearManufactured
-    public List<AuctionModels> getAuctionModelsByYearManufacturedBetween(int minYearManufactured, int maxYearManufactured) {
-        return auctionRepository.findAuctionModelsByYearManufacturedBetweenOrderByYearManufacturedDesc(minYearManufactured, maxYearManufactured);
-    }
-
-    //get all auctions that match with brand
-    public List<AuctionModels> getAuctionModelsByBrand(String brand) {
-        return auctionRepository.findAuctionModelsByBrand(brand);
-    }
-
-    //get all auctions in the range between minMilesDriven and maxMilesDriven
-    public List<AuctionModels> getAuctionModelsByMilesDrivenBetween(int minMilesDriven, int maxMilesDriven) {
-        return auctionRepository.findAuctionModelsByMilesDrivenBetweenOrderByMilesDrivenAsc(minMilesDriven, maxMilesDriven);
-    }
-
-    //customised filter to choose between different fields to filter by in a single query
-    public List<AuctionModels> getAuctionModelsByCustomFilter(
-            int minStartingBid, int maxStartingBid, int minYearManufactured, int maxYearManufactured, boolean isActive, String brand, int minMilesDriven, int maxMilesDriven) {
-        return auctionRepository.findAuctionModelsByStartingBidBetweenAndYearManufacturedBetweenAndIsActiveAndBrandAndMilesDrivenBetweenOrderByStartingBidAsc(
-                minStartingBid, maxStartingBid, minYearManufactured, maxYearManufactured, isActive, brand, minMilesDriven, maxMilesDriven);
-    }
-
-
     // UTIL functions
 
     public UserModels checkUserId(AuctionsDTO auctionsDTO) {

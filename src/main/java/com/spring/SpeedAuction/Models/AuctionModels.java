@@ -28,14 +28,6 @@ public class AuctionModels {
 
     private Date endOfAuction;
 
-    private int yearManufactured;
-
-    private int milesDriven;
-
-    private String reg_number;
-
-    private EBrand brand;
-
     public AuctionModels(String id) {
         this.id = id;
     }
