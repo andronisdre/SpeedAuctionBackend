@@ -188,5 +188,4 @@ public class UserModels {
     public void setFavourites_auction_id(List<AuctionModels> favourites_auction_id) {
         this.favourites_auction_id = favourites_auction_id;
     }
-
 }

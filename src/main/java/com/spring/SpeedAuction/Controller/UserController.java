@@ -2,6 +2,8 @@ package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Services.UserServices;
+import com.spring.SpeedAuction.dto.FavouriteDTO;
+import com.spring.SpeedAuction.dto.UserResponsDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,6 @@ public class UserController {
 
     @Autowired
     UserServices userServices;
-
 
 
     // GET ALL
@@ -50,11 +51,19 @@ public class UserController {
         return userServices.deleteUser(id);
     }
 
-    // GET ALL USERS WITH FAVOURITE AUCTIONS
+    // POST
+    @PostMapping("/Add/favourite/{id}")
+    public ResponseEntity<UserModels> addFavourite(@PathVariable String id, @RequestBody FavouriteDTO favouriteDTO) {
+        UserModels updatedUser = userServices.addFavourite(id, favouriteDTO);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    // GET ALL
     @GetMapping("/all/favourite")
-    public ResponseEntity<List<UserModels>> getUsersWithFavouriteAuctions() {
-        List<UserModels> usersWithFavouriteAuctions = userServices.getUsersWithFavouriteAuctions();
-        return new ResponseEntity<>(usersWithFavouriteAuctions, HttpStatus.OK);
+    public ResponseEntity<List<UserResponsDTO>> getUsersWithFavouriteAuction() {
+        List<UserResponsDTO> favourite = userServices.getUsersWithFavouriteAuction();
+
+        return new ResponseEntity<>(favourite, HttpStatus.OK);
     }
 
     // DELETE
@@ -63,5 +72,4 @@ public class UserController {
         UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
-
 }

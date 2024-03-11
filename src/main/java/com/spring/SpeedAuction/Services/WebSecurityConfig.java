@@ -18,8 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity
-
-
 public class WebSecurityConfig {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
@@ -62,7 +60,24 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
+
                                 .requestMatchers("/api/auctionTypeCar/**").permitAll()
+
+                                //permit all User to get all user with get user by id, delete user.
+                                .requestMatchers("/api/user/**").permitAll()
+
+                                //permit all oder
+                                .requestMatchers("/api/order/**").permitAll()
+
+                                //permit all auction
+                                .requestMatchers("/api/auctions/**").permitAll()
+
+                                //permit all for bids
+                                .requestMatchers("/api/bids/**").permitAll()
+
+                                //permit all for user basic crud
+                                .requestMatchers("/api/review").permitAll()
+
                                 .anyRequest().authenticated()
                 );
 

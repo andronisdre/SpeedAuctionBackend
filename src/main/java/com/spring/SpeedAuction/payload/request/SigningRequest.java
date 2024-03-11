@@ -2,7 +2,7 @@ package com.spring.SpeedAuction.payload.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class SigninRequest {
+public class SigningRequest {
     @NotBlank
     private String username;
     @NotBlank
