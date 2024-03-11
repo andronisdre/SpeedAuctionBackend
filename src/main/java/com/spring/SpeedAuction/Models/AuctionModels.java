@@ -47,22 +47,6 @@ public class AuctionModels {
         this.created_at = created_at;
     }
 
-    public int getYearManufactured() {
-        return yearManufactured;
-    }
-
-    public void setYearManufactured(int yearManufactured) {
-        this.yearManufactured = yearManufactured;
-    }
-
-    public int getMilesDriven() {
-        return milesDriven;
-    }
-
-    public void setMilesDriven(int milesDriven) {
-        this.milesDriven = milesDriven;
-    }
-
     public int getStartingBid() {
         return startingBid;
     }
@@ -71,28 +55,12 @@ public class AuctionModels {
         this.startingBid = startingBid;
     }
 
-    public String getReg_number() {
-        return reg_number;
-    }
-
-    public void setReg_number(String reg_number) {
-        this.reg_number = reg_number;
-    }
-
     public boolean isActive() {
         return isActive;
     }
 
     public void setActive(boolean active) {
         isActive = active;
-    }
-
-    public EBrand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(EBrand brand) {
-        this.brand = brand;
     }
 
     public void setId(String id) {
