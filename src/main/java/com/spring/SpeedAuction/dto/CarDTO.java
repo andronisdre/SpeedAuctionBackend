@@ -1,5 +1,6 @@
 package com.spring.SpeedAuction.dto;
 
+import com.spring.SpeedAuction.Models.EBrand;
 import com.spring.SpeedAuction.Models.EColor;
 import com.spring.SpeedAuction.Models.ECondition;
 
@@ -7,7 +8,8 @@ import java.util.List;
 
 public class CarDTO {
     private String auctionId;
-    private String car_brand;
+
+    private EBrand brand;
 
     private String car_model;
 
@@ -33,12 +35,12 @@ public class CarDTO {
         this.auctionId = auctionId;
     }
 
-    public String getCar_brand() {
-        return car_brand;
+    public EBrand getBrand() {
+        return brand;
     }
 
-    public void setCar_brand(String car_brand) {
-        this.car_brand = car_brand;
+    public void setBrand(EBrand brand) {
+        this.brand = brand;
     }
 
     public String getCar_model() {
