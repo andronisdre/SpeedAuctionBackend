@@ -5,7 +5,6 @@ import com.spring.SpeedAuction.security.jwt.AuthenticationEntryJwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -70,6 +69,9 @@ public class WebSecurityConfig {
 
                                 //permit all auction
                                 .requestMatchers("/api/auctions/**").permitAll()
+
+                                //permit all auctionTypeCar
+                                .requestMatchers("/api/auctionTypeCar/**").permitAll()
 
                                 //permit all for bids
                                 .requestMatchers("/api/bids/**").permitAll()

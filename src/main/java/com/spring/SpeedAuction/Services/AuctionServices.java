@@ -23,7 +23,8 @@ public class AuctionServices {
     public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO) {
         UserModels user = checkUserId(auctionsDTO);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
-        newAuction.setActive(false);
+        newAuction.setActive(true);
+        user.setPassword(null);
         return auctionRepository.save(newAuction);
     }
 
@@ -61,6 +62,8 @@ public class AuctionServices {
 
         existingAuction.setId(id);
         existingAuction.setSeller(existingAuction.getSeller());
+        existingAuction.setStartingBid(existingAuction.getStartingBid());
+        existingAuction.setCreated_at(existingAuction.getCreated_at());
 
         return auctionRepository.save(existingAuction);
     }
@@ -126,6 +129,7 @@ public class AuctionServices {
 
     private AuctionsDTO convertToDTO(AuctionModels auctionModels) {
         AuctionsDTO auctionsDTO = new AuctionsDTO();
+        auctionsDTO.setSellerId(auctionModels.getSeller().getId());
         auctionsDTO.setId(auctionModels.getId());
         auctionsDTO.setActive(auctionModels.isActive());
         auctionsDTO.setStartingBid(auctionModels.getStartingBid());
