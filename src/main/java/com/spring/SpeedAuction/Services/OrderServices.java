@@ -29,10 +29,6 @@ public class OrderServices {
     UserRepository userRepository;
 
 
-    /*public OrderModels createOrder(OrderModels orders){
-        return orderRepository.save(orders);
-    }*/
-
     public OrderModels createOrder(OrderDto orderDto) {
 
         UserModels user = userRepository.findById(orderDto.getSellerid())
@@ -61,7 +57,6 @@ public class OrderServices {
     private OrderResponse convertToDto(OrderModels orderModels) {
 
         OrderResponse orderesponse = new OrderResponse();
-        orderesponse.setId(orderModels.getId());
         orderesponse.setAuctionId(orderModels.getAuction_id().getId());
         orderesponse.setBuyerId(orderModels.getBuyer_id().getId());
         orderesponse.setSellerId(orderModels.getSeller_id().getId());
