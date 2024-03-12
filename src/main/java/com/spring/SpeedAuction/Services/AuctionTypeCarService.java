@@ -30,12 +30,28 @@ public class AuctionTypeCarService {
         if (auctionTypeCar.getMilesDriven() != 0){
             existingAuctionTypeCar.setMilesDriven(auctionTypeCar.getMilesDriven());
         }
-        if (auctionTypeCar.getCar_model() != null){
-            existingAuctionTypeCar.setCar_model(auctionTypeCar.getCar_model());
+        if (auctionTypeCar.getCarModel() != null){
+            existingAuctionTypeCar.setCarModel(auctionTypeCar.getCarModel());
         }
         if (auctionTypeCar.getBrand() != null){
-            auctionTypeCar.setBrand(auctionTypeCar.getBrand());
+            existingAuctionTypeCar.setBrand(auctionTypeCar.getBrand());
         }
+        if (auctionTypeCar.getYearManufactured() != 0) {
+            existingAuctionTypeCar.setYearManufactured(auctionTypeCar.getYearManufactured());
+        }
+        if (auctionTypeCar.getColor() != null){
+            existingAuctionTypeCar.setColor(auctionTypeCar.getColor());
+        }
+        if (auctionTypeCar.getRegNumber() != null){
+            existingAuctionTypeCar.setRegNumber(auctionTypeCar.getRegNumber());
+        }
+        if (auctionTypeCar.getCarPng() != null){
+            existingAuctionTypeCar.setCarPng(auctionTypeCar.getCarPng());
+        }
+        if (auctionTypeCar.getBrand() != null){
+            existingAuctionTypeCar.setBrand(auctionTypeCar.getBrand());
+
+            }
 
         return auctionTypeCarRepository.save(existingAuctionTypeCar);
     }
@@ -59,14 +75,14 @@ public class AuctionTypeCarService {
         AuctionTypeCar newAuctionTypeCar = new AuctionTypeCar();
         //newAuctionTypeCar.setId(auctionTypeCarDTO.getId());
         newAuctionTypeCar.setAuction(auction);
-        newAuctionTypeCar.setCar_model(auctionTypeCarDTO.getCar_model());
+        newAuctionTypeCar.setCarModel(auctionTypeCarDTO.getCarModel());
         newAuctionTypeCar.setBrand(auctionTypeCarDTO.getBrand());
-        newAuctionTypeCar.setCar_png(auctionTypeCarDTO.getCar_png());
+        newAuctionTypeCar.setCarPng(auctionTypeCarDTO.getCarPng());
         newAuctionTypeCar.setColor(auctionTypeCarDTO.getColor());
         newAuctionTypeCar.setCondition(auctionTypeCarDTO.getCondition());
         newAuctionTypeCar.setMilesDriven(auctionTypeCarDTO.getMilesDriven());
         newAuctionTypeCar.setDescription(auctionTypeCarDTO.getDescription());
-        newAuctionTypeCar.setReg_number(auctionTypeCarDTO.getReg_number());
+        newAuctionTypeCar.setRegNumber(auctionTypeCarDTO.getRegNumber());
         newAuctionTypeCar.setYearManufactured(auctionTypeCarDTO.getYearManufactured());
 
 
@@ -93,13 +109,13 @@ public class AuctionTypeCarService {
         //carDTOResponse.setId(auctionTypeCar.getId());
         carDTOResponse.setAuctionId(auctionTypeCar.getAuction().getId());
         carDTOResponse.setBrand(auctionTypeCar.getBrand());
-        carDTOResponse.setCar_model(auctionTypeCar.getCar_model());
-        carDTOResponse.setCar_png(auctionTypeCar.getCar_png());
+        carDTOResponse.setCarModel(auctionTypeCar.getCarModel());
+        carDTOResponse.setCarPng(auctionTypeCar.getCarPng());
         carDTOResponse.setColor(auctionTypeCar.getColor());
         carDTOResponse.setCondition(auctionTypeCar.getCondition());
         carDTOResponse.setMilesDriven(auctionTypeCar.getMilesDriven());
         carDTOResponse.setDescription(auctionTypeCar.getDescription());
-        carDTOResponse.setReg_number(auctionTypeCar.getReg_number());
+        carDTOResponse.setRegNumber(auctionTypeCar.getRegNumber());
         carDTOResponse.setYearManufactured(auctionTypeCar.getYearManufactured());
 
 
