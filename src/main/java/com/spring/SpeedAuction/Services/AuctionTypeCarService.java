@@ -19,15 +19,31 @@ public class AuctionTypeCarService {
     AuctionRepository auctionRepository;
 
     //update
-    public AuctionTypeCar updateAuctionTypeCar(AuctionTypeCar auctionTypeCar) {
-        return auctionTypeCarRepository.save(auctionTypeCar);
+    public AuctionTypeCar updateAuctionTypeCar(String id, AuctionTypeCar auctionTypeCar) {
+        AuctionTypeCar existingAuctionTypeCar = auctionTypeCarRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
+        existingAuctionTypeCar.setId(id);
+
+        //update field
+        if (auctionTypeCar.getCondition() != null){
+            existingAuctionTypeCar.setCondition(auctionTypeCar.getCondition());
+        }
+        if (auctionTypeCar.getMilesDriven() != 0){
+            existingAuctionTypeCar.setMilesDriven(auctionTypeCar.getMilesDriven());
+        }
+        if (auctionTypeCar.getCar_model() != null){
+            existingAuctionTypeCar.setCar_model(auctionTypeCar.getCar_model());
+        }
+        if (auctionTypeCar.getBrand() != null){
+            auctionTypeCar.setBrand(auctionTypeCar.getBrand());
+        }
+
+        return auctionTypeCarRepository.save(existingAuctionTypeCar);
     }
 
 
     public AuctionTypeCar getAuctionTypeCarById(String id) {
         return auctionTypeCarRepository.findById(id).get();
     }
-
 
     public String deleteAuctionTypeCar(String id) {
         auctionTypeCarRepository.deleteById(id);
@@ -41,6 +57,7 @@ public class AuctionTypeCarService {
 
 
         AuctionTypeCar newAuctionTypeCar = new AuctionTypeCar();
+        //newAuctionTypeCar.setId(auctionTypeCarDTO.getId());
         newAuctionTypeCar.setAuction(auction);
         newAuctionTypeCar.setCar_model(auctionTypeCarDTO.getCar_model());
         newAuctionTypeCar.setBrand(auctionTypeCarDTO.getBrand());
@@ -55,7 +72,12 @@ public class AuctionTypeCarService {
 
         AuctionModels existingAuction = auctionRepository.findById(newAuctionTypeCar.getAuction().getId()).orElseThrow(() -> new IllegalArgumentException("auction does not exist"));
         existingAuction.setActive(true);
-
+        existingAuction.setSeller(existingAuction.getSeller());
+        existingAuction.setStartingBid(existingAuction.getStartingBid());
+        existingAuction.setCreated_at(existingAuction.getCreated_at());
+        existingAuction.setEndOfAuction(existingAuction.getEndOfAuction());
+        existingAuction.setUpdated_at(existingAuction.getUpdated_at());
+        existingAuction.setId(existingAuction.getId());
         auctionRepository.save(existingAuction);
         return  auctionTypeCarRepository.save(newAuctionTypeCar);
     }
@@ -68,6 +90,7 @@ public class AuctionTypeCarService {
     }
     private CarDTO convertToDTO(AuctionTypeCar auctionTypeCar) {
         CarDTO carDTOResponse = new CarDTO();
+        //carDTOResponse.setId(auctionTypeCar.getId());
         carDTOResponse.setAuctionId(auctionTypeCar.getAuction().getId());
         carDTOResponse.setBrand(auctionTypeCar.getBrand());
         carDTOResponse.setCar_model(auctionTypeCar.getCar_model());

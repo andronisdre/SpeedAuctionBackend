@@ -7,6 +7,7 @@ import com.spring.SpeedAuction.Models.ECondition;
 import java.util.List;
 
 public class CarDTO {
+
     private String auctionId;
 
     private EBrand brand;
@@ -106,4 +107,5 @@ public class CarDTO {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

@@ -30,8 +30,8 @@ public class AuctionTypeCarController {
 
     //PUT by id
     @PutMapping(value = "/{id}")
-    public AuctionTypeCar updateAuctionTypeCar(@RequestBody AuctionTypeCar auctionTypeCar) {
-        return auctionTypeCarService.updateAuctionTypeCar(auctionTypeCar);
+    public AuctionTypeCar updateAuctionTypeCar(@PathVariable String id, @RequestBody AuctionTypeCar auctionTypeCar) {
+        return auctionTypeCarService.updateAuctionTypeCar(id, auctionTypeCar);
     }
 
     //GET by id
