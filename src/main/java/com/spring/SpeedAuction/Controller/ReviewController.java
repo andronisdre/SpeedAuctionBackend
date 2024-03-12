@@ -1,5 +1,6 @@
 package com.spring.SpeedAuction.Controller;
 
+import com.spring.SpeedAuction.dto.ReviewDTO;
 import com.spring.SpeedAuction.Models.ReviewModels;
 import com.spring.SpeedAuction.security.Services.ReviewServices;
 import jakarta.validation.Valid;
@@ -20,22 +21,26 @@ public class ReviewController {
 
 
     // POST
-    @PostMapping()
-    public ReviewModels addReview(@RequestBody ReviewModels review) {
-        return reviewServices.addReview(review);
-    }
+   @PostMapping()
+   public ResponseEntity<ReviewModels> addReview(@RequestBody ReviewDTO reviewDTO) {
+       ReviewModels newReview = reviewServices.addReview(reviewDTO);
+       return ResponseEntity.ok(newReview);
+   }
 
-    // GET ALL
-    @GetMapping("/all")
-    public List<ReviewModels> getAllReviews() {
-        return reviewServices.getAllReviews();
-    }
+   // GET ALL
+   @GetMapping("/all")
+   public ResponseEntity<List<ReviewDTO>> getAllReviews() {
+       List<ReviewDTO> review = reviewServices.getAllReviews();
+       return ResponseEntity.ok(review);
+   }
+
 
     // GET BY ID
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ReviewModels getReviewById(@PathVariable String id) {
         return reviewServices.getReviewById(id);
     }
+
 
     // PUT
     @PutMapping("/{id}")
