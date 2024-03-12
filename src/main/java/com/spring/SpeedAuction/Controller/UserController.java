@@ -20,11 +20,6 @@ public class UserController {
     UserServices userServices;
 
 
-    // POST
-    @PostMapping()
-    public UserModels addUser(@RequestBody UserModels userModels) {
-        return userServices.addUser(userModels);
-    }
 
     // GET ALL
     @GetMapping("/all")

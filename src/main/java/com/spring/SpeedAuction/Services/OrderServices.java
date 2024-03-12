@@ -18,9 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServices {
-    //HELENA:
-    // ni bör kunna fixa order nu efter det vi gått igenom på lektionerna så att ni får
-    // en ref till en User och en Auction
+
     @Autowired
     OrderRepository orderRepository;
 
@@ -46,17 +44,22 @@ public class OrderServices {
         AuctionModels auction = auctionRepository.findById(orderDto.getAuctionid())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid auction id"));
 
-
         OrderModels NewOrder = new OrderModels();
         NewOrder.setBuyer_id(buyer);
         NewOrder.setSeller_id(user);
         NewOrder.setAuction_id(auction);
         NewOrder.setOrder_created(orderDto.getCreated_at());
 
+        AuctionModels existingAuction = auctionRepository.findById(NewOrder.getAuction_id().getId()).orElseThrow(() -> new IllegalArgumentException("auction does not exist"));
+        existingAuction.setActive(false);
+
+        auctionRepository.save(existingAuction);
+
         return  orderRepository.save(NewOrder);
     }
 
     private OrderResponse convertToDto(OrderModels orderModels) {
+
         OrderResponse orderesponse = new OrderResponse();
         orderesponse.setId(orderModels.getId());
         orderesponse.setAuctionId(orderModels.getAuction_id().getId());
