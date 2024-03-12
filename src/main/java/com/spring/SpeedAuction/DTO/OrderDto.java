@@ -4,13 +4,11 @@ import java.util.Date;
 
 public class OrderDto {
 
-
     private String auctionid;
 
     private String buyerid;
 
     private String sellerid;
-
 
     private Date created_at;
 
