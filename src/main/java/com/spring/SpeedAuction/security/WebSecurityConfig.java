@@ -64,7 +64,7 @@ public class WebSecurityConfig {
                         // for all user to register and log in
                         auth.requestMatchers("/api/auth/**").permitAll()
 
-                                //tesst endpooint delete later
+                                //tesst endpooint delete later maybe..
                                 .requestMatchers("/api/test/**").permitAll()
 
                                 //permit all User to get all user with get user by id, delete user.
