@@ -19,8 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity
-
-
 public class WebSecurityConfig {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
@@ -76,10 +74,21 @@ public class WebSecurityConfig {
                                 //permit all auction
                                 .requestMatchers("/api/auctions/**").permitAll()
 
+
                                 //permit all for bids
                                 .requestMatchers("/api/bids/**").permitAll()
 
                                 //permit all for user
+                                .requestMatchers("/api/review").permitAll()
+
+
+                                //permit all auctionTypeCar
+                                .requestMatchers("/api/auctionTypeCar/**").permitAll()
+
+                                //permit all for bids
+                                .requestMatchers("/api/bids/**").permitAll()
+
+                                //permit all for user basic crud
                                 .requestMatchers("/api/review").permitAll()
 
                                 .anyRequest().authenticated()
@@ -89,5 +98,4 @@ public class WebSecurityConfig {
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 }

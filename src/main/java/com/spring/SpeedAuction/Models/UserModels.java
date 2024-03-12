@@ -34,7 +34,7 @@ public class UserModels {
     @Indexed(unique = true)
     @Size(max = 100)
     private String email;
-    @NotBlank
+
     private String phone_number;
     @NotBlank
     @Size(max = 100)
@@ -188,5 +188,4 @@ public class UserModels {
     public void setFavourites_auction_id(List<AuctionModels> favourites_auction_id) {
         this.favourites_auction_id = favourites_auction_id;
     }
-
 }
