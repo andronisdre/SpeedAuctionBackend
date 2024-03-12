@@ -4,8 +4,6 @@ import java.util.Date;
 
 public class OrderResponse {
 
-    private String id;
-
     private String auctionId;
 
     private String sellerId;
@@ -50,11 +48,4 @@ public class OrderResponse {
         this.buyerId = buyerId;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }
