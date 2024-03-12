@@ -24,6 +24,7 @@ public class AuctionServices {
         UserModels user = checkUserId(auctionsDTO);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
         user.setPassword(null);
+        newAuction.setActive(false);
         return auctionRepository.save(newAuction);
     }
 
