@@ -51,7 +51,6 @@ public class OrderServices {
         NewOrder.setBuyer_id(buyer);
         NewOrder.setSeller_id(user);
         NewOrder.setAuction_id(auction);
-
         NewOrder.setOrder_created(orderDto.getCreated_at());
 
         return  orderRepository.save(NewOrder);
@@ -59,12 +58,12 @@ public class OrderServices {
 
     private OrderResponse convertToDto(OrderModels orderModels) {
         OrderResponse orderesponse = new OrderResponse();
+        orderesponse.setId(orderModels.getId());
+        orderesponse.setAuctionId(orderModels.getAuction_id().getId());
         orderesponse.setBuyerId(orderModels.getBuyer_id().getId());
         orderesponse.setSellerId(orderModels.getSeller_id().getId());
-        orderesponse.setUsername(orderesponse.getUsername());
-        orderesponse.setEmail(orderesponse.getEmail());
-        orderesponse.setPhone_number(orderesponse.getPhone_number());
-        orderesponse.setCreated_at(orderesponse.getCreated_at());
+        orderesponse.setCreated_at(orderModels.getOrder_created());
+
         return orderesponse;
     }
 
@@ -100,7 +99,7 @@ public class OrderServices {
                         existingOrderModels.setOrder_finalized(updateOrder.getOrder_finalized());
                     }
 
-                    return orderRepository.save(updateOrder);
+                    return orderRepository.save(existingOrderModels);
                 })
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }

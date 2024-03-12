@@ -30,8 +30,6 @@ public class BidsModelsService {
         return bidsModelsRepository.findById(id).get();
     }
 
-
-
     // POST
     public BidsModels createBidModels(BidsModels bidsModel) {
         // Kontroll om Auction ID finns

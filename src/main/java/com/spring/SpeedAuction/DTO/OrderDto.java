@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class OrderDto {
 
+    private String id;
+
     private String auctionid;
 
     private String buyerid;
@@ -74,5 +76,13 @@ public class OrderDto {
 
     public void setSellerid(String sellerid) {
         this.sellerid = sellerid;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
