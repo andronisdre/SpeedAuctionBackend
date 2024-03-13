@@ -3,20 +3,11 @@ package com.spring.SpeedAuction.dto;
 import java.util.Date;
 
 public class AuctionsDTO {
-    private String id;
     private String sellerId;
     private int startingBid;
     private boolean isActive;
     private Date created_at;
     private Date endOfAuction;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getSellerId() {
         return sellerId;

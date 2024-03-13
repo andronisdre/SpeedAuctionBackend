@@ -93,7 +93,7 @@ public class AuctionTypeCarService {
         AuctionModels existingAuction = auctionRepository.findById(newAuctionTypeCar.getAuction().getId()).orElseThrow(() -> new IllegalArgumentException("auction does not exist"));
         existingAuction.setActive(true);
         existingAuction.setSeller(existingAuction.getSeller());
-        existingAuction.setStartingBid(existingAuction.getStartingBid());
+        existingAuction.setStartingPrice(existingAuction.getStartingPrice());
         existingAuction.setCreated_at(existingAuction.getCreated_at());
         existingAuction.setEndOfAuction(existingAuction.getEndOfAuction());
         existingAuction.setUpdated_at(existingAuction.getUpdated_at());

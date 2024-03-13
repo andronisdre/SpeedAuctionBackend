@@ -56,7 +56,7 @@ public class BidsModelsService {
 
     public void bidLargeEnough(BidsDTO bidsDTO, BidsModels newBid, AuctionModels auction) {
 
-        if (newBid.getAmount() < auction.getStartingBid()) {
+        if (newBid.getAmount() < auction.getStartingPrice()) {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
         }
 

@@ -44,8 +44,8 @@ public class AuctionServices {
         AuctionModels existingAuction = auctionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
-        if (auctionModels.getStartingBid() != 0){
-            existingAuction.setStartingBid(auctionModels.getStartingBid());
+        if (auctionModels.getStartingPrice() != 0){
+            existingAuction.setStartingPrice(auctionModels.getStartingPrice());
         }
         if (auctionModels.getEndOfAuction() != null){
             auctionModels.setEndOfAuction(auctionModels.getEndOfAuction());
@@ -62,7 +62,7 @@ public class AuctionServices {
 
         existingAuction.setId(id);
         existingAuction.setSeller(existingAuction.getSeller());
-        existingAuction.setStartingBid(existingAuction.getStartingBid());
+        existingAuction.setStartingPrice(existingAuction.getStartingPrice());
         existingAuction.setCreated_at(existingAuction.getCreated_at());
 
         return auctionRepository.save(existingAuction);
@@ -107,9 +107,8 @@ public class AuctionServices {
     private AuctionsDTO convertToDTO(AuctionModels auctionModels) {
         AuctionsDTO auctionsDTO = new AuctionsDTO();
         auctionsDTO.setSellerId(auctionModels.getSeller().getId());
-        auctionsDTO.setId(auctionModels.getId());
         auctionsDTO.setActive(auctionModels.isActive());
-        auctionsDTO.setStartingBid(auctionModels.getStartingBid());
+        auctionsDTO.setStartingBid(auctionModels.getStartingPrice());
         auctionsDTO.setEndOfAuction(auctionModels.getEndOfAuction());
         auctionsDTO.setCreated_at(auctionModels.getCreated_at());
 
@@ -120,7 +119,7 @@ public class AuctionServices {
         AuctionModels newAuction = new AuctionModels();
         newAuction.setSeller(user);
         newAuction.setActive(auctionsDTO.isActive());
-        newAuction.setStartingBid(auctionsDTO.getStartingBid());
+        newAuction.setStartingPrice(auctionsDTO.getStartingBid());
         newAuction.setEndOfAuction(auctionsDTO.getEndOfAuction());
         newAuction.setCreated_at(auctionsDTO.getCreated_at());
 
