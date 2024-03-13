@@ -1,5 +1,6 @@
-package com.spring.SpeedAuction.Services;
+package com.spring.SpeedAuction.security;
 
+import com.spring.SpeedAuction.security.Services.UserDetailsServiceImpl;
 import com.spring.SpeedAuction.security.jwt.AuthTokenFilter;
 import com.spring.SpeedAuction.security.jwt.AuthenticationEntryJwt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,26 +59,25 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement((session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
                 .authorizeHttpRequests(auth ->
+                        // for all user to register and log in
                         auth.requestMatchers("/api/auth/**").permitAll()
+                                //tesst endpooint delete later maybe..
                                 .requestMatchers("/api/test/**").permitAll()
-
+                                .requestMatchers("/api/auctionTypeCar/**").permitAll()
                                 //permit all User to get all user with get user by id, delete user.
                                 .requestMatchers("/api/user/**").permitAll()
-
                                 //permit all oder
                                 .requestMatchers("/api/order/**").permitAll()
-
                                 //permit all auction
                                 .requestMatchers("/api/auctions/**").permitAll()
-
-                                //permit all auctionTypeCar
-                                .requestMatchers("/api/auctionTypeCar/**").permitAll()
-
                                 //permit all for bids
                                 .requestMatchers("/api/bids/**").permitAll()
-
-                                //permit all for user basic crud
-                                .requestMatchers("/api/review").permitAll()
+                                //permit all for user
+                                .requestMatchers("/api/review/**").permitAll()
+                                //permit all auctionTypeCar
+                                .requestMatchers("/api/auctionTypeCar/**").permitAll()
+                                //permit all for bids
+                                .requestMatchers("/api/bids/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 
@@ -85,6 +85,4 @@ public class WebSecurityConfig {
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-
 }
