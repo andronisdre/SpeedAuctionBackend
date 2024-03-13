@@ -12,7 +12,7 @@ public class CarDTO {
 
     private EBrand brand;
 
-    private String car_model;
+    private String carModel;
 
     private int yearManufactured;
 
@@ -20,9 +20,9 @@ public class CarDTO {
 
     private List<EColor> color;
 
-    private String car_png;
+    private String carPng;
 
-    private String reg_number;
+    private String regNumber;
 
     private ECondition condition;
 
@@ -44,12 +44,12 @@ public class CarDTO {
         this.brand = brand;
     }
 
-    public String getCar_model() {
-        return car_model;
+    public String getCarModel() {
+        return carModel;
     }
 
-    public void setCar_model(String car_model) {
-        this.car_model = car_model;
+    public void setCarModel(String carModel) {
+        this.carModel = carModel;
     }
 
     public int getYearManufactured() {
@@ -76,20 +76,18 @@ public class CarDTO {
         this.color = color;
     }
 
-    public String getCar_png() {
-        return car_png;
+    public String getCarPng() {return carPng; }
+
+    public void setCarPng(String carPng) {
+        this.carPng = carPng;
     }
 
-    public void setCar_png(String car_png) {
-        this.car_png = car_png;
+    public String getRegNumber() {
+        return regNumber;
     }
 
-    public String getReg_number() {
-        return reg_number;
-    }
-
-    public void setReg_number(String reg_number) {
-        this.reg_number = reg_number;
+    public void setRegNumber(String regNumber) {
+        this.regNumber = regNumber;
     }
 
     public ECondition getCondition() {

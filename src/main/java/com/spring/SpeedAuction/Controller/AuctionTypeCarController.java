@@ -73,7 +73,7 @@ public class AuctionTypeCarController {
 
     //get FILTER by CONDITION
     @GetMapping("/filterByCondition/{condition}")
-    public List<CarDTO> getAuctionTypeCarByCondition(@PathVariable String condition){
+    public List<CarDTO> getAuctionTypeCarByCondition(@PathVariable String condition) {
         return auctionTypeCarService.getAuctionTypeCarByCondition(condition);
     }
 

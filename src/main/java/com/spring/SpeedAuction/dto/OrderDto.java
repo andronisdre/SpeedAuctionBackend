@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.DTO;
+package com.spring.SpeedAuction.dto;
 
 import java.util.Date;
 

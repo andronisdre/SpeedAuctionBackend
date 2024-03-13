@@ -1,6 +1,6 @@
 package com.spring.SpeedAuction.security.Services;
 
-import com.spring.SpeedAuction.DTO.OrderDto;
+import com.spring.SpeedAuction.dto.OrderDto;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.OrderModels;
