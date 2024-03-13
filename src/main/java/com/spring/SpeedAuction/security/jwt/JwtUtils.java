@@ -2,6 +2,7 @@ package com.spring.SpeedAuction.security.jwt;
 
 import com.spring.SpeedAuction.security.Services.UserDetailImpl;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,7 +49,7 @@ public class JwtUtils {
                 .signWith(key(),SignatureAlgorithm.HS256)
                 .compact();
     }
-    //rensa cookie
+    //rensa gammal cookie
 
     public ResponseCookie getCleanJwtCookie(){
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
@@ -84,7 +85,7 @@ public class JwtUtils {
 
     //Key method
     private Key key(){
-        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
     public String getUserNameFromJwtToken(String token){
