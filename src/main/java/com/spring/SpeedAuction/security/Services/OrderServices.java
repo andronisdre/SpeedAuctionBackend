@@ -76,8 +76,14 @@ public class OrderServices {
          Optional<OrderModels> orders = orderRepository.findById(id);
          return orders.stream().map(this::convertToDto).collect(Collectors.toList());
     }
-        public void deleteOrder(String id) {
-        orderRepository.deleteById(id);
+    public void deleteOrder(String id) {
+        OrderModels orderModels = orderRepository.findById(id).orElse(null);
+        if (orderModels != null) {
+            orderRepository.deleteById(id);
+        }
+        else {
+            throw new IllegalArgumentException("order id doesnt exist");
+        }
     }
 
     public OrderModels updateOrder(String id, OrderModels updateOrder) {

@@ -61,8 +61,14 @@ public class AuctionTypeCarService {
     }
 
     public String deleteAuctionTypeCar(String id) {
-        auctionTypeCarRepository.deleteById(id);
-        return "AuctionTypeCar deleted";
+        AuctionTypeCar auctionTypeCar = auctionTypeCarRepository.findById(id).orElse(null);
+        if (auctionTypeCar != null) {
+            auctionTypeCarRepository.deleteById(id);
+            return "auctionTypeCar deleted";
+        }
+        else {
+            return "auctionTypeCar id doesnt exist";
+        }
     }
     public AuctionTypeCar createAuctiontypecar (CarDTO auctionTypeCarDTO) {
 

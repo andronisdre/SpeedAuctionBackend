@@ -82,8 +82,14 @@ public class UserServices {
     }
 
     public String deleteUser(String id) {   // DELETE Ta bort en användare
-        userRepository.deleteById(id);
-        return "User is deleted";
+        UserModels userModels = userRepository.findById(id).orElse(null);
+        if (userModels != null) {
+            userRepository.deleteById(id);
+            return "user deleted";
+        }
+        else {
+            return "user id doesnt exist";
+        }
     }
 
     public UserModels addFavourite(String id, FavouriteDTO favouriteDTO) { // POST lägg till en favorit aucktion
