@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class AuctionsDTO {
     private String sellerId;
-    private int startingBid;
+    private int startingPrice;
     private boolean isActive;
     private Date created_at;
     private Date endOfAuction;
@@ -17,12 +17,12 @@ public class AuctionsDTO {
         this.sellerId = sellerId;
     }
 
-    public int getStartingBid() {
-        return startingBid;
+    public int getStartingPrice() {
+        return startingPrice;
     }
 
-    public void setStartingBid(int startingBid) {
-        this.startingBid = startingBid;
+    public void setStartingPrice(int startingPrice) {
+        this.startingPrice = startingPrice;
     }
 
     public boolean isActive() {

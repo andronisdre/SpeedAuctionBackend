@@ -51,10 +51,10 @@ public class AuctionController {
         return auctionServices.getAuctionModelsByIsActive(isActive);
     }
 
-    //get FILTER by startingBid in a range
-    @GetMapping("/filterByStartingBidBetween/{minStartingBid}/{maxStartingBid}")
-    public List<AuctionsDTO> getAuctionModelsByStartingBidBetween(@PathVariable int minStartingBid, @PathVariable int maxStartingBid) {
-        return auctionServices.getAuctionModelsByStartingBidBetween(minStartingBid, maxStartingBid);
+    //get FILTER by startingPrice in a range
+    @GetMapping("/filterByStartingPriceBetween/{minStartingPrice}/{maxStartingPrice}")
+    public List<AuctionsDTO> getAuctionModelsByStartingPriceBetween(@PathVariable int minStartingPrice, @PathVariable int maxStartingPrice) {
+        return auctionServices.getAuctionModelsByStartingPriceBetween(minStartingPrice, maxStartingPrice);
     }
 }
 

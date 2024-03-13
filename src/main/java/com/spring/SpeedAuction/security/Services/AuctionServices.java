@@ -23,7 +23,7 @@ public class AuctionServices {
     public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO) {
         UserModels user = checkUserId(auctionsDTO);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
-        user.setPassword(null);
+        //checkEndOfAuction(newAuction);
         newAuction.setActive(false);
         return auctionRepository.save(newAuction);
     }
@@ -90,8 +90,8 @@ public class AuctionServices {
     }
 
     //get all auctions in the range between minStartingBid and maxStartingBid
-    public List<AuctionsDTO> getAuctionModelsByStartingBidBetween(int minStartingBid, int maxStartingBid) {
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByStartingBidBetweenOrderByStartingBidAsc(minStartingBid, maxStartingBid);
+    public List<AuctionsDTO> getAuctionModelsByStartingPriceBetween(int minStartingPrice, int maxStartingPrice) {
+        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByStartingPriceBetweenOrderByStartingPriceAsc(minStartingPrice, maxStartingPrice);
         if (auctionModels.isEmpty()) {
             throw new IllegalArgumentException("no results for those values");
         }
@@ -104,11 +104,17 @@ public class AuctionServices {
         return userRepository.findById(auctionsDTO.getSellerId()).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
     }
 
+    public void checkEndOfAuction(AuctionModels auctionModels) {
+        if(auctionModels.getEndOfAuction().after(auctionModels.getCreated_at())) {
+            throw new IllegalArgumentException("date ");
+        }
+    }
+
     private AuctionsDTO convertToDTO(AuctionModels auctionModels) {
         AuctionsDTO auctionsDTO = new AuctionsDTO();
         auctionsDTO.setSellerId(auctionModels.getSeller().getId());
         auctionsDTO.setActive(auctionModels.isActive());
-        auctionsDTO.setStartingBid(auctionModels.getStartingPrice());
+        auctionsDTO.setStartingPrice(auctionModels.getStartingPrice());
         auctionsDTO.setEndOfAuction(auctionModels.getEndOfAuction());
         auctionsDTO.setCreated_at(auctionModels.getCreated_at());
 
@@ -119,7 +125,7 @@ public class AuctionServices {
         AuctionModels newAuction = new AuctionModels();
         newAuction.setSeller(user);
         newAuction.setActive(auctionsDTO.isActive());
-        newAuction.setStartingPrice(auctionsDTO.getStartingBid());
+        newAuction.setStartingPrice(auctionsDTO.getStartingPrice());
         newAuction.setEndOfAuction(auctionsDTO.getEndOfAuction());
         newAuction.setCreated_at(auctionsDTO.getCreated_at());
 
