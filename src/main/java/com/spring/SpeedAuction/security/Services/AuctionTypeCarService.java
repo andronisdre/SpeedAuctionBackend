@@ -48,10 +48,9 @@ public class AuctionTypeCarService {
         if (auctionTypeCar.getCarPng() != null){
             existingAuctionTypeCar.setCarPng(auctionTypeCar.getCarPng());
         }
-        if (auctionTypeCar.getBrand() != null){
-            existingAuctionTypeCar.setBrand(auctionTypeCar.getBrand());
-
-            }
+        if (auctionTypeCar.getDescription() != null){
+            existingAuctionTypeCar.setDescription(auctionTypeCar.getDescription());
+        }
 
         return auctionTypeCarRepository.save(existingAuctionTypeCar);
     }
@@ -85,7 +84,6 @@ public class AuctionTypeCarService {
         newAuctionTypeCar.setRegNumber(auctionTypeCarDTO.getRegNumber());
         newAuctionTypeCar.setYearManufactured(auctionTypeCarDTO.getYearManufactured());
 
-
         AuctionModels existingAuction = auctionRepository.findById(newAuctionTypeCar.getAuction().getId()).orElseThrow(() -> new IllegalArgumentException("auction does not exist"));
         existingAuction.setActive(true);
         existingAuction.setSeller(existingAuction.getSeller());
@@ -95,6 +93,7 @@ public class AuctionTypeCarService {
         existingAuction.setUpdated_at(existingAuction.getUpdated_at());
         existingAuction.setId(existingAuction.getId());
         auctionRepository.save(existingAuction);
+
         return  auctionTypeCarRepository.save(newAuctionTypeCar);
     }
 
