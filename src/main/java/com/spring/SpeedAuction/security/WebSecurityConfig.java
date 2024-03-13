@@ -62,8 +62,12 @@ public class WebSecurityConfig {
                         // for all user to register and log in
                         auth.requestMatchers("/api/auth/**").permitAll()
 
+
                                 //tesst endpooint delete later maybe..
+
                                 .requestMatchers("/api/test/**").permitAll()
+
+                                .requestMatchers("/api/auctionTypeCar/**").permitAll()
 
                                 //permit all User to get all user with get user by id, delete user.
                                 .requestMatchers("/api/user/**").permitAll()
@@ -75,6 +79,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/auctions/**").permitAll()
 
 
+
                                 //permit all for bids
                                 .requestMatchers("/api/bids/**").permitAll()
 
@@ -84,6 +89,7 @@ public class WebSecurityConfig {
 
                                 //permit all auctionTypeCar
                                 .requestMatchers("/api/auctionTypeCar/**").permitAll()
+
 
                                 //permit all for bids
                                 .requestMatchers("/api/bids/**").permitAll()
