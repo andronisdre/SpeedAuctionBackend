@@ -1,8 +1,9 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.DTO.OrderDto;
-import com.spring.SpeedAuction.DTO.OrderResponse;
+
 import com.spring.SpeedAuction.Models.OrderModels;
+import com.spring.SpeedAuction.dto.OrderResponse;
 import com.spring.SpeedAuction.security.Services.OrderServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
