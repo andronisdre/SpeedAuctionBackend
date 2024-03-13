@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.Models;
+package com.spring.SpeedAuction.enums;
 
 public enum ERole {
     ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN

@@ -1,8 +1,8 @@
 package com.spring.SpeedAuction.dto;
 
-import com.spring.SpeedAuction.Models.EBrand;
-import com.spring.SpeedAuction.Models.EColor;
-import com.spring.SpeedAuction.Models.ECondition;
+import com.spring.SpeedAuction.enums.EBrand;
+import com.spring.SpeedAuction.enums.EColor;
+import com.spring.SpeedAuction.enums.ECondition;
 
 import java.util.List;
 
