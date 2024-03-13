@@ -1,8 +1,8 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
-import com.spring.SpeedAuction.Services.AuctionServices;
 import com.spring.SpeedAuction.dto.AuctionsDTO;
+import com.spring.SpeedAuction.security.Services.AuctionServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

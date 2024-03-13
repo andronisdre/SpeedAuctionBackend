@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.Services;
+package com.spring.SpeedAuction.security.Services;
 
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.UserRepository;

@@ -1,8 +1,9 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.AuctionTypeCar;
-import com.spring.SpeedAuction.Services.AuctionTypeCarService;
+
 import com.spring.SpeedAuction.dto.CarDTO;
+import com.spring.SpeedAuction.security.Services.AuctionTypeCarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,8 +76,6 @@ public class AuctionTypeCarController {
     public List<CarDTO> getAuctionTypeCarByCondition(@PathVariable String condition) {
         return auctionTypeCarService.getAuctionTypeCarByCondition(condition);
     }
-
-
 
 }
 
