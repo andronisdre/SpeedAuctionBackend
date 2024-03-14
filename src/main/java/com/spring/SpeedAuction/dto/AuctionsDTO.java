@@ -1,22 +1,17 @@
 package com.spring.SpeedAuction.dto;
 
+import jakarta.validation.constraints.Min;
+
 import java.util.Date;
 
 public class AuctionsDTO {
-    private String id;
     private String sellerId;
-    private int startingBid;
+
+    @Min(value = 100000, message = "starting price must be at least 100 thousand swedish crowns")
+    private int startingPrice;
     private boolean isActive;
     private Date created_at;
     private Date endOfAuction;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getSellerId() {
         return sellerId;
@@ -26,12 +21,12 @@ public class AuctionsDTO {
         this.sellerId = sellerId;
     }
 
-    public int getStartingBid() {
-        return startingBid;
+    public int getStartingPrice() {
+        return startingPrice;
     }
 
-    public void setStartingBid(int startingBid) {
-        this.startingBid = startingBid;
+    public void setStartingPrice(int startingPrice) {
+        this.startingPrice = startingPrice;
     }
 
     public boolean isActive() {

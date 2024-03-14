@@ -8,6 +8,8 @@ import com.spring.SpeedAuction.dto.AuctionsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,8 @@ public class AuctionServices {
     public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO) {
         UserModels user = checkUserId(auctionsDTO);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
-        user.setPassword(null);
+        newAuction.setCreated_at(new Date());
+        checkEndOfAuction(newAuction);
         newAuction.setActive(false);
         return auctionRepository.save(newAuction);
     }
@@ -44,26 +47,17 @@ public class AuctionServices {
         AuctionModels existingAuction = auctionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
-        if (auctionModels.getStartingBid() != 0){
-            existingAuction.setStartingBid(auctionModels.getStartingBid());
+        if (auctionModels.getStartingPrice() != 0){
+            existingAuction.setStartingPrice(auctionModels.getStartingPrice());
         }
         if (auctionModels.getEndOfAuction() != null){
-            auctionModels.setEndOfAuction(auctionModels.getEndOfAuction());
-        }
-        if (auctionModels.getUpdated_at() != null){
-            auctionModels.setUpdated_at(auctionModels.getUpdated_at());
-        }
-        if (auctionModels.isActive()){
-            auctionModels.setActive(auctionModels.isActive());
-        }
-        if (auctionModels.getCreated_at() != null){
-            auctionModels.setCreated_at(auctionModels.getCreated_at());
+            existingAuction.setEndOfAuction(auctionModels.getEndOfAuction());
         }
 
-        existingAuction.setId(id);
         existingAuction.setSeller(existingAuction.getSeller());
-        existingAuction.setStartingBid(existingAuction.getStartingBid());
         existingAuction.setCreated_at(existingAuction.getCreated_at());
+        existingAuction.setUpdated_at(new Date());
+        checkEndOfAuction(existingAuction);
 
         return auctionRepository.save(existingAuction);
     }
@@ -73,7 +67,7 @@ public class AuctionServices {
         AuctionModels auctionModels = auctionRepository.findById(id).orElse(null);
         if (auctionModels != null) {
             auctionRepository.deleteById(id);
-            return "Auction deleted";
+            return "auction deleted";
         }
         else {
             return "auction id doesnt exist";
@@ -90,8 +84,8 @@ public class AuctionServices {
     }
 
     //get all auctions in the range between minStartingBid and maxStartingBid
-    public List<AuctionsDTO> getAuctionModelsByStartingBidBetween(int minStartingBid, int maxStartingBid) {
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByStartingBidBetweenOrderByStartingBidAsc(minStartingBid, maxStartingBid);
+    public List<AuctionsDTO> getAuctionModelsByStartingPriceBetween(int minStartingPrice, int maxStartingPrice) {
+        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByStartingPriceBetweenOrderByStartingPriceAsc(minStartingPrice, maxStartingPrice);
         if (auctionModels.isEmpty()) {
             throw new IllegalArgumentException("no results for those values");
         }
@@ -103,12 +97,23 @@ public class AuctionServices {
         return userRepository.findById(auctionsDTO.getSellerId()).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
     }
 
+    public void checkEndOfAuction(AuctionModels auctionModels) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(auctionModels.getCreated_at());
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        Date minCreated_at = calendar.getTime();
+
+        if(auctionModels.getEndOfAuction().before(minCreated_at)) {
+            throw new IllegalArgumentException("date endOfAuction needs to be at least a day later than date created_at");
+        }
+    }
+
     private AuctionsDTO convertToDTO(AuctionModels auctionModels) {
         AuctionsDTO auctionsDTO = new AuctionsDTO();
         auctionsDTO.setSellerId(auctionModels.getSeller().getId());
-        auctionsDTO.setId(auctionModels.getId());
         auctionsDTO.setActive(auctionModels.isActive());
-        auctionsDTO.setStartingBid(auctionModels.getStartingBid());
+        auctionsDTO.setStartingPrice(auctionModels.getStartingPrice());
         auctionsDTO.setEndOfAuction(auctionModels.getEndOfAuction());
         auctionsDTO.setCreated_at(auctionModels.getCreated_at());
 
@@ -119,7 +124,7 @@ public class AuctionServices {
         AuctionModels newAuction = new AuctionModels();
         newAuction.setSeller(user);
         newAuction.setActive(auctionsDTO.isActive());
-        newAuction.setStartingBid(auctionsDTO.getStartingBid());
+        newAuction.setStartingPrice(auctionsDTO.getStartingPrice());
         newAuction.setEndOfAuction(auctionsDTO.getEndOfAuction());
         newAuction.setCreated_at(auctionsDTO.getCreated_at());
 

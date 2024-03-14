@@ -17,7 +17,7 @@ public class AuctionModels {
     @DBRef
     private UserModels seller;
 
-    private int startingBid;
+    private int startingPrice;
 
     private boolean isActive;
 
@@ -47,12 +47,12 @@ public class AuctionModels {
         this.created_at = created_at;
     }
 
-    public int getStartingBid() {
-        return startingBid;
+    public int getStartingPrice() {
+        return startingPrice;
     }
 
-    public void setStartingBid(int startingBid) {
-        this.startingBid = startingBid;
+    public void setStartingPrice(int startingPrice) {
+        this.startingPrice = startingPrice;
     }
 
     public boolean isActive() {

@@ -1,10 +1,11 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.AuctionTypeCar;
-
 import com.spring.SpeedAuction.dto.CarDTO;
 import com.spring.SpeedAuction.security.Services.AuctionTypeCarService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,9 @@ public class AuctionTypeCarController {
 
 
     //POST
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PostMapping()
-    public AuctionTypeCar createAuctionTypeCar(@RequestBody CarDTO carDTO) {
+    public AuctionTypeCar createAuctionTypeCar(@Valid @RequestBody CarDTO carDTO) {
         return auctionTypeCarService.createAuctiontypecar(carDTO);
     }
 
@@ -30,6 +32,7 @@ public class AuctionTypeCarController {
     }
 
     //PUT by id
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PutMapping(value = "/{id}")
     public AuctionTypeCar updateAuctionTypeCar(@PathVariable String id, @RequestBody AuctionTypeCar auctionTypeCar) {
         return auctionTypeCarService.updateAuctionTypeCar(id, auctionTypeCar);
@@ -42,6 +45,7 @@ public class AuctionTypeCarController {
     }
 
     //DELETE by id
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteAuctionTypeCar(@PathVariable String id) {
         return auctionTypeCarService.deleteAuctionTypeCar(id);

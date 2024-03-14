@@ -1,9 +1,8 @@
 package com.spring.SpeedAuction.Models;
 
+import com.spring.SpeedAuction.enums.ERole;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-
 
 @Document(collection = "roles")
 public class Role {

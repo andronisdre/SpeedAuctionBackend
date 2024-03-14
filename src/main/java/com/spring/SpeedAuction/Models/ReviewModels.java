@@ -3,6 +3,7 @@ package com.spring.SpeedAuction.Models;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -17,6 +18,7 @@ public class ReviewModels {
     private String id;
 
     @NotBlank(message = "write a content")
+    @Size(max = 256)
     private String reviewContent;
 
     @Min(value = 1, message = "Rating must be at least 1")

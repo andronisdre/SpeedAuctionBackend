@@ -10,6 +10,7 @@ import com.spring.SpeedAuction.dto.BidsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,9 +56,15 @@ public class BidsModelsService {
         return newBid;
     }
 
+    public void bidBeforeEndOfAuction(BidsModels newBid, AuctionModels auctionModels) {
+        if(auctionModels.getEndOfAuction().before(newBid.getTimeBidded())) {
+            throw new IllegalArgumentException("This auction has already ended");
+        }
+    }
+
     public void bidLargeEnough(BidsDTO bidsDTO, BidsModels newBid, AuctionModels auction) {
 
-        if (newBid.getAmount() < auction.getStartingBid()) {
+        if (newBid.getAmount() < auction.getStartingPrice()) {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
         }
 
@@ -98,6 +105,8 @@ public class BidsModelsService {
         checkIsActive(auction);
         compareSellerAndBidder(auction, newBid);
         bidLargeEnough(bidsDTO, newBid, auction);
+        newBid.setTimeBidded(new Date());
+        bidBeforeEndOfAuction(newBid, auction);
         return bidsModelsRepository.save(newBid);
     }
 

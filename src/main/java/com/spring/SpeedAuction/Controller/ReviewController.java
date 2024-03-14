@@ -1,12 +1,13 @@
 package com.spring.SpeedAuction.Controller;
 
-import com.spring.SpeedAuction.dto.ReviewDTO;
 import com.spring.SpeedAuction.Models.ReviewModels;
+import com.spring.SpeedAuction.dto.ReviewDTO;
 import com.spring.SpeedAuction.security.Services.ReviewServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,9 @@ public class ReviewController {
 
 
     // POST
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
    @PostMapping()
-   public ResponseEntity<ReviewModels> addReview(@RequestBody ReviewDTO reviewDTO) {
+   public ResponseEntity<ReviewModels> addReview(@Valid @RequestBody ReviewDTO reviewDTO) {
        ReviewModels newReview = reviewServices.addReview(reviewDTO);
        return ResponseEntity.ok(newReview);
    }
@@ -43,6 +45,7 @@ public class ReviewController {
 
 
     // PUT
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateReview(@PathVariable String id, @Valid @RequestBody ReviewModels reviewDetails) {
         try {
@@ -54,6 +57,7 @@ public class ReviewController {
     }
 
     // DELETE
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteReview(@PathVariable String id) {
         return reviewServices.deleteReview(id);

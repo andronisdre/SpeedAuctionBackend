@@ -4,14 +4,14 @@ import java.util.List;
 
 public class FavouriteDTO {
 
-    private List<String> favouriteAutcktion;
+    private List<String> favouriteAuction;
 
 
-    public List<String> getFavouriteAutcktion() {
-        return favouriteAutcktion;
+    public List<String> getFavouriteAuction() {
+        return favouriteAuction;
     }
 
-    public void setFavouriteAutcktion(List<String> favouriteAutcktion) {
-        this.favouriteAutcktion = favouriteAutcktion;
+    public void setFavouriteAuction(List<String> favouriteAuction) {
+        this.favouriteAuction = favouriteAuction;
     }
 }
