@@ -1,9 +1,13 @@
 package com.spring.SpeedAuction.dto;
 
+import jakarta.validation.constraints.Min;
+
 import java.util.Date;
 
 public class AuctionsDTO {
     private String sellerId;
+
+    @Min(value = 100000, message = "starting price must be at least 100 thousand swedish crowns")
     private int startingPrice;
     private boolean isActive;
     private Date created_at;

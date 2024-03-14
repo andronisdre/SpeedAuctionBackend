@@ -3,6 +3,8 @@ package com.spring.SpeedAuction.dto;
 import com.spring.SpeedAuction.enums.EBrand;
 import com.spring.SpeedAuction.enums.EColor;
 import com.spring.SpeedAuction.enums.ECondition;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -10,22 +12,29 @@ public class CarDTO {
 
     private String auctionId;
 
+
     private EBrand brand;
 
+    @NotBlank
     private String carModel;
 
+    @NotNull
     private int yearManufactured;
 
+    @NotNull
     private int milesDriven;
 
     private List<EColor> color;
 
+    @NotBlank
     private String carPng;
 
+    @NotBlank
     private String regNumber;
 
     private ECondition condition;
 
+    @NotBlank
     private String description;
 
     public String getAuctionId() {

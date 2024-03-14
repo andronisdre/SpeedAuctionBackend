@@ -3,6 +3,7 @@ package com.spring.SpeedAuction.Controller;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.dto.AuctionsDTO;
 import com.spring.SpeedAuction.security.Services.AuctionServices;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class AuctionController {
 
     //POST
     @PostMapping()
-    public AuctionModels createAuctionModels(@RequestBody AuctionsDTO auctionsDTO) {
+    public AuctionModels createAuctionModels(@Valid @RequestBody AuctionsDTO auctionsDTO) {
         return auctionServices.createAuctionModels(auctionsDTO);
     }
 

@@ -16,8 +16,7 @@ public class AuctionTypeCar {
     private String id;
 
     @DBRef
-   @Indexed(unique=true)
-
+    @Indexed(unique=true)
     private AuctionModels auction;
 
     private EBrand brand;
