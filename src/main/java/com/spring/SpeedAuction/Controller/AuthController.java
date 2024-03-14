@@ -58,9 +58,6 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        //jwt utan cookie
-        //String jwt = jwtUtils.generateJwtToken((authentication));
-
         UserDetailImpl userDetails = (UserDetailImpl) authentication.getPrincipal();
 
         //for jwt i cookie
@@ -70,16 +67,6 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        //jwt utan cookie
-
-        /*
-        return ResponseEntity.ok(new JwtResponse(jwt,
-        userDetails.getID(),
-        userDetails.getUsername();
-        userDetail.getEmail(),
-        roles));
-         */
-
         //Jwt med cookie
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(new UserInfoResponse(userDetails.getId(),
@@ -88,8 +75,7 @@ public class AuthController {
                         roles));
     }
 
-
-    //geistera en user
+    //Registrera en user
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody SignupRequest signupRequest) {
         // KOLLAR OM USERN FINNS
@@ -149,6 +135,4 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully"));
     }
-
-
 }

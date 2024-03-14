@@ -99,7 +99,6 @@ public class AuctionServices {
     }
 
     // UTIL functions
-
     public UserModels checkUserId(AuctionsDTO auctionsDTO) {
         return userRepository.findById(auctionsDTO.getSellerId()).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
     }

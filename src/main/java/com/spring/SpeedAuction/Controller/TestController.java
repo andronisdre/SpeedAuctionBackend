@@ -19,7 +19,6 @@ public class TestController {
     }
 
     //user måste vara inloggat och minst en user roll
-
     @PreAuthorize("hasRole('USER') or  hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/user")
     public String userAccess(){
@@ -39,5 +38,4 @@ public class TestController {
     public String adminAcces(){
         return "Admin content";
     }
-
 }

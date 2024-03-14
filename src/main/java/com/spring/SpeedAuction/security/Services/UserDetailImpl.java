@@ -46,7 +46,6 @@ public class UserDetailImpl implements UserDetails{
                 user.getPassword(),
                 authorities
         );
-
     }
 
     @Override
@@ -101,10 +100,4 @@ public class UserDetailImpl implements UserDetails{
         return Objects.equals(id,user.id);
 
     }
-
-
-
-
-
-
 }

@@ -14,7 +14,6 @@ public class UserResponsDTO {
         return username;
     }
 
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -30,7 +29,6 @@ public class UserResponsDTO {
     public List<String> getFavouriteAuction() {
         return favouriteAuction;
     }
-
     public void setFavouriteAuction(List<String> favouriteAuction) {
         this.favouriteAuction = favouriteAuction;
     }

@@ -105,5 +105,4 @@ public class CarDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }

@@ -45,6 +45,4 @@ public class OrderDto {
     public void setSellerid(String sellerid) {
         this.sellerid = sellerid;
     }
-
-
 }

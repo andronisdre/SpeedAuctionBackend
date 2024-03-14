@@ -72,7 +72,6 @@ public class AuctionTypeCarService {
 
 
         AuctionTypeCar newAuctionTypeCar = new AuctionTypeCar();
-        //newAuctionTypeCar.setId(auctionTypeCarDTO.getId());
         newAuctionTypeCar.setAuction(auction);
         newAuctionTypeCar.setCarModel(auctionTypeCarDTO.getCarModel());
         newAuctionTypeCar.setBrand(auctionTypeCarDTO.getBrand());
@@ -105,7 +104,6 @@ public class AuctionTypeCarService {
     }
     private CarDTO convertToDTO(AuctionTypeCar auctionTypeCar) {
         CarDTO carDTOResponse = new CarDTO();
-        //carDTOResponse.setId(auctionTypeCar.getId());
         carDTOResponse.setAuctionId(auctionTypeCar.getAuction().getId());
         carDTOResponse.setBrand(auctionTypeCar.getBrand());
         carDTOResponse.setCarModel(auctionTypeCar.getCarModel());
@@ -120,12 +118,12 @@ public class AuctionTypeCarService {
 
         return carDTOResponse;
     }
+
     //get all auctions that match with color
     public List<CarDTO> getAuctionTypeCarByColor(String color) {
         List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByColor(color);
 
         return auctionTypeCars.stream().map(this::convertToDTO).collect(Collectors.toList());
-
     }
 
     //get all auctions that match with brand
@@ -133,7 +131,6 @@ public class AuctionTypeCarService {
         List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByBrand(brand);
 
         return auctionTypeCars.stream().map(this::convertToDTO).collect(Collectors.toList());
-
     }
 
     //get all auctions that match with YearManufactured
@@ -141,7 +138,6 @@ public class AuctionTypeCarService {
         List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByYearManufacturedBetweenOrderByYearManufacturedDesc(minYearManufactured,maxYearManufactured);
 
         return auctionTypeCars.stream().map(this::convertToDTO).collect(Collectors.toList());
-
     }
 
     //get all auctions that match with MilesDriven
@@ -149,7 +145,6 @@ public class AuctionTypeCarService {
         List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByMilesDrivenBetweenOrderByMilesDrivenAsc(minMilesDriven,maxMilesDriven);
 
         return auctionTypeCars.stream().map(this::convertToDTO).collect(Collectors.toList());
-
     }
 
     //get all auctions that match with CONDITION
@@ -157,7 +152,5 @@ public class AuctionTypeCarService {
         List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByCondition(condition);
 
         return auctionTypeCars.stream().map(this::convertToDTO).collect(Collectors.toList());
-
     }
-
 }

@@ -31,19 +31,7 @@ public class UserServices {
         return userRepository.findById(id).get();
     }
 
-    //HELENA:
-    // jag hade brutit ut det här i två funktioner, en för att uppdatera en usersInfo
-    // och en för att ta bort från favoritlistan
-    // så i det hela kanske tre metoder:
-    // - updateUserInfo (adress, namn, telefon etc)
-    // - addToFavourites: lägga till i favoritlistan
-    // - removeFromFavourotes: ta bort från favoritlistan OCH NI HAR EN SÅN FUNKTION SER JAG :)
-    // har ni en addToFavourites() funktion?
-    // istället för att en user ska "uppdatera" sin favoritlista
-
-    //BAKER:
-    // HELENAS FEEDBACK ÄR FIXAD
-    public UserModels updateUser(String id, UserModels updatedUser) {       // Put Updatera en användares information
+    public UserModels updateUser(String id, UserModels updatedUser) {   // Put Updatera en användares information
         return userRepository.findById(id)
                 .map(existingUserModels -> {
                     if (updatedUser.getUsername() != null) {
@@ -86,7 +74,7 @@ public class UserServices {
         return "User is deleted";
     }
 
-    public UserModels addFavourite(String id, FavouriteDTO favouriteDTO) { // POST lägg till en favorit aucktion
+    public UserModels addFavourite(String id, FavouriteDTO favouriteDTO) { // POST lägg till en favorit auktion
         UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User id not found"));
 
@@ -99,7 +87,7 @@ public class UserServices {
         return userRepository.save(user);
     }
 
-    public List<UserResponsDTO> getUsersWithFavouriteAuction() { // GET hämta alla users med favorit aucktioner
+    public List<UserResponsDTO> getUsersWithFavouriteAuction() { // GET hämta alla users med favorit auktioner
         List<UserModels> users = userRepository.findAll();
 
         List<UserResponsDTO> respons = users.stream()
@@ -109,7 +97,7 @@ public class UserServices {
         return respons;
     }
 
-    public UserModels deleteFavouriteAuctions(String id, String auctionId) { // DELETE Ta bort favoritAucktions
+    public UserModels deleteFavouriteAuctions(String id, String auctionId) { // DELETE Ta bort favoritAuktioner
         UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
 

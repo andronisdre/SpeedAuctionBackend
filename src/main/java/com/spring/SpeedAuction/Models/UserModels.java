@@ -75,7 +75,6 @@ public class UserModels {
         this.postal_code = postal_code;
     }
 
-
     public UserModels(List<AuctionModels> favourites_auction_id) {
         this.favourites_auction_id = favourites_auction_id;
     }
@@ -168,8 +167,6 @@ public class UserModels {
     public void setPostal_code(String postal_code) {
         this.postal_code = postal_code;
     }
-
-
 
     public Set<Role> getRoles() {
         return roles;

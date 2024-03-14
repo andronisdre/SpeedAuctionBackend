@@ -3,7 +3,7 @@ package com.spring.SpeedAuction.Models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.security.PrivateKey;
+
 
 @Document(collection = "roles")
 public class Role {

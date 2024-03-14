@@ -32,7 +32,6 @@ public class JwtUtils {
 
 
     //for cookie
-
     public ResponseCookie generateJwtCookie(UserDetailImpl userPrincipal){
 
         String jwt = generateTokenFromUsername(userPrincipal.getUsername());
@@ -49,12 +48,13 @@ public class JwtUtils {
                 .signWith(key(),SignatureAlgorithm.HS256)
                 .compact();
     }
-    //rensa gammal cookie
 
+    //rensa gammal cookie
     public ResponseCookie getCleanJwtCookie(){
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
         return cookie;
     }
+
     //hämta jwt from cookie
     public  String getJwtFromCookie(HttpServletRequest request){
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
@@ -64,24 +64,6 @@ public class JwtUtils {
             return null;
         }
     }
-
-
-
-
-    //generera JWT tocken
-  /*  public String generateJwtToken(Authentication authentication){
-        UserDetailImpl userPrincipal = (UserDetailImpl) authentication.getPrincipal();
-
-        return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(key(),SignatureAlgorithm.HS256)
-                .compact();
-
-    }
-
-   */
 
     //Key method
     private Key key(){
@@ -93,8 +75,8 @@ public class JwtUtils {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    //validera token me secret
 
+    //validera token me secret
     public boolean validateJwtToken(String authToken){
         try {
             Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
@@ -113,5 +95,4 @@ public class JwtUtils {
         }
         return false;
     }
-
 }

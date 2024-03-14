@@ -10,7 +10,7 @@ import java.util.Date;
 @Document (collection = "bids")
 public class BidsModels {
 
-    //initiering av attributer
+
     @Id
     private String id;
     @DBRef

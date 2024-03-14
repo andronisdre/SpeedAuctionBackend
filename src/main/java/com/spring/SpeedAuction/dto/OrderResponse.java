@@ -14,7 +14,6 @@ public class OrderResponse {
     private Date created_at;
 
 
-
     public Date getCreated_at() {
         return created_at;
     }
@@ -47,5 +46,4 @@ public class OrderResponse {
     public void setBuyerId(String buyerId) {
         this.buyerId = buyerId;
     }
-
 }

@@ -12,5 +12,4 @@ public interface AuctionTypeCarRepository extends MongoRepository<AuctionTypeCar
     List<AuctionTypeCar> findAuctionTypeCarByYearManufacturedBetweenOrderByYearManufacturedDesc(int minYearManufactured,int maxYearManufactured);
     List<AuctionTypeCar> findAuctionTypeCarByMilesDrivenBetweenOrderByMilesDrivenAsc(int minMilesDriven,int maxMilesDriven);
 
-
 }

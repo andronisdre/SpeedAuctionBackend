@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class BidsModelsService {
+
     //logic
     @Autowired
     BidsModelsRepository bidsModelsRepository;
@@ -77,11 +78,6 @@ public class BidsModelsService {
 
         return bidsDTO;
     }
-    //util functions end
-
-
-
-    // Alla PostMan Funktioner
 
     // GET all
     public List<BidsDTO> getAllBidsModel() {
@@ -127,8 +123,8 @@ public class BidsModelsService {
 
         return bidsModelsRepository.save(existingBid);
     }
-    // DELETE
 
+    // DELETE
     public String deleteBidModels(String id){
         BidsModels bidsModels = bidsModelsRepository.findById(id).orElse(null);
         if (bidsModels != null) {
@@ -167,7 +163,6 @@ public class BidsModelsService {
         }
         return convertToDTO(bidsModel);
     }
-
 }
 
 

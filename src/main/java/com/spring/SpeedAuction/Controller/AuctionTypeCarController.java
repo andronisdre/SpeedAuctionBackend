@@ -76,6 +76,5 @@ public class AuctionTypeCarController {
     public List<CarDTO> getAuctionTypeCarByCondition(@PathVariable String condition) {
         return auctionTypeCarService.getAuctionTypeCarByCondition(condition);
     }
-
 }
 

@@ -39,20 +39,17 @@ public class ReviewServices {
         return reviewRepository.save(review);
  }
 
-
     public List<ReviewDTO> getAllReviews() {  // GET hämta alla reviews
         List<ReviewModels> review = reviewRepository.findAll();
 
         return review.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-
     public ReviewModels getReviewById(String id) {  // GET hämta review genom id
         return reviewRepository.findById(id).get();
     }
 
-
-   public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review
+    public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review
         return reviewRepository.findById(id)
                 .map(existingReviewModels -> {  // Jag vill att man bara ska kunna uppdatera Content och raiting
                     if (updateReview.getReviewContent() != null) {
