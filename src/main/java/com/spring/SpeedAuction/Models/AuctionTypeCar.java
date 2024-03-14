@@ -1,5 +1,8 @@
 package com.spring.SpeedAuction.Models;
 
+import com.spring.SpeedAuction.enums.EBrand;
+import com.spring.SpeedAuction.enums.EColor;
+import com.spring.SpeedAuction.enums.ECondition;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -13,8 +16,7 @@ public class AuctionTypeCar {
     private String id;
 
     @DBRef
-   @Indexed(unique=true)
-
+    @Indexed(unique=true)
     private AuctionModels auction;
 
     private EBrand brand;

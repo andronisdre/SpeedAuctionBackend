@@ -82,15 +82,21 @@ public class UserServices {
     }
 
     public String deleteUser(String id) {   // DELETE Ta bort en användare
-        userRepository.deleteById(id);
-        return "User is deleted";
+        UserModels userModels = userRepository.findById(id).orElse(null);
+        if (userModels != null) {
+            userRepository.deleteById(id);
+            return "user deleted";
+        }
+        else {
+            return "user id doesnt exist";
+        }
     }
 
     public UserModels addFavourite(String id, FavouriteDTO favouriteDTO) { // POST lägg till en favorit aucktion
         UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User id not found"));
 
-        List<String> auctionIds = favouriteDTO.getFavouriteAutcktion();
+        List<String> auctionIds = favouriteDTO.getFavouriteAuction();
         for (String auctionId : auctionIds) {
             AuctionModels auction = auctionRepository.findById(auctionId)
                     .orElseThrow(() -> new NoSuchElementException("Auction id not found"));
@@ -122,7 +128,7 @@ public class UserServices {
     private FavouriteDTO convertToDTO(UserModels userModels) {
         FavouriteDTO favouriteDTO = new FavouriteDTO();
 
-        favouriteDTO.setFavouriteAutcktion(userModels.getFavourites_auction_id().stream()
+        favouriteDTO.setFavouriteAuction(userModels.getFavourites_auction_id().stream()
                 .map(AuctionModels::getId).collect(Collectors.toList()));
 
         return favouriteDTO;

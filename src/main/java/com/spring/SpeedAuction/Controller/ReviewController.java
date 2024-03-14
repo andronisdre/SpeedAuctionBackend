@@ -1,7 +1,7 @@
 package com.spring.SpeedAuction.Controller;
 
-import com.spring.SpeedAuction.dto.ReviewDTO;
 import com.spring.SpeedAuction.Models.ReviewModels;
+import com.spring.SpeedAuction.dto.ReviewDTO;
 import com.spring.SpeedAuction.security.Services.ReviewServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class ReviewController {
     // POST
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
    @PostMapping()
-   public ResponseEntity<ReviewModels> addReview(@RequestBody ReviewDTO reviewDTO) {
+   public ResponseEntity<ReviewModels> addReview(@Valid @RequestBody ReviewDTO reviewDTO) {
        ReviewModels newReview = reviewServices.addReview(reviewDTO);
        return ResponseEntity.ok(newReview);
    }

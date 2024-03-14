@@ -1,6 +1,6 @@
 package com.spring.SpeedAuction.Controller;
 
-import com.spring.SpeedAuction.Models.ERole;
+import com.spring.SpeedAuction.enums.ERole;
 import com.spring.SpeedAuction.Models.Role;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.RoleRepository;

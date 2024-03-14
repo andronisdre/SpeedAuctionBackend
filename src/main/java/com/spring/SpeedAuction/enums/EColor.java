@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.Models;
+package com.spring.SpeedAuction.enums;
 
 public enum EColor {
     BLACK,RED,WHITE,BLUE,GREEN

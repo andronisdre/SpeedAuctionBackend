@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.Models;
+package com.spring.SpeedAuction.enums;
 
 public enum ECondition {
     GOOD,DECENT,BAD
