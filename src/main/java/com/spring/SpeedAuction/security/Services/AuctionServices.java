@@ -8,6 +8,8 @@ import com.spring.SpeedAuction.dto.AuctionsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,8 @@ public class AuctionServices {
     public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO) {
         UserModels user = checkUserId(auctionsDTO);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
-        //checkEndOfAuction(newAuction);
+        newAuction.setCreated_at(new Date());
+        checkEndOfAuction(newAuction);
         newAuction.setActive(false);
         return auctionRepository.save(newAuction);
     }
@@ -48,22 +51,13 @@ public class AuctionServices {
             existingAuction.setStartingPrice(auctionModels.getStartingPrice());
         }
         if (auctionModels.getEndOfAuction() != null){
-            auctionModels.setEndOfAuction(auctionModels.getEndOfAuction());
-        }
-        if (auctionModels.getUpdated_at() != null){
-            auctionModels.setUpdated_at(auctionModels.getUpdated_at());
-        }
-        if (auctionModels.isActive()){
-            auctionModels.setActive(auctionModels.isActive());
-        }
-        if (auctionModels.getCreated_at() != null){
-            auctionModels.setCreated_at(auctionModels.getCreated_at());
+            existingAuction.setEndOfAuction(auctionModels.getEndOfAuction());
         }
 
-        existingAuction.setId(id);
         existingAuction.setSeller(existingAuction.getSeller());
-        existingAuction.setStartingPrice(existingAuction.getStartingPrice());
         existingAuction.setCreated_at(existingAuction.getCreated_at());
+        existingAuction.setUpdated_at(new Date());
+        checkEndOfAuction(existingAuction);
 
         return auctionRepository.save(existingAuction);
     }
@@ -105,8 +99,14 @@ public class AuctionServices {
     }
 
     public void checkEndOfAuction(AuctionModels auctionModels) {
-        if(auctionModels.getEndOfAuction().after(auctionModels.getCreated_at())) {
-            throw new IllegalArgumentException("date ");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(auctionModels.getCreated_at());
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        Date minCreated_at = calendar.getTime();
+
+        if(auctionModels.getEndOfAuction().before(minCreated_at)) {
+            throw new IllegalArgumentException("date endOfAuction needs to be at least a day later than date created_at");
         }
     }
 
