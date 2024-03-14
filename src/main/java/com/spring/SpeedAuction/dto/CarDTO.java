@@ -3,6 +3,8 @@ package com.spring.SpeedAuction.dto;
 import com.spring.SpeedAuction.enums.EBrand;
 import com.spring.SpeedAuction.enums.EColor;
 import com.spring.SpeedAuction.enums.ECondition;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,18 +14,20 @@ public class CarDTO {
 
     private String auctionId;
 
-
+    @NotNull
     private EBrand brand;
 
     @NotBlank
     private String carModel;
 
-    @NotNull
+    @Min(value = 1950, message = "must be between 1950 and 2030")
+    @Max(value = 2030, message = "must be between 1950 and 2030")
     private int yearManufactured;
 
-    @NotNull
+    @Min(value = 0)
     private int milesDriven;
 
+    @NotNull
     private List<EColor> color;
 
     @NotBlank
@@ -32,6 +36,7 @@ public class CarDTO {
     @NotBlank
     private String regNumber;
 
+    @NotNull
     private ECondition condition;
 
     @NotBlank
