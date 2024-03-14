@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,19 +23,23 @@ public class UserController {
     UserServices userServices;
 
 
+
     // GET ALL
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
     @GetMapping("/all")
     public List<UserModels> getAllUsers() {
         return userServices.getAllUsers();
     }
 
     // GET BY ID
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('USER')")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public UserModels getUserById(@PathVariable String id) {
         return userServices.getUserById(id);
     }
 
     // PUT
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('USER')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable String id, @Valid @RequestBody UserModels userDetails) {
         try {
@@ -46,12 +51,14 @@ public class UserController {
     }
 
     // DELETE
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteUser(@PathVariable String id) {
         return userServices.deleteUser(id);
     }
 
     // POST
+    @PreAuthorize("hasRole('User') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PostMapping("/Add/favourite/{id}")
     public ResponseEntity<UserModels> addFavourite(@PathVariable String id, @RequestBody FavouriteDTO favouriteDTO) {
         UserModels updatedUser = userServices.addFavourite(id, favouriteDTO);
@@ -59,6 +66,7 @@ public class UserController {
     }
 
     // GET ALL
+    @PreAuthorize("hasRole('User') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @GetMapping("/all/favourite")
     public ResponseEntity<List<UserResponsDTO>> getUsersWithFavouriteAuction() {
         List<UserResponsDTO> favourite = userServices.getUsersWithFavouriteAuction();
@@ -67,6 +75,7 @@ public class UserController {
     }
 
     // DELETE
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('USER')")
     @DeleteMapping("/favourite/delete/{id}/{auctionId}")
     public ResponseEntity<UserModels> deleteFavouriteAuctions(@PathVariable String id, @PathVariable String auctionId) {
         UserModels updatedUser = userServices.deleteFavouriteAuctions(id, auctionId);

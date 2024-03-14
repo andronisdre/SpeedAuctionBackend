@@ -4,6 +4,7 @@ import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.dto.BidsDTO;
 import com.spring.SpeedAuction.security.Services.BidsModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class BidsModelsController {
     BidsModelsService bidsModelsService;
 
     //POST Lägg till ett nytt bid
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PostMapping
     public BidsModels createBidModel(@RequestBody BidsDTO bidsDTO) {
         return bidsModelsService.createBidModels(bidsDTO);
@@ -25,6 +27,7 @@ public class BidsModelsController {
         return bidsModelsService.getAllBidsModel();
     }
 
+
     //GET /bids/{id} - Hämta ett specifikt bid baserat på id.
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public BidsModels getAllBidsModels(@PathVariable String id) {
@@ -32,12 +35,14 @@ public class BidsModelsController {
     }
 
     //PUT /bids/{id} - Uppdatera ett specifikt bid baserat på id.
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PutMapping("/{id}")
     public BidsModels updateBidModel(@PathVariable String id, @RequestBody BidsModels bidsModels) {
         return bidsModelsService.updateBidModels(id, bidsModels);
     }
 
     //DELETE /bids/{id} - Ta bort ett bid baserat på id.
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteBidModel(@PathVariable String id){
          return bidsModelsService.deleteBidModels(id);
@@ -45,6 +50,7 @@ public class BidsModelsController {
     }
 
     //Hämtar alla bids med ett specifikt bidderId, nyaste budet kommer först
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @GetMapping("/filterByBidderId/{bidderId}")
     public List<BidsDTO> getBidsModelByUserId(@PathVariable String bidderId) {
         return bidsModelsService.getBidsModelByUserId(bidderId);
