@@ -96,7 +96,7 @@ public class UserServices {
         UserModels user = userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User id not found"));
 
-        List<String> auctionIds = favouriteDTO.getFavouriteAutcktion();
+        List<String> auctionIds = favouriteDTO.getFavouriteAuction();
         for (String auctionId : auctionIds) {
             AuctionModels auction = auctionRepository.findById(auctionId)
                     .orElseThrow(() -> new NoSuchElementException("Auction id not found"));
@@ -128,7 +128,7 @@ public class UserServices {
     private FavouriteDTO convertToDTO(UserModels userModels) {
         FavouriteDTO favouriteDTO = new FavouriteDTO();
 
-        favouriteDTO.setFavouriteAutcktion(userModels.getFavourites_auction_id().stream()
+        favouriteDTO.setFavouriteAuction(userModels.getFavourites_auction_id().stream()
                 .map(AuctionModels::getId).collect(Collectors.toList()));
 
         return favouriteDTO;

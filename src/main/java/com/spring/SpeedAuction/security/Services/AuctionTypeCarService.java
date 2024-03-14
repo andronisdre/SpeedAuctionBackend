@@ -78,7 +78,6 @@ public class AuctionTypeCarService {
 
 
         AuctionTypeCar newAuctionTypeCar = new AuctionTypeCar();
-        //newAuctionTypeCar.setId(auctionTypeCarDTO.getId());
         newAuctionTypeCar.setAuction(auction);
         newAuctionTypeCar.setCarModel(auctionTypeCarDTO.getCarModel());
         newAuctionTypeCar.setBrand(auctionTypeCarDTO.getBrand());
@@ -111,7 +110,6 @@ public class AuctionTypeCarService {
     }
     private CarDTO convertToDTO(AuctionTypeCar auctionTypeCar) {
         CarDTO carDTOResponse = new CarDTO();
-        //carDTOResponse.setId(auctionTypeCar.getId());
         carDTOResponse.setAuctionId(auctionTypeCar.getAuction().getId());
         carDTOResponse.setBrand(auctionTypeCar.getBrand());
         carDTOResponse.setCarModel(auctionTypeCar.getCarModel());
