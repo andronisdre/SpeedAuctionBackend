@@ -98,8 +98,9 @@ public class BidsModelsService {
     }
 
     // POST
-    public BidsModels createBidModels(BidsDTO bidsDTO) {
+    public BidsModels createBidModels(String auctionId, BidsDTO bidsDTO) {
         UserModels user = checkUserId(bidsDTO);
+        bidsDTO.setAuctionId(auctionId);
         AuctionModels auction = checkAuctionId(bidsDTO);
         BidsModels newBid = retrieveData(bidsDTO, auction, user);
         checkIsActive(auction);

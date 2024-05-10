@@ -18,9 +18,9 @@ public class BidsModelsController {
 
     //POST Lägg till ett nytt bid
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
-    @PostMapping
-    public BidsModels createBidModel(@RequestBody BidsDTO bidsDTO) {
-        return bidsModelsService.createBidModels(bidsDTO);
+    @PostMapping("/{auctionId}")
+    public BidsModels createBidModel(@PathVariable String auctionId, @RequestBody BidsDTO bidsDTO) {
+        return bidsModelsService.createBidModels(auctionId, bidsDTO);
     }
 
     //GET /bids - Hämta en lista över alla bids.
