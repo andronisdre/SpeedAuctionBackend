@@ -4,6 +4,7 @@ import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.AuctionTypeCar;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.AuctionTypeCarRepository;
+import com.spring.SpeedAuction.dto.AuctionsDTO;
 import com.spring.SpeedAuction.dto.CarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,9 +71,9 @@ public class AuctionTypeCarService {
             return "auctionTypeCar id doesnt exist";
         }
     }
-    public AuctionTypeCar createAuctiontypecar (CarDTO auctionTypeCarDTO) {
+    public AuctionTypeCar createAuctiontypecar (CarDTO auctionTypeCarDTO, AuctionsDTO auctionsDTO) {
 
-        AuctionModels auction = auctionRepository.findById(auctionTypeCarDTO.getAuctionId())
+        AuctionModels auction = auctionRepository.findById(auctionsDTO.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid AuctionId"));
 
 
@@ -110,6 +111,7 @@ public class AuctionTypeCarService {
     }
     private CarDTO convertToDTO(AuctionTypeCar auctionTypeCar) {
         CarDTO carDTOResponse = new CarDTO();
+        carDTOResponse.setId(auctionTypeCar.getId());
         carDTOResponse.setAuctionId(auctionTypeCar.getAuction().getId());
         carDTOResponse.setBrand(auctionTypeCar.getBrand());
         carDTOResponse.setCarModel(auctionTypeCar.getCarModel());
@@ -124,6 +126,14 @@ public class AuctionTypeCarService {
 
         return carDTOResponse;
     }
+
+    //get all auctiontypeCars that match with Auction
+    public List<CarDTO> getAuctionTypeCarByAuction(String auctionId) {
+        List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByAuction(auctionId);
+
+        return auctionTypeCars.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
 
     //get all auctions that match with color
     public List<CarDTO> getAuctionTypeCarByColor(String color) {

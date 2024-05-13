@@ -12,6 +12,8 @@ import java.util.List;
 
 public class CarDTO {
 
+    private String id;
+
     private String auctionId;
 
     @NotNull
@@ -41,6 +43,14 @@ public class CarDTO {
 
     @NotBlank
     private String description;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getAuctionId() {
         return auctionId;
