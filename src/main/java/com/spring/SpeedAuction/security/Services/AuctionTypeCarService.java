@@ -150,14 +150,14 @@ public class AuctionTypeCarService {
 
     //get all auctions that match with YearManufactured
     public List<CarDTO> getAuctionTypeCarByYearManufactured(int minYearManufactured, int maxYearManufactured) {
-        List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByYearManufacturedBetweenOrderByYearManufacturedDesc(minYearManufactured,maxYearManufactured);
+        List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByYearManufacturedBetweenOrderByYearManufacturedDesc((minYearManufactured - 1),(maxYearManufactured + 1));
 
         return auctionTypeCars.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     //get all auctions that match with MilesDriven
     public List<CarDTO> getAuctionTypeCarByMilesDriven(int minMilesDriven, int maxMilesDriven) {
-        List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByMilesDrivenBetweenOrderByMilesDrivenAsc(minMilesDriven,maxMilesDriven);
+        List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAuctionTypeCarByMilesDrivenBetweenOrderByMilesDrivenAsc((minMilesDriven - 1),(maxMilesDriven + 1));
 
         return auctionTypeCars.stream().map(this::convertToDTO).collect(Collectors.toList());
     }

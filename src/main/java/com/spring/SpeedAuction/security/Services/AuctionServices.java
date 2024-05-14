@@ -85,7 +85,7 @@ public class AuctionServices {
 
     //get all auctions in the range between minStartingBid and maxStartingBid
     public List<AuctionsDTO> getAuctionModelsByStartingPriceBetween(int minStartingPrice, int maxStartingPrice) {
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByStartingPriceBetweenOrderByStartingPriceAsc(minStartingPrice, maxStartingPrice);
+        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByStartingPriceBetweenOrderByStartingPriceAsc((minStartingPrice - 1), (maxStartingPrice + 1));
         if (auctionModels.isEmpty()) {
             throw new IllegalArgumentException("no results for those values");
         }
