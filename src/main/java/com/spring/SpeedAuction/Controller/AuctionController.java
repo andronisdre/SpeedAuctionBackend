@@ -20,9 +20,9 @@ public class AuctionController {
 
     //POST
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
-    @PostMapping()
-    public AuctionModels createAuctionModels(@Valid @RequestBody AuctionsDTO auctionsDTO) {
-        return auctionServices.createAuctionModels(auctionsDTO);
+    @PostMapping("/{userId}")
+    public AuctionModels createAuctionModels(@PathVariable String userId, @Valid @RequestBody AuctionsDTO auctionsDTO) {
+        return auctionServices.createAuctionModels(auctionsDTO, userId);
     }
 
     //GET ALL

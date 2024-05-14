@@ -4,7 +4,6 @@ import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.AuctionTypeCar;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.AuctionTypeCarRepository;
-import com.spring.SpeedAuction.dto.AuctionsDTO;
 import com.spring.SpeedAuction.dto.CarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,9 +70,9 @@ public class AuctionTypeCarService {
             return "auctionTypeCar id doesnt exist";
         }
     }
-    public AuctionTypeCar createAuctiontypecar (CarDTO auctionTypeCarDTO, AuctionsDTO auctionsDTO) {
+    public AuctionTypeCar createAuctiontypecar (CarDTO auctionTypeCarDTO, String auctionId) {
 
-        AuctionModels auction = auctionRepository.findById(auctionsDTO.getId())
+        AuctionModels auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid AuctionId"));
 
 

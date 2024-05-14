@@ -1,7 +1,6 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.AuctionTypeCar;
-import com.spring.SpeedAuction.dto.AuctionsDTO;
 import com.spring.SpeedAuction.dto.CarDTO;
 import com.spring.SpeedAuction.security.Services.AuctionTypeCarService;
 import jakarta.validation.Valid;
@@ -23,8 +22,8 @@ public class AuctionTypeCarController {
     //POST
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PostMapping("/{auctionId}")
-    public AuctionTypeCar createAuctionTypeCar(@Valid @RequestBody CarDTO carDTO, @RequestBody AuctionsDTO auctionsDTO) {
-        return auctionTypeCarService.createAuctiontypecar(carDTO, auctionsDTO);
+    public AuctionTypeCar createAuctionTypeCar(@PathVariable String auctionId, @Valid @RequestBody CarDTO carDTO) {
+        return auctionTypeCarService.createAuctiontypecar(carDTO, auctionId);
     }
 
     //GET ALL
@@ -53,7 +52,7 @@ public class AuctionTypeCarController {
         return auctionTypeCarService.deleteAuctionTypeCar(id);
     }
 
-    //get FILTER by color
+    //get FILTER by auctionId
     @GetMapping("/filterByAuction/{auctionId}")
     public List<CarDTO> getAuctionTypeCarByAuction(@PathVariable String auctionId) {
         return auctionTypeCarService.getAuctionTypeCarByAuction(auctionId);

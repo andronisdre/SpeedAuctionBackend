@@ -22,8 +22,8 @@ public class AuctionServices {
     UserRepository userRepository;
 
     //post
-    public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO) {
-        UserModels user = checkUserId(auctionsDTO);
+    public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO, String userId) {
+        UserModels user = checkUserId(userId);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
         newAuction.setCreated_at(new Date());
         checkEndOfAuction(newAuction);
@@ -93,8 +93,8 @@ public class AuctionServices {
     }
 
     // UTIL functions
-    public UserModels checkUserId(AuctionsDTO auctionsDTO) {
-        return userRepository.findById(auctionsDTO.getSellerId()).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+    public UserModels checkUserId(String userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
     }
 
     public void checkEndOfAuction(AuctionModels auctionModels) {
