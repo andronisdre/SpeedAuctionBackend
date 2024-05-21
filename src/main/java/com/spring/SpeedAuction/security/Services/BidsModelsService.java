@@ -26,8 +26,8 @@ public class BidsModelsService {
     UserRepository userRepository;
 
     //util functions
-    public UserModels checkUserId(BidsDTO bidsDTO) {
-        return userRepository.findById(bidsDTO.getBidderId()).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
+    public UserModels checkUserId(String userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
     }
 
     public AuctionModels checkAuctionId(BidsDTO bidsDTO) {
@@ -98,8 +98,8 @@ public class BidsModelsService {
     }
 
     // POST
-    public BidsModels createBidModels(String auctionId, BidsDTO bidsDTO) {
-        UserModels user = checkUserId(bidsDTO);
+    public BidsModels createBidModels(String auctionId, String userId, BidsDTO bidsDTO) {
+        UserModels user = checkUserId(userId);
         bidsDTO.setAuctionId(auctionId);
         AuctionModels auction = checkAuctionId(bidsDTO);
         BidsModels newBid = retrieveData(bidsDTO, auction, user);
@@ -126,7 +126,7 @@ public class BidsModelsService {
         existingBid.setBidder(existingBid.getBidder());
         existingBid.setAuction(existingBid.getAuction());
         BidsDTO bidsDTO = convertToDTO(existingBid);
-        checkUserId(bidsDTO);
+        checkUserId(bidsDTO.getBidderId());
         AuctionModels auction = checkAuctionId(bidsDTO);
         checkIsActive(auction);
         bidLargeEnough(bidsDTO, existingBid, auction);
