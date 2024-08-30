@@ -32,6 +32,7 @@ public class OrderServices {
 
     public OrderModels createOrder(OrderDto orderDto) {
 
+        // ###### BRYTA NER TILL TRE OLIKA METODER
         UserModels user = userRepository.findById(orderDto.getSellerid())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
 
@@ -50,6 +51,7 @@ public class OrderServices {
         AuctionModels existingAuction = auctionRepository.findById
                 (NewOrder.getAuction_id().getId()).orElseThrow(() -> new IllegalArgumentException("auction does not exist"));
         existingAuction.setActive(false);
+        // #########
 
         auctionRepository.save(existingAuction);
 

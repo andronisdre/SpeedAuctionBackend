@@ -113,6 +113,7 @@ public class UserServices {
     }
 
     // HJÄLPMETOD
+    // #### FUNDERA PÅ ATT TA BORT DENNA METOD
     private FavouriteDTO convertToDTO(UserModels userModels) {
         FavouriteDTO favouriteDTO = new FavouriteDTO();
 

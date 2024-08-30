@@ -56,10 +56,12 @@ public class AuctionTypeCarService {
     }
 
 
+    // Get AuctionsTypeCar By ID
     public AuctionTypeCar getAuctionTypeCarById(String id) {
         return auctionTypeCarRepository.findById(id).get();
     }
 
+    // Delete AuctionsTypeCar
     public String deleteAuctionTypeCar(String id) {
         AuctionTypeCar auctionTypeCar = auctionTypeCarRepository.findById(id).orElse(null);
         if (auctionTypeCar != null) {
@@ -70,11 +72,12 @@ public class AuctionTypeCarService {
             return "auctionTypeCar id doesnt exist";
         }
     }
+
+    // Post AuctionsTypeCar
     public AuctionTypeCar createAuctiontypecar (CarDTO auctionTypeCarDTO, String auctionId) {
 
         AuctionModels auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid AuctionId"));
-
 
 
         AuctionTypeCar newAuctionTypeCar = new AuctionTypeCar();
@@ -102,12 +105,14 @@ public class AuctionTypeCarService {
         return  auctionTypeCarRepository.save(newAuctionTypeCar);
     }
 
-
+    // Get All AuctionTypeCar
     public List<CarDTO> getAllAuctionTypeCar() {
         List<AuctionTypeCar> auctionTypeCars = auctionTypeCarRepository.findAll();
 
         return auctionTypeCars.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
+
+
     private CarDTO convertToDTO(AuctionTypeCar auctionTypeCar) {
         CarDTO carDTOResponse = new CarDTO();
         carDTOResponse.setId(auctionTypeCar.getId());

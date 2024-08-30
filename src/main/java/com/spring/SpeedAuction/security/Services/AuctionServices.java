@@ -47,12 +47,14 @@ public class AuctionServices {
         AuctionModels existingAuction = auctionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
+        // ############ BRTY UT TILL EGEN METOD
         if (auctionModels.getStartingPrice() != 0){
             existingAuction.setStartingPrice(auctionModels.getStartingPrice());
         }
         if (auctionModels.getEndOfAuction() != null){
             existingAuction.setEndOfAuction(auctionModels.getEndOfAuction());
         }
+        // #############
 
         existingAuction.setSeller(existingAuction.getSeller());
         existingAuction.setCreated_at(existingAuction.getCreated_at());

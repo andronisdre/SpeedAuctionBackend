@@ -64,6 +64,7 @@ public class BidsModelsService {
 
     public void bidLargeEnough(BidsDTO bidsDTO, BidsModels newBid, AuctionModels auction) {
 
+        // ###### BRYTA NER TILL TVÅ OLIKA METODER
         if (newBid.getAmount() < auction.getStartingPrice()) {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
         }
@@ -74,7 +75,7 @@ public class BidsModelsService {
                 throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");
             }
         }
-    }
+    } // #######
 
     private BidsDTO convertToDTO(BidsModels bidsModels) {
         BidsDTO bidsDTO = new BidsDTO();

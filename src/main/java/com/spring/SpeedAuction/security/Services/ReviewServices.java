@@ -24,6 +24,7 @@ public class ReviewServices {
 
     public ReviewModels addReview(ReviewDTO reviewDTO) {    // POST Lägg till en review
 
+        // ###### BRYTA NER TILL TVÅ OLIKA METODER
         UserModels user = userRepository.findById(reviewDTO.getUser_id())
                 .orElseThrow(() -> new NoSuchElementException("Invalid user id"));
 
@@ -35,7 +36,7 @@ public class ReviewServices {
         review.setRating(reviewDTO.getRating());
         review.setUser_id(user);
         review.setReviewer_id(reviewer);
-
+        // #######
         return reviewRepository.save(review);
  }
 
@@ -51,7 +52,7 @@ public class ReviewServices {
 
     public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review
         return reviewRepository.findById(id)
-                .map(existingReviewModels -> {  // Jag vill att man bara ska kunna uppdatera Content och raiting
+                .map(existingReviewModels -> {
                     if (updateReview.getReviewContent() != null) {
                         existingReviewModels.setReviewContent(updateReview.getReviewContent());
                     }
