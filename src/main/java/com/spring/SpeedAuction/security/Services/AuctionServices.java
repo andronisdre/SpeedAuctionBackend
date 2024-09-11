@@ -27,8 +27,7 @@ public class AuctionServices {
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
         newAuction.setCreated_at(new Date());
         checkEndOfAuction(newAuction);
-        newAuction.setActive(false);
-
+        newAuction.setActive(true);
         newAuction.setCarModel(auctionsDTO.getCarModel());
         newAuction.setBrand(auctionsDTO.getBrand());
         newAuction.setCarPng(auctionsDTO.getCarPng());
