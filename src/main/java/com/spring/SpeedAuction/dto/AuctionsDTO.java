@@ -35,16 +35,13 @@ public class AuctionsDTO {
     @NotNull
     private List<EColor> color;
 
-    @NotBlank
     private String carPng;
 
     @NotBlank
     private String regNumber;
 
-    @NotNull
     private ECondition condition;
 
-    @NotBlank
     private String description;
 
     public String getId() {

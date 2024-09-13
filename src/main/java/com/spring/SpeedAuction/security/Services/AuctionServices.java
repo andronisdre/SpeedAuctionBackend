@@ -204,7 +204,7 @@ public class AuctionServices {
     }
 
     public AuctionModels retrieveData(AuctionsDTO auctionsDTO, UserModels user) {
-        AuctionModels newAuction = new AuctionModels();
+        AuctionModels newAuction = new AuctionModels.AuctionBuilder().build();
         newAuction.setSeller(user);
         newAuction.setActive(auctionsDTO.isActive());
         newAuction.setStartingPrice(auctionsDTO.getStartingPrice());

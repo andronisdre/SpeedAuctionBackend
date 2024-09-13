@@ -52,9 +52,6 @@ public class AuctionModels {
          this.description = builder.description;
     }
 
-    public AuctionModels() {
-    }
-
     public static class AuctionBuilder {
         @Id
         private String id;
@@ -80,18 +77,22 @@ public class AuctionModels {
             this.id = id;
             return this;
         }
+
         public AuctionBuilder seller(UserModels seller) {
             this.seller = seller;
             return this;
         }
+
         public AuctionBuilder startingPrice(int startingPrice) {
             this.startingPrice = startingPrice;
             return this;
         }
+
         public AuctionBuilder isActive(boolean isActive) {
             this.isActive = isActive;
             return this;
         }
+
         public AuctionBuilder created(Date created_at) {
             this.created_at = created_at;
             return this;
@@ -124,6 +125,12 @@ public class AuctionModels {
             this.milesDriven = milesDriven;
             return this;
         }
+
+        public AuctionBuilder regNumber(String regNumber) {
+            this.regNumber= regNumber;
+            return this;
+        }
+
         public AuctionBuilder ECondition(ECondition condition) {
             this.condition = condition;
             return this;
@@ -132,14 +139,12 @@ public class AuctionModels {
             this.carPng= carPng;
             return this;
         }
-        public AuctionBuilder regNumber(String regNumber) {
-            this.regNumber= regNumber;
-            return this;
-        }
+
         public AuctionBuilder description(String description) {
             this.description = description;
             return this;
         }
+
         public AuctionModels build() {
             return new AuctionModels(this);
         }
