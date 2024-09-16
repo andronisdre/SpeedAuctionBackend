@@ -2,7 +2,7 @@ package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.AuctionTypeCar;
 import com.spring.SpeedAuction.dto.CarDTO;
-import com.spring.SpeedAuction.security.Services.AuctionTypeCarService;
+import com.spring.SpeedAuction.Security.Services.AuctionTypeCarService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

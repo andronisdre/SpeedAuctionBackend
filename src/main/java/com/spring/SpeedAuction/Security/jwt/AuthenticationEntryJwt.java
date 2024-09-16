@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.security.jwt;
+package com.spring.SpeedAuction.Security.jwt;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

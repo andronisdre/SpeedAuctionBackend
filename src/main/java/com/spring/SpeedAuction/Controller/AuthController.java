@@ -4,13 +4,13 @@ import com.spring.SpeedAuction.Models.Role;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.RoleRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.enums.ERole;
-import com.spring.SpeedAuction.payload.request.SigningRequest;
-import com.spring.SpeedAuction.payload.request.SignupRequest;
-import com.spring.SpeedAuction.payload.response.MessageResponse;
-import com.spring.SpeedAuction.payload.response.UserInfoResponse;
-import com.spring.SpeedAuction.security.Services.UserDetailImpl;
-import com.spring.SpeedAuction.security.jwt.JwtUtils;
+import com.spring.SpeedAuction.Enums.ERole;
+import com.spring.SpeedAuction.Payload.request.SigningRequest;
+import com.spring.SpeedAuction.Payload.request.SignupRequest;
+import com.spring.SpeedAuction.Payload.response.MessageResponse;
+import com.spring.SpeedAuction.Payload.response.UserInfoResponse;
+import com.spring.SpeedAuction.Security.Services.UserDetailImpl;
+import com.spring.SpeedAuction.Security.jwt.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    //logga in
+    //sign in
     @PostMapping("/signing")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody SigningRequest signingRequest, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate(
@@ -72,7 +72,7 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        //Jwt med cookie
+        //Jwt with cookie
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(new UserInfoResponse(userDetails.getId(),
                         userDetails.getUsername(),
@@ -80,17 +80,17 @@ public class AuthController {
                         roles));
     }
 
-    //Registrera en user
+    //Create an account
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody SignupRequest signupRequest) {
-        // KOLLAR OM USERN FINNS
+        // check if the username exist
         if (userRepository.existsByUsername((signupRequest.getUsername()))) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error username already exist!"));
         }
 
-        //SKAPA KONTO IF FALSE
+        //create account if False
         UserModels user = new UserModels(
                 signupRequest.getUsername(),
                 signupRequest.getFirst_name(),
