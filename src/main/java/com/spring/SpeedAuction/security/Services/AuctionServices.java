@@ -21,7 +21,7 @@ public class AuctionServices {
     @Autowired
     UserRepository userRepository;
 
-    //post
+    //post 123
     public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO, String userId) {
         UserModels user = checkUserId(userId);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
