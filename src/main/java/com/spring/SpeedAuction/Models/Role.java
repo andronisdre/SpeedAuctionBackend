@@ -1,6 +1,6 @@
 package com.spring.SpeedAuction.Models;
 
-import com.spring.SpeedAuction.enums.ERole;
+import com.spring.SpeedAuction.Enums.ERole;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

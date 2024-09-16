@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.security.Services;
+package com.spring.SpeedAuction.Security.Services;
 
 import com.spring.SpeedAuction.dto.OrderDto;
 

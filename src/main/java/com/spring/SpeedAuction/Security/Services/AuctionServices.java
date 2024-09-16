@@ -1,10 +1,10 @@
-package com.spring.SpeedAuction.security.Services;
+package com.spring.SpeedAuction.Security.Services;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.dto.AuctionsDTO;
+import com.spring.SpeedAuction.DTO.AuctionsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +57,6 @@ public class AuctionServices {
         AuctionModels existingAuction = auctionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
-        // ############ BRTY UT TILL EGEN METOD
         if (auctionModels.getStartingPrice() != 0){
             existingAuction.setStartingPrice(auctionModels.getStartingPrice());
         }
@@ -65,7 +64,7 @@ public class AuctionServices {
             existingAuction.setEndOfAuction(auctionModels.getEndOfAuction());
         }
 
-        if (auctionModels.getCondition() != null){
+            if (auctionModels.getCondition() != null){
             existingAuction.setCondition(auctionModels.getCondition());
         }
         if (auctionModels.getMilesDriven() != 0){

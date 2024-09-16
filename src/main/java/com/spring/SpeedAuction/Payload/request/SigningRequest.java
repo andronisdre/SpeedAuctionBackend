@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.payload.request;
+package com.spring.SpeedAuction.Payload.request;
 
 import jakarta.validation.constraints.NotBlank;
 

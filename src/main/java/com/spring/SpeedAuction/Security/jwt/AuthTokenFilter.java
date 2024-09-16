@@ -1,6 +1,6 @@
-package com.spring.SpeedAuction.security.jwt;
+package com.spring.SpeedAuction.Security.jwt;
 
-import com.spring.SpeedAuction.security.Services.UserDetailsServiceImpl;
+import com.spring.SpeedAuction.Security.Services.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,11 +43,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
+            //Log an error if there's an error during the authentication process
             logger.error("Cannot user authentication: {}", e);
         }
         filterChain.doFilter(request, response);
     }
 
+
+
+    // Helper method to extract the JWT token from the request.
     private String parseJwt(HttpServletRequest request) {
 
         String jwt = jwtUtils.getJwtFromCookie(request);

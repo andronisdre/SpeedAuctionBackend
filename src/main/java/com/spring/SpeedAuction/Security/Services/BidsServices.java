@@ -1,10 +1,10 @@
-package com.spring.SpeedAuction.security.Services;
+package com.spring.SpeedAuction.Security.Services;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
-import com.spring.SpeedAuction.Repository.BidsModelsRepository;
+import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
 import com.spring.SpeedAuction.dto.BidsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class BidsModelsService {
+public class BidsServices {
 
     //logic
     @Autowired
-    BidsModelsRepository bidsModelsRepository;
+    BidsRepository bidsModelsRepository;
     @Autowired
     AuctionRepository auctionRepository;
     @Autowired

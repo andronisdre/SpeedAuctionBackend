@@ -1,8 +1,9 @@
 package com.spring.SpeedAuction.Models;
 
-import com.spring.SpeedAuction.enums.EBrand;
-import com.spring.SpeedAuction.enums.EColor;
-import com.spring.SpeedAuction.enums.ECondition;
+
+import com.spring.SpeedAuction.Enums.EBrand;
+import com.spring.SpeedAuction.Enums.EColor;
+import com.spring.SpeedAuction.Enums.ECondition;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
