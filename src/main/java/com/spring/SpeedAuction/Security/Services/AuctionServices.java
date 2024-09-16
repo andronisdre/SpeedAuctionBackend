@@ -4,7 +4,7 @@ import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.dto.AuctionsDTO;
+import com.spring.SpeedAuction.DTO.AuctionsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,17 @@ public class AuctionServices {
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
         newAuction.setCreated_at(new Date());
         checkEndOfAuction(newAuction);
-        newAuction.setActive(false);
+        newAuction.setActive(true);
+        newAuction.setCarModel(auctionsDTO.getCarModel());
+        newAuction.setBrand(auctionsDTO.getBrand());
+        newAuction.setCarPng(auctionsDTO.getCarPng());
+        newAuction.setColor(auctionsDTO.getColor());
+        newAuction.setCondition(auctionsDTO.getCondition());
+        newAuction.setMilesDriven(auctionsDTO.getMilesDriven());
+        newAuction.setDescription(auctionsDTO.getDescription());
+        newAuction.setRegNumber(auctionsDTO.getRegNumber());
+        newAuction.setYearManufactured(auctionsDTO.getYearManufactured());
+
         return auctionRepository.save(newAuction);
     }
 
@@ -47,14 +57,39 @@ public class AuctionServices {
         AuctionModels existingAuction = auctionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
-        // ############ BRTY UT TILL EGEN METOD
         if (auctionModels.getStartingPrice() != 0){
             existingAuction.setStartingPrice(auctionModels.getStartingPrice());
         }
         if (auctionModels.getEndOfAuction() != null){
             existingAuction.setEndOfAuction(auctionModels.getEndOfAuction());
         }
-        // #############
+        if (auctionModels.getCondition() != null){
+            existingAuction.setCondition(auctionModels.getCondition());
+        }
+        if (auctionModels.getMilesDriven() != 0){
+            existingAuction.setMilesDriven(auctionModels.getMilesDriven());
+        }
+        if (auctionModels.getCarModel() != null){
+            existingAuction.setCarModel(auctionModels.getCarModel());
+        }
+        if (auctionModels.getBrand() != null){
+            existingAuction.setBrand(auctionModels.getBrand());
+        }
+        if (auctionModels.getYearManufactured() != 0) {
+            existingAuction.setYearManufactured(auctionModels.getYearManufactured());
+        }
+        if (auctionModels.getColor() != null){
+            existingAuction.setColor(auctionModels.getColor());
+        }
+        if (auctionModels.getRegNumber() != null){
+            existingAuction.setRegNumber(auctionModels.getRegNumber());
+        }
+        if (auctionModels.getCarPng() != null){
+            existingAuction.setCarPng(auctionModels.getCarPng());
+        }
+        if (auctionModels.getDescription() != null){
+            existingAuction.setDescription(auctionModels.getDescription());
+        }
 
         existingAuction.setSeller(existingAuction.getSeller());
         existingAuction.setCreated_at(existingAuction.getCreated_at());
@@ -94,6 +129,41 @@ public class AuctionServices {
         return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    //get all auctions that match with color
+    public List<AuctionsDTO> getAuctionModelsByColor(String color) {
+        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByColor(color);
+
+        return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    //get all auctions that match with brand
+    public List<AuctionsDTO> getAuctionModelsByBrand(String brand) {
+        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByBrand(brand);
+
+        return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    //get all auctions that match with YearManufactured
+    public List<AuctionsDTO> getAuctionModelsByYearManufactured(int minYearManufactured, int maxYearManufactured) {
+        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByYearManufacturedBetweenOrderByYearManufacturedDesc((minYearManufactured - 1),(maxYearManufactured + 1));
+
+        return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    //get all auctions that match with MilesDriven
+    public List<AuctionsDTO> getAuctionModelsByMilesDriven(int minMilesDriven, int maxMilesDriven) {
+        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByMilesDrivenBetweenOrderByMilesDrivenAsc((minMilesDriven - 1),(maxMilesDriven + 1));
+
+        return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    //get all auctions that match with CONDITION
+    public List<AuctionsDTO> getAuctionModelsByCondition(String condition){
+        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByCondition(condition);
+
+        return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
     // UTIL functions
     public UserModels checkUserId(String userId) {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
@@ -120,11 +190,21 @@ public class AuctionServices {
         auctionsDTO.setEndOfAuction(auctionModels.getEndOfAuction());
         auctionsDTO.setCreated_at(auctionModels.getCreated_at());
 
+        auctionsDTO.setBrand(auctionModels.getBrand());
+        auctionsDTO.setCarModel(auctionModels.getCarModel());
+        auctionsDTO.setCarPng(auctionModels.getCarPng());
+        auctionsDTO.setColor(auctionModels.getColor());
+        auctionsDTO.setCondition(auctionModels.getCondition());
+        auctionsDTO.setMilesDriven(auctionModels.getMilesDriven());
+        auctionsDTO.setDescription(auctionModels.getDescription());
+        auctionsDTO.setRegNumber(auctionModels.getRegNumber());
+        auctionsDTO.setYearManufactured(auctionModels.getYearManufactured());
+
         return auctionsDTO;
     }
 
     public AuctionModels retrieveData(AuctionsDTO auctionsDTO, UserModels user) {
-        AuctionModels newAuction = new AuctionModels();
+        AuctionModels newAuction = new AuctionModels.AuctionBuilder().build();
         newAuction.setSeller(user);
         newAuction.setActive(auctionsDTO.isActive());
         newAuction.setStartingPrice(auctionsDTO.getStartingPrice());

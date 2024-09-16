@@ -1,7 +1,7 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
-import com.spring.SpeedAuction.dto.AuctionsDTO;
+import com.spring.SpeedAuction.DTO.AuctionsDTO;
 import com.spring.SpeedAuction.Security.Services.AuctionServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +62,36 @@ public class AuctionController {
     @GetMapping("/filterByStartingPriceBetween/{minStartingPrice}/{maxStartingPrice}")
     public List<AuctionsDTO> getAuctionModelsByStartingPriceBetween(@PathVariable int minStartingPrice, @PathVariable int maxStartingPrice) {
         return auctionServices.getAuctionModelsByStartingPriceBetween(minStartingPrice, maxStartingPrice);
+    }
+
+    //get FILTER by color
+    @GetMapping("/filterByColor/{color}")
+    public List<AuctionsDTO> getAuctionModelsByColor(@PathVariable String color) {
+        return auctionServices.getAuctionModelsByColor(color);
+    }
+
+    //get FILTER by brand
+    @GetMapping("/filterByBrand/{brand}")
+    public List<AuctionsDTO> getAuctionModelsByBrand(@PathVariable String brand) {
+        return auctionServices.getAuctionModelsByBrand(brand);
+    }
+
+    //get FILTER by YearManufactured
+    @GetMapping("/filterByYearManufactured/{minYearManufactured}/{maxYearManufactured}")
+    public List<AuctionsDTO> getAuctionModelsByYearManufactured(@PathVariable int minYearManufactured,@PathVariable int maxYearManufactured) {
+        return auctionServices.getAuctionModelsByYearManufactured(minYearManufactured,maxYearManufactured);
+    }
+
+    //get FILTER by MilesDriven
+    @GetMapping("/filterByMilesDriven/{minMilesDriven}/{maxMilesDriven}")
+    public List<AuctionsDTO> getAuctionModelsByMilesDriven(@PathVariable int minMilesDriven,@PathVariable int maxMilesDriven) {
+        return auctionServices.getAuctionModelsByMilesDriven(minMilesDriven,maxMilesDriven);
+    }
+
+    //get FILTER by CONDITION
+    @GetMapping("/filterByCondition/{condition}")
+    public List<AuctionsDTO> getAuctionModelsByCondition(@PathVariable String condition) {
+        return auctionServices.getAuctionModelsByCondition(condition);
     }
 }
 
