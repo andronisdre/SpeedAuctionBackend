@@ -21,7 +21,7 @@ public class AuctionServices {
     @Autowired
     UserRepository userRepository;
 
-    //post
+    //post 123
     public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO, String userId) {
         UserModels user = checkUserId(userId);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
@@ -63,7 +63,8 @@ public class AuctionServices {
         if (auctionModels.getEndOfAuction() != null){
             existingAuction.setEndOfAuction(auctionModels.getEndOfAuction());
         }
-        if (auctionModels.getCondition() != null){
+
+            if (auctionModels.getCondition() != null){
             existingAuction.setCondition(auctionModels.getCondition());
         }
         if (auctionModels.getMilesDriven() != 0){
