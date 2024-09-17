@@ -24,14 +24,16 @@ public class AuctionServices {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    BidsRepository bidsRepository;
+    private final BidsRepository bidsRepository;
+
+    public AuctionServices(BidsRepository bidsRepository) {
+        this.bidsRepository = bidsRepository;
+    }
 
     //post 123
     public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO, String userId) {
         UserModels user = checkUserId(userId);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
-        newAuction.setBids(auctionsDTO.getBids().get);
         newAuction.setCreated_at(new Date());
         checkEndOfAuction(newAuction);
         newAuction.setActive(true);
@@ -44,6 +46,8 @@ public class AuctionServices {
         newAuction.setDescription(auctionsDTO.getDescription());
         newAuction.setRegNumber(auctionsDTO.getRegNumber());
         newAuction.setYearManufactured(auctionsDTO.getYearManufactured());
+
+        newAuction.setBids(null);
 
         return auctionRepository.save(newAuction);
     }

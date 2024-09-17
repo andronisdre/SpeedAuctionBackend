@@ -37,9 +37,9 @@ public class BidsController {
 
     //PUT /bids/{id} - Uppdatera ett specifikt bid baserat på id.
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
-    @PutMapping("/{id}")
-    public BidsModels updateBidModel(@PathVariable String id, @RequestBody BidsModels bidsModels) {
-        return bidsService.updateBidModels(id, bidsModels);
+    @PutMapping("/{id}/{auctionId}")
+    public BidsModels updateBidModel(@PathVariable String id, @PathVariable String auctionId, @RequestBody BidsModels bidsModels) {
+        return bidsService.updateBidModels(id, auctionId, bidsModels);
     }
 
     //DELETE /bids/{id} - Ta bort ett bid baserat på id.
@@ -58,7 +58,7 @@ public class BidsController {
     }
 
     //Hämtar alla bids med ett specifikt auctionId, största budet kommer först
-    @GetMapping("/filterByAuctionId/{auctionId}")
+    /*@GetMapping("/filterByAuctionId/{auctionId}")
     public List<BidsDTO> getBidsModelByAuctionId(@PathVariable String auctionId) {
         return bidsService.getBidsModelByAuctionId(auctionId);
     }
@@ -67,5 +67,5 @@ public class BidsController {
     @GetMapping("/getTopBidByAuctionId/{auctionId}")
     public BidsDTO getTopBidByAuctionId(@PathVariable String auctionId) {
         return bidsService.getTopBidByAuctionId(auctionId);
-    }
+    }*/
 }
