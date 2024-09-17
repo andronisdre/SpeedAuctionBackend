@@ -24,27 +24,11 @@ public class BidsModelsService {
     AuctionRepository auctionRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    BidsValidateService bidsValidateService;
+    @Autowired
+    BidsDataService bidsDataService;
 
-    //util functions
-    public UserModels checkUserId(String userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
-    }
-
-    public AuctionModels checkAuctionId(BidsDTO bidsDTO) {
-        return auctionRepository.findById(bidsDTO.getAuctionId()).orElseThrow(() -> new IllegalArgumentException("Invalid auctionId"));
-    }
-
-    public void checkIsActive(AuctionModels auction) {
-        if (!auction.isActive()) {
-            throw new IllegalArgumentException("you cant bid on an inactive auction");
-        }
-    }
-
-    public void compareSellerAndBidder(AuctionModels auction, BidsModels newBid) {
-        if (auction.getSeller().getId().equals(newBid.getBidder().getId())) {
-            throw new IllegalArgumentException("you cant bid on your own auction");
-        }
-    }
 
     public BidsModels retrieveData(BidsDTO bidsDTO, AuctionModels auction, UserModels user) {
         BidsModels newBid = new BidsModels();
@@ -56,26 +40,6 @@ public class BidsModelsService {
         return newBid;
     }
 
-    public void bidBeforeEndOfAuction(BidsModels newBid, AuctionModels auctionModels) {
-        if(auctionModels.getEndOfAuction().before(newBid.getTimeBidded())) {
-            throw new IllegalArgumentException("This auction has already ended");
-        }
-    }
-
-    public void bidLargeEnough(BidsDTO bidsDTO, BidsModels newBid, AuctionModels auction) {
-
-        // ###### BRYTA NER TILL TVÅ OLIKA METODER
-        if (newBid.getAmount() < auction.getStartingPrice()) {
-            throw new IllegalArgumentException("bid is smaller than Starting bid!");
-        }
-
-        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(bidsDTO.getAuctionId());
-        for (BidsModels existingBid : bidsModels) {
-            if (newBid.getAmount() < (existingBid.getAmount() + 1000)) {
-                throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");
-            }
-        }
-    } // #######
 
     private BidsDTO convertToDTO(BidsModels bidsModels) {
         BidsDTO bidsDTO = new BidsDTO();
@@ -111,6 +75,7 @@ public class BidsModelsService {
         bidBeforeEndOfAuction(newBid, auction);
         return bidsModelsRepository.save(newBid);
     }
+
 
     // PUT
     public BidsModels updateBidModels(String id, BidsModels bidsModels) {
@@ -174,6 +139,28 @@ public class BidsModelsService {
         }
         return convertToDTO(bidsModel);
     }
+
+    public BidsModels createBidModels(String auctionId, String userId, BidsDTO bidsDTO) {
+        UserModels user = bidsValidateService.checkUserId(userId);
+        AuctionModels auction = bidsValidateService.checkAuctionId(auctionId);
+        bidsValidateService.checkIsActive(auction);
+        bidsValidateService.compareSellerAndBidder(auction, user);
+
+        BidsModels newBid = bidsCreationService.createNewBid(bidsDTO, auction, user);
+        return bidsDataService.saveBid(newBid);
+    }
+
+    public BidsModels updateBidModels(String id, BidsModels bidsModels) {
+        BidsModels existingBid = bidsDataService.getBidById(id);
+        if (bidsModels.getAmount() != null) {
+            existingBid.setAmount(bidsModels.getAmount());
+        }
+        if (bidsModels.getTimeBidded() != null) {
+            existingBid.setTimeBidded(bidsModels.getTimeBidded());
+        }
+        return bidsDataService.saveBid(existingBid);
+    }
+
 }
 
 
