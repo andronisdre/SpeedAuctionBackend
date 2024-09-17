@@ -1,8 +1,8 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
-import com.spring.SpeedAuction.dto.AuctionsDTO;
-import com.spring.SpeedAuction.security.Services.AuctionServices;
+import com.spring.SpeedAuction.DTO.AuctionsDTO;
+import com.spring.SpeedAuction.Security.Services.AuctionServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,34 +18,34 @@ public class AuctionController {
     AuctionServices auctionServices;
 
 
-    //POST
+    //post auction
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PostMapping("/{userId}")
     public AuctionModels createAuctionModels(@PathVariable String userId, @Valid @RequestBody AuctionsDTO auctionsDTO) {
         return auctionServices.createAuctionModels(auctionsDTO, userId);
     }
 
-    //GET ALL
+    //GET ALL Auction
     @GetMapping("/all")
     public List<AuctionsDTO> getAllAuctionModels() {
         return auctionServices.getAllAuctionModels();
     }
 
 
-    //GET by id
+    //GET a unique auction by it's id
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public AuctionModels getAuctionModelsById(@PathVariable String id) {
         return auctionServices.getAuctionModelsById(id);
     }
 
-    //PUT by id
+    //Change and update an auction
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PutMapping(value = "/{id}")
     public AuctionModels updateAuctionModels(@PathVariable String id, @RequestBody AuctionModels auctionModels) {
         return auctionServices.updateAuctionModels(id, auctionModels);
     }
 
-    //DELETE by id
+    //Remove an auction
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR') or hasRole('USER')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteAuctionModels(@PathVariable String id) {

@@ -8,6 +8,7 @@ public class UserResponsDTO {
 
     private String email;
 
+
     private List<String> favouriteAuction;
 
     public String getUsername() {

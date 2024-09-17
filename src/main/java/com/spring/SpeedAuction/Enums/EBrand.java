@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.enums;
+package com.spring.SpeedAuction.Enums;
 
 public enum EBrand {
     PORSCHE, FERRARI, LAMBORGHINI, AUDI, MCLAREN, BMW, BUGATTI,

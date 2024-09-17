@@ -4,7 +4,7 @@ import com.spring.SpeedAuction.dto.OrderDto;
 
 import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.dto.OrderResponse;
-import com.spring.SpeedAuction.security.Services.OrderServices;
+import com.spring.SpeedAuction.Security.Services.OrderServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,9 @@ public class OrderController {
     @Autowired
     OrderServices orderService;
 
+    // check role
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
+    //post
     @PostMapping
     public ResponseEntity<OrderModels> createOrder(@RequestBody OrderDto orderDto) {
         OrderModels createdOrders = orderService.createOrder(orderDto);
@@ -29,6 +31,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
+    //get
     @GetMapping("/all")
     public ResponseEntity<List<OrderResponse>> getAllOrder() {
         List<OrderResponse> orders = orderService.getAllOrder();
@@ -36,18 +39,24 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
+
+    //get by id
     @GetMapping("/{id}")
     public ResponseEntity<List<OrderResponse>> getOrderById(@PathVariable String id) {
         List<OrderResponse> orders = orderService.getOrderById(id);
         return ResponseEntity.ok(orders);
     }
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
+
+    //update by id
     @PutMapping("/{id}")
     public ResponseEntity<OrderModels> updateOrder(@PathVariable String id,@Valid @RequestBody OrderModels ordersDetails) {
         OrderModels updatedOrders = orderService.updateOrder(id, ordersDetails);
         return ResponseEntity.ok(updatedOrders);
     }
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
+
+    //remove by id
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteOrder(@PathVariable String id) {
         orderService.deleteOrder(id);

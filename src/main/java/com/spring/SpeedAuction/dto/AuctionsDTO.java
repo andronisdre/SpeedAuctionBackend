@@ -1,8 +1,9 @@
-package com.spring.SpeedAuction.dto;
+package com.spring.SpeedAuction.DTO;
 
-import com.spring.SpeedAuction.enums.EBrand;
-import com.spring.SpeedAuction.enums.EColor;
-import com.spring.SpeedAuction.enums.ECondition;
+
+import com.spring.SpeedAuction.Enums.EBrand;
+import com.spring.SpeedAuction.Enums.EColor;
+import com.spring.SpeedAuction.Enums.ECondition;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

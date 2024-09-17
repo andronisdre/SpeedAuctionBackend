@@ -25,6 +25,14 @@ public class BidsModels {
 
     }
 
+    public BidsModels(String id, AuctionModels auction, UserModels bidder, Integer amount, Date timeBidded) {
+        this.id = id;
+        this.auction = auction;
+        this.bidder = bidder;
+        this.amount = amount;
+        this.timeBidded = timeBidded;
+    }
+
     public String getId() {
         return id;
     }

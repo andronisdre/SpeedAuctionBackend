@@ -1,10 +1,10 @@
-package com.spring.SpeedAuction.security.Services;
+package com.spring.SpeedAuction.Security.Services;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
-import com.spring.SpeedAuction.Repository.BidsModelsRepository;
+import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
 import com.spring.SpeedAuction.dto.BidsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,8 @@ public class BidsValidateService {
     AuctionRepository auctionRepository;
     @Autowired
     UserRepository userRepository;
-
     @Autowired
-    BidsModelsRepository bidsModelsRepository;
+    BidsRepository bidsRepository;
 
 
     public UserModels checkUserId(String userId) {
@@ -56,7 +55,7 @@ public class BidsValidateService {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
         }
 
-        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(bidsDTO.getAuctionId());
+        List<BidsModels> bidsModels = bidsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(bidsDTO.getAuctionId());
         for (BidsModels existingBid : bidsModels) {
             if (newBid.getAmount() < (existingBid.getAmount() + 1000)) {
                 throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");

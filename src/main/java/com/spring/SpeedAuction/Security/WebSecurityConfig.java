@@ -1,8 +1,8 @@
-package com.spring.SpeedAuction.security;
+package com.spring.SpeedAuction.Security;
 
-import com.spring.SpeedAuction.security.Services.UserDetailsServiceImpl;
-import com.spring.SpeedAuction.security.jwt.AuthTokenFilter;
-import com.spring.SpeedAuction.security.jwt.AuthenticationEntryJwt;
+import com.spring.SpeedAuction.Security.Services.UserDetailsServiceImpl;
+import com.spring.SpeedAuction.Security.jwt.AuthTokenFilter;
+import com.spring.SpeedAuction.Security.jwt.AuthenticationEntryJwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,14 +59,14 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        //ha crf disable un utveckling
+        //disable csrf under developement
         http.csrf(csrf -> csrf.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement((session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
                 .authorizeHttpRequests(auth ->
                         // for all user to register and log in
                         auth.requestMatchers("/api/auth/**").permitAll()
-                                //tesst endpooint delete later maybe..
+                                //test endpoint delete later maybe..
                                 .requestMatchers("/api/test/**").permitAll()
                                 .requestMatchers("/api/auctionTypeCar/**").permitAll()
                                 //permit all User to get all user with get user by id, delete user.

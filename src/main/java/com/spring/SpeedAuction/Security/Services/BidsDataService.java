@@ -1,9 +1,7 @@
-package com.spring.SpeedAuction.security.Services;
+package com.spring.SpeedAuction.Security.Services;
 
-import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
-import com.spring.SpeedAuction.Repository.BidsModelsRepository;
-import com.spring.SpeedAuction.dto.BidsDTO;
+import com.spring.SpeedAuction.Repository.BidsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,32 +12,32 @@ import java.util.stream.Collectors;
 public class BidsDataService {
 
     @Autowired
-    BidsModelsRepository bidsModelsRepository;
+    BidsRepository bidsRepository;
 
     public BidsModels saveBid(BidsModels bid) {
-        return bidsModelsRepository.save(bid);
+        return bidsRepository.save(bid);
     }
 
     public BidsModels getBidById(String id) {
-        return bidsModelsRepository.findById(id)
+        return bidsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Bid not found."));
     }
 
     public List<BidsModels> getBidsByAuctionId(String auctionId) {
-        return bidsModelsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(auctionId);
+        return bidsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(auctionId);
     }
 
     public List<BidsModels> getBidsByBidderId(String bidderId) {
-        return bidsModelsRepository.findBidsModelsByBidderIdOrderByTimeBiddedDesc(bidderId);
+        return bidsRepository.findBidsModelsByBidderIdOrderByTimeBiddedDesc(bidderId);
     }
 
     public void deleteBid(BidsModels bid) {
-        bidsModelsRepository.delete(bid);
+        bidsRepository.delete(bid);
     }
 
     // GET by id
     public BidsModels getBidsModel(String id) {
-        return bidsModelsRepository.findById(id).get();
+        return bidsRepository.findById(id).get();
     }
 }
 

@@ -1,6 +1,6 @@
 package com.spring.SpeedAuction.Repository;
 
-import com.spring.SpeedAuction.enums.ERole;
+import com.spring.SpeedAuction.Enums.ERole;
 import com.spring.SpeedAuction.Models.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

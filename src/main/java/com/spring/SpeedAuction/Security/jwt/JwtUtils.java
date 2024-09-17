@@ -1,6 +1,6 @@
-package com.spring.SpeedAuction.security.jwt;
+package com.spring.SpeedAuction.Security.jwt;
 
-import com.spring.SpeedAuction.security.Services.UserDetailImpl;
+import com.spring.SpeedAuction.Security.Services.UserDetailImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -49,13 +49,13 @@ public class JwtUtils {
                 .compact();
     }
 
-    //rensa gammal cookie
+    //clear old cookie
     public ResponseCookie getCleanJwtCookie(){
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
         return cookie;
     }
 
-    //hämta jwt from cookie
+    //get jwt from cookie
     public  String getJwtFromCookie(HttpServletRequest request){
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
         if (cookie != null){
@@ -76,7 +76,7 @@ public class JwtUtils {
     }
 
 
-    //validera token me secret
+    //validate token me secret
     public boolean validateJwtToken(String authToken){
         try {
             Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
