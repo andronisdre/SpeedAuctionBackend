@@ -36,7 +36,10 @@ public class AuctionModels {
         private ECondition condition;
         private String description;
 
-     public AuctionModels(AuctionBuilder builder) {
+    public AuctionModels() {
+    }
+
+    public AuctionModels(AuctionBuilder builder) {
          this.id = builder.id;
          this.seller = builder.seller;
          this.bids = builder.bids;

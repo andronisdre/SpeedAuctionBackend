@@ -1,7 +1,7 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.BidsModels;
-import com.spring.SpeedAuction.dto.BidsDTO;
+import com.spring.SpeedAuction.DTO.BidsDTO;
 import com.spring.SpeedAuction.Security.Services.BidsServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

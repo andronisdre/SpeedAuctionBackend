@@ -1,19 +1,16 @@
 package com.spring.SpeedAuction.Security.Services;
 
+import com.spring.SpeedAuction.DTO.AuctionsDTO;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.DTO.AuctionsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,8 +43,6 @@ public class AuctionServices {
         newAuction.setDescription(auctionsDTO.getDescription());
         newAuction.setRegNumber(auctionsDTO.getRegNumber());
         newAuction.setYearManufactured(auctionsDTO.getYearManufactured());
-
-        newAuction.setBids(null);
 
         return auctionRepository.save(newAuction);
     }
@@ -227,10 +222,14 @@ public class AuctionServices {
         newAuction.setEndOfAuction(auctionsDTO.getEndOfAuction());
         newAuction.setCreated_at(auctionsDTO.getCreated_at());
         List<String> bidIds = auctionsDTO.getBids();
-        for (String bidId : bidIds) {
-            BidsModels bid = bidsRepository.findById(bidId)
-                    .orElseThrow(() -> new NoSuchElementException("Bid id not found"));
-            newAuction.getBids().add(bid);
+        if (!bidIds.isEmpty()) {
+            for (String bidId : bidIds) {
+                BidsModels bid = bidsRepository.findById(bidId)
+                        .orElseThrow(() -> new NoSuchElementException("Bid id not found"));
+                newAuction.getBids().add(bid);
+            }
+        } else {
+            newAuction.setBids(Collections.emptyList());
         }
         return newAuction;
     }

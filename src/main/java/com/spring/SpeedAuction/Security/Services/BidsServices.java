@@ -6,7 +6,7 @@ import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.dto.BidsDTO;
+import com.spring.SpeedAuction.DTO.BidsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +41,9 @@ public class BidsServices {
     }
 
     public void compareSellerAndBidder(AuctionModels auction, BidsModels newBid) {
-        if (auction.getSeller().getId().equals(newBid.getBidder().getId())) {
+        /*if (auction.getSeller().getId().equals(newBid.getBidder().getId())) {
             throw new IllegalArgumentException("you cant bid on your own auction");
-        }
+        }*/
     }
 
     public BidsModels retrieveData(BidsDTO bidsDTO, UserModels user) {
@@ -61,7 +61,7 @@ public class BidsServices {
         }
     }
 
-    public void bidLargeEnough(BidsDTO bidsDTO, BidsModels newBid, AuctionModels auction) {
+    public void bidLargeEnough(BidsModels newBid, AuctionModels auction) {
 
         // ###### BRYTA NER TILL TVÅ OLIKA METODER
         if (newBid.getAmount() < auction.getStartingPrice()) {
@@ -103,10 +103,19 @@ public class BidsServices {
         checkIsActive(auction);
         BidsModels newBid = retrieveData(bidsDTO, user);
         compareSellerAndBidder(auction, newBid);
-        bidLargeEnough(bidsDTO, newBid, auction);
+        bidLargeEnough (newBid, auction);
         newBid.setTimeBidded(new Date());
         bidBeforeEndOfAuction(newBid, auction);
-        return bidsModelsRepository.save(newBid);
+
+        List<BidsModels> bids = auction.getBids();
+        bids.add(newBid);
+        auction.setBids(bids);
+
+        bidsModelsRepository.save(newBid);
+
+        auctionRepository.save(auction);
+
+        return newBid;
     }
 
     // PUT
@@ -126,7 +135,7 @@ public class BidsServices {
         checkUserId(bidsDTO.getBidderId());
         AuctionModels auction = checkAuctionId(auctionId);
         checkIsActive(auction);
-        bidLargeEnough(bidsDTO, existingBid, auction);
+        bidLargeEnough(existingBid, auction);
 
         List<BidsModels> bids = auction.getBids();
         bids.add(bidsModels);

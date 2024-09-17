@@ -4,8 +4,8 @@ import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.dto.FavouriteDTO;
-import com.spring.SpeedAuction.dto.UserResponsDTO;
+import com.spring.SpeedAuction.DTO.FavouriteDTO;
+import com.spring.SpeedAuction.DTO.UserResponsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
