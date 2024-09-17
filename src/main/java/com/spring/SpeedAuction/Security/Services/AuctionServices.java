@@ -1,8 +1,10 @@
 package com.spring.SpeedAuction.Security.Services;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
+import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
+import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
 import com.spring.SpeedAuction.DTO.AuctionsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,10 +24,14 @@ public class AuctionServices {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    BidsRepository bidsRepository;
+
     //post 123
     public AuctionModels createAuctionModels(AuctionsDTO auctionsDTO, String userId) {
         UserModels user = checkUserId(userId);
         AuctionModels newAuction = retrieveData(auctionsDTO, user);
+        newAuction.setBids(auctionsDTO.getBids().get);
         newAuction.setCreated_at(new Date());
         checkEndOfAuction(newAuction);
         newAuction.setActive(true);
@@ -60,11 +67,13 @@ public class AuctionServices {
         if (auctionModels.getStartingPrice() != 0){
             existingAuction.setStartingPrice(auctionModels.getStartingPrice());
         }
+        if (auctionModels.getBids() != null){
+            existingAuction.setBids(auctionModels.getBids());
+        }
         if (auctionModels.getEndOfAuction() != null){
             existingAuction.setEndOfAuction(auctionModels.getEndOfAuction());
         }
-
-            if (auctionModels.getCondition() != null){
+        if (auctionModels.getCondition() != null){
             existingAuction.setCondition(auctionModels.getCondition());
         }
         if (auctionModels.getMilesDriven() != 0){
@@ -186,6 +195,8 @@ public class AuctionServices {
         AuctionsDTO auctionsDTO = new AuctionsDTO();
         auctionsDTO.setId(auctionModels.getId());
         auctionsDTO.setSellerId(auctionModels.getSeller().getId());
+        auctionsDTO.setBids(auctionModels.getBids().stream()
+                .map(BidsModels::getId).collect(Collectors.toList()));
         auctionsDTO.setActive(auctionModels.isActive());
         auctionsDTO.setStartingPrice(auctionModels.getStartingPrice());
         auctionsDTO.setEndOfAuction(auctionModels.getEndOfAuction());
@@ -211,7 +222,12 @@ public class AuctionServices {
         newAuction.setStartingPrice(auctionsDTO.getStartingPrice());
         newAuction.setEndOfAuction(auctionsDTO.getEndOfAuction());
         newAuction.setCreated_at(auctionsDTO.getCreated_at());
-
+        List<String> bidIds = auctionsDTO.getBids();
+        for (String bidId : bidIds) {
+            BidsModels bid = bidsRepository.findById(bidId)
+                    .orElseThrow(() -> new NoSuchElementException("Bid id not found"));
+            newAuction.getBids().add(bid);
+        }
         return newAuction;
     }
 }

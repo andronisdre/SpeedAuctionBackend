@@ -30,10 +30,7 @@ public class BidsServices {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
     }
 
-    public AuctionModels checkAuctionId(BidsDTO bidsDTO) {
-        return auctionRepository.findById(bidsDTO.getAuctionId()).orElseThrow(() -> new IllegalArgumentException("Invalid auctionId"));
-    }
-
+    /*
     public void checkIsActive(AuctionModels auction) {
         if (!auction.isActive()) {
             throw new IllegalArgumentException("you cant bid on an inactive auction");
@@ -44,12 +41,11 @@ public class BidsServices {
         if (auction.getSeller().getId().equals(newBid.getBidder().getId())) {
             throw new IllegalArgumentException("you cant bid on your own auction");
         }
-    }
+    }*/
 
-    public BidsModels retrieveData(BidsDTO bidsDTO, AuctionModels auction, UserModels user) {
+    public BidsModels retrieveData(BidsDTO bidsDTO, UserModels user) {
         BidsModels newBid = new BidsModels();
         newBid.setBidder(user);
-        newBid.setAuction(auction);
         newBid.setTimeBidded(bidsDTO.getTimeBidded());
         newBid.setAmount(bidsDTO.getAmount());
 
@@ -69,7 +65,7 @@ public class BidsServices {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
         }
 
-        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(bidsDTO.getAuctionId());
+        List<BidsModels> bidsModels = auctionRepository.findById(bidsDTO.id());
         for (BidsModels existingBid : bidsModels) {
             if (newBid.getAmount() < (existingBid.getAmount() + 1000)) {
                 throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");
@@ -80,7 +76,6 @@ public class BidsServices {
     private BidsDTO convertToDTO(BidsModels bidsModels) {
         BidsDTO bidsDTO = new BidsDTO();
         bidsDTO.setBidderId(bidsModels.getBidder().getId());
-        bidsDTO.setAuctionId(bidsModels.getAuction().getId());
         bidsDTO.setAmount(bidsModels.getAmount());
         bidsDTO.setTimeBidded(bidsModels.getTimeBidded());
 
@@ -101,12 +96,8 @@ public class BidsServices {
     // POST
     public BidsModels createBidModels(String auctionId, String userId, BidsDTO bidsDTO) {
         UserModels user = checkUserId(userId);
-        bidsDTO.setAuctionId(auctionId);
-        AuctionModels auction = checkAuctionId(bidsDTO);
-        BidsModels newBid = retrieveData(bidsDTO, auction, user);
-        checkIsActive(auction);
-        compareSellerAndBidder(auction, newBid);
-        bidLargeEnough(bidsDTO, newBid, auction);
+        BidsModels newBid = retrieveData(bidsDTO, user);
+        bidLargeEnough(bidsDTO, newBid);
         newBid.setTimeBidded(new Date());
         bidBeforeEndOfAuction(newBid, auction);
         return bidsModelsRepository.save(newBid);
@@ -125,7 +116,6 @@ public class BidsServices {
         }
         existingBid.setId(id);
         existingBid.setBidder(existingBid.getBidder());
-        existingBid.setAuction(existingBid.getAuction());
         BidsDTO bidsDTO = convertToDTO(existingBid);
         checkUserId(bidsDTO.getBidderId());
         AuctionModels auction = checkAuctionId(bidsDTO);
