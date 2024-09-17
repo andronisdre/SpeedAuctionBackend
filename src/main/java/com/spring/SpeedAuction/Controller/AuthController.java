@@ -101,7 +101,10 @@ public class AuthController {
                 signupRequest.getAddress(),
                 signupRequest.getCountry(),
                 signupRequest.getCity(),
-                signupRequest.getPostal_code());
+                signupRequest.getPostal_code(),
+                signupRequest.getProfile_picture()
+        );
+
 
         Set<String> strRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet<>();

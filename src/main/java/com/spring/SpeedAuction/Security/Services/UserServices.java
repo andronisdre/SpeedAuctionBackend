@@ -64,6 +64,9 @@ public class UserServices {
                     if (updatedUser.getPostal_code() != null) {
                         existingUserModels.setPostal_code(updatedUser.getPostal_code());
                     }
+                    if (updatedUser.getProfile_picture() != null) {
+                        existingUserModels.setProfile_picture(updatedUser.getProfile_picture());
+                    }
                     return userRepository.save(existingUserModels);
                         })
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
