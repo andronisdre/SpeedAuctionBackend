@@ -1,8 +1,8 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.UserModels;
-import com.spring.SpeedAuction.dto.FavouriteDTO;
-import com.spring.SpeedAuction.dto.UserResponsDTO;
+import com.spring.SpeedAuction.DTO.FavouriteDTO;
+import com.spring.SpeedAuction.DTO.UserResponsDTO;
 import com.spring.SpeedAuction.Security.Services.UserServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

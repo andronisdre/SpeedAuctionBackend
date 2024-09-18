@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface BidsRepository extends MongoRepository<BidsModels,String> {
     List<BidsModels> findBidsModelsByBidderIdOrderByTimeBiddedDesc(String bidderId);
-    List<BidsModels> findBidsModelsByAuctionIdOrderByAmountDesc(String auctionId);
-    BidsModels findFirstByAuctionIdOrderByAmountDesc(String auctionId);
 }

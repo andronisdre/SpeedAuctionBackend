@@ -7,6 +7,10 @@ import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
+<<<<<<< HEAD
+=======
+import com.spring.SpeedAuction.DTO.BidsDTO;
+>>>>>>> OOAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +34,8 @@ public class BidsServices {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid userId"));
     }
 
-    public AuctionModels checkAuctionId(BidsDTO bidsDTO) {
-        return auctionRepository.findById(bidsDTO.getAuctionId()).orElseThrow(() -> new IllegalArgumentException("Invalid auctionId"));
+    public AuctionModels checkAuctionId(String auctionId) {
+        return auctionRepository.findById(auctionId).orElseThrow(() -> new IllegalArgumentException("Invalid auctionId"));
     }
 
     public void checkIsActive(AuctionModels auction) {
@@ -46,10 +50,9 @@ public class BidsServices {
         }
     }
 
-    public BidsModels retrieveData(BidsDTO bidsDTO, AuctionModels auction, UserModels user) {
+    public BidsModels retrieveData(BidsDTO bidsDTO, UserModels user) {
         BidsModels newBid = new BidsModels();
         newBid.setBidder(user);
-        newBid.setAuction(auction);
         newBid.setTimeBidded(bidsDTO.getTimeBidded());
         newBid.setAmount(bidsDTO.getAmount());
 
@@ -62,25 +65,37 @@ public class BidsServices {
         }
     }
 
-    public void bidLargeEnough(BidsDTO bidsDTO, BidsModels newBid, AuctionModels auction) {
+    public void bidLargeEnough(BidsModels newBid, AuctionModels auction) {
 
         // ###### BRYTA NER TILL TVÅ OLIKA METODER
         if (newBid.getAmount() < auction.getStartingPrice()) {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
         }
 
-        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(bidsDTO.getAuctionId());
+        List<BidsModels> bidsModels = auction.getBids();
         for (BidsModels existingBid : bidsModels) {
             if (newBid.getAmount() < (existingBid.getAmount() + 1000)) {
                 throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");
             }
         }
-    } // #######
+    }
+
+    //saves both bid and auction then returns bid
+    public BidsModels saveBidAndAuction(AuctionModels auction, BidsModels bid) {
+        List<BidsModels> bids = auction.getBids();
+        bids.add(bid);
+        auction.setBids(bids);
+
+        bidsModelsRepository.save(bid);
+
+        auctionRepository.save(auction);
+
+        return bid;
+    }
 
     private BidsDTO convertToDTO(BidsModels bidsModels) {
         BidsDTO bidsDTO = new BidsDTO();
         bidsDTO.setBidderId(bidsModels.getBidder().getId());
-        bidsDTO.setAuctionId(bidsModels.getAuction().getId());
         bidsDTO.setAmount(bidsModels.getAmount());
         bidsDTO.setTimeBidded(bidsModels.getTimeBidded());
 
@@ -101,19 +116,19 @@ public class BidsServices {
     // POST
     public BidsModels createBidModels(String auctionId, String userId, BidsDTO bidsDTO) {
         UserModels user = checkUserId(userId);
-        bidsDTO.setAuctionId(auctionId);
-        AuctionModels auction = checkAuctionId(bidsDTO);
-        BidsModels newBid = retrieveData(bidsDTO, auction, user);
+        AuctionModels auction = checkAuctionId(auctionId);
         checkIsActive(auction);
+        BidsModels newBid = retrieveData(bidsDTO, user);
         compareSellerAndBidder(auction, newBid);
-        bidLargeEnough(bidsDTO, newBid, auction);
+        bidLargeEnough (newBid, auction);
         newBid.setTimeBidded(new Date());
         bidBeforeEndOfAuction(newBid, auction);
-        return bidsModelsRepository.save(newBid);
+
+        return saveBidAndAuction(auction, newBid);
     }
 
     // PUT
-    public BidsModels updateBidModels(String id, BidsModels bidsModels) {
+    public BidsModels updateBidModels(String id, String auctionId, BidsModels bidsModels) {
         BidsModels existingBid = bidsModelsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
@@ -125,14 +140,13 @@ public class BidsServices {
         }
         existingBid.setId(id);
         existingBid.setBidder(existingBid.getBidder());
-        existingBid.setAuction(existingBid.getAuction());
         BidsDTO bidsDTO = convertToDTO(existingBid);
         checkUserId(bidsDTO.getBidderId());
-        AuctionModels auction = checkAuctionId(bidsDTO);
+        AuctionModels auction = checkAuctionId(auctionId);
         checkIsActive(auction);
-        bidLargeEnough(bidsDTO, existingBid, auction);
+        bidLargeEnough(existingBid, auction);
 
-        return bidsModelsRepository.save(existingBid);
+        return saveBidAndAuction(auction, existingBid);
     }
 
     // DELETE
@@ -159,20 +173,31 @@ public class BidsServices {
     //bid history for an auction
     //find all by auctionId
     public List<BidsDTO> getBidsModelByAuctionId(String auctionId) {
-        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(auctionId);
-        if (bidsModels.isEmpty()) {
+        checkAuctionId(auctionId);
+        List<BidsModels> bids = checkAuctionId(auctionId).getBids();
+        if (bids == null || bids.isEmpty()) {
             throw new IllegalArgumentException("no bids exist for this auctionId");
         }
-        return bidsModels.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return bids.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     //GET top bid for an auction
     public BidsDTO getTopBidByAuctionId(String auctionId) {
-        BidsModels bidsModel = bidsModelsRepository.findFirstByAuctionIdOrderByAmountDesc(auctionId);
-        if (bidsModel == null) {
+        checkAuctionId(auctionId);
+        List<BidsModels> bids = checkAuctionId(auctionId).getBids();
+        if (bids == null || bids.isEmpty()) {
             throw new IllegalArgumentException("no bids exist for this auctionId");
         }
-        return convertToDTO(bidsModel);
+
+        BidsModels biggestBid = bids.get(0);
+
+        for (BidsModels bid : bids) {
+            if (bid.getAmount() > biggestBid.getAmount()) {
+                biggestBid = bid;
+            }
+        }
+
+        return convertToDTO(biggestBid);
     }
 }
 

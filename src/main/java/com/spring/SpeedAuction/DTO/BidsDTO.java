@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class BidsDTO {
     private String bidderId;
-    private String auctionId;
     private Integer amount;
     private Date timeBidded;
 
@@ -14,14 +13,6 @@ public class BidsDTO {
 
     public void setBidderId(String bidderId) {
         this.bidderId = bidderId;
-    }
-
-    public String getAuctionId() {
-        return auctionId;
-    }
-
-    public void setAuctionId(String auctionId) {
-        this.auctionId = auctionId;
     }
 
     public Integer getAmount() {
