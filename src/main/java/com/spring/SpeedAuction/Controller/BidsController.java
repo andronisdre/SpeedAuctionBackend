@@ -58,7 +58,7 @@ public class BidsController {
     }
 
     //Hämtar alla bids med ett specifikt auctionId, största budet kommer först
-    /*@GetMapping("/filterByAuctionId/{auctionId}")
+    @GetMapping("/filterByAuctionId/{auctionId}")
     public List<BidsDTO> getBidsModelByAuctionId(@PathVariable String auctionId) {
         return bidsService.getBidsModelByAuctionId(auctionId);
     }
@@ -67,5 +67,5 @@ public class BidsController {
     @GetMapping("/getTopBidByAuctionId/{auctionId}")
     public BidsDTO getTopBidByAuctionId(@PathVariable String auctionId) {
         return bidsService.getTopBidByAuctionId(auctionId);
-    }*/
+    }
 }

@@ -66,9 +66,6 @@ public class AuctionServices {
         if (auctionModels.getStartingPrice() != 0){
             existingAuction.setStartingPrice(auctionModels.getStartingPrice());
         }
-        if (auctionModels.getBids() != null){
-            existingAuction.setBids(auctionModels.getBids());
-        }
         if (auctionModels.getEndOfAuction() != null){
             existingAuction.setEndOfAuction(auctionModels.getEndOfAuction());
         }
@@ -101,6 +98,7 @@ public class AuctionServices {
         }
 
         existingAuction.setSeller(existingAuction.getSeller());
+        existingAuction.setBids(existingAuction.getBids());
         existingAuction.setCreated_at(existingAuction.getCreated_at());
         existingAuction.setUpdated_at(new Date());
         checkEndOfAuction(existingAuction);
@@ -194,8 +192,14 @@ public class AuctionServices {
         AuctionsDTO auctionsDTO = new AuctionsDTO();
         auctionsDTO.setId(auctionModels.getId());
         auctionsDTO.setSellerId(auctionModels.getSeller().getId());
-        auctionsDTO.setBids(auctionModels.getBids().stream()
-                .map(BidsModels::getId).collect(Collectors.toList()));
+
+        if (auctionModels.getBids() != null && !auctionModels.getBids().isEmpty()) {
+            auctionsDTO.setBids(auctionModels.getBids().stream()
+                    .map(BidsModels::getId).collect(Collectors.toList()));
+        } else {
+            auctionsDTO.setBids(Collections.emptyList());
+        }
+
         auctionsDTO.setActive(auctionModels.isActive());
         auctionsDTO.setStartingPrice(auctionModels.getStartingPrice());
         auctionsDTO.setEndOfAuction(auctionModels.getEndOfAuction());
@@ -221,16 +225,7 @@ public class AuctionServices {
         newAuction.setStartingPrice(auctionsDTO.getStartingPrice());
         newAuction.setEndOfAuction(auctionsDTO.getEndOfAuction());
         newAuction.setCreated_at(auctionsDTO.getCreated_at());
-        List<String> bidIds = auctionsDTO.getBids();
-        if (!bidIds.isEmpty()) {
-            for (String bidId : bidIds) {
-                BidsModels bid = bidsRepository.findById(bidId)
-                        .orElseThrow(() -> new NoSuchElementException("Bid id not found"));
-                newAuction.getBids().add(bid);
-            }
-        } else {
-            newAuction.setBids(Collections.emptyList());
-        }
+
         return newAuction;
     }
 }

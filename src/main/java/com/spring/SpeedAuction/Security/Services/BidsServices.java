@@ -41,9 +41,9 @@ public class BidsServices {
     }
 
     public void compareSellerAndBidder(AuctionModels auction, BidsModels newBid) {
-        /*if (auction.getSeller().getId().equals(newBid.getBidder().getId())) {
+        if (auction.getSeller().getId().equals(newBid.getBidder().getId())) {
             throw new IllegalArgumentException("you cant bid on your own auction");
-        }*/
+        }
     }
 
     public BidsModels retrieveData(BidsDTO bidsDTO, UserModels user) {
@@ -74,7 +74,19 @@ public class BidsServices {
                 throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");
             }
         }
-    } // #######
+    }
+
+    public BidsModels saveBidAndAuction(AuctionModels auction, BidsModels bid) {
+        List<BidsModels> bids = auction.getBids();
+        bids.add(bid);
+        auction.setBids(bids);
+
+        bidsModelsRepository.save(bid);
+
+        auctionRepository.save(auction);
+
+        return bid;
+    }
 
     private BidsDTO convertToDTO(BidsModels bidsModels) {
         BidsDTO bidsDTO = new BidsDTO();
@@ -107,15 +119,7 @@ public class BidsServices {
         newBid.setTimeBidded(new Date());
         bidBeforeEndOfAuction(newBid, auction);
 
-        List<BidsModels> bids = auction.getBids();
-        bids.add(newBid);
-        auction.setBids(bids);
-
-        bidsModelsRepository.save(newBid);
-
-        auctionRepository.save(auction);
-
-        return newBid;
+        return saveBidAndAuction(auction, newBid);
     }
 
     // PUT
@@ -137,13 +141,7 @@ public class BidsServices {
         checkIsActive(auction);
         bidLargeEnough(existingBid, auction);
 
-        List<BidsModels> bids = auction.getBids();
-        bids.add(bidsModels);
-        auction.setBids(bids);
-
-        auctionRepository.save(auction);
-
-        return bidsModelsRepository.save(existingBid);
+        return saveBidAndAuction(auction, existingBid);
     }
 
     // DELETE
@@ -169,22 +167,33 @@ public class BidsServices {
 
     //bid history for an auction
     //find all by auctionId
-    /*public List<BidsDTO> getBidsModelByAuctionId(String auctionId) {
-        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByAuctionIdOrderByAmountDesc(auctionId);
-        if (bidsModels.isEmpty()) {
+    public List<BidsDTO> getBidsModelByAuctionId(String auctionId) {
+        checkAuctionId(auctionId);
+        List<BidsModels> bids = checkAuctionId(auctionId).getBids();
+        if (bids == null || bids.isEmpty()) {
             throw new IllegalArgumentException("no bids exist for this auctionId");
         }
-        return bidsModels.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return bids.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     //GET top bid for an auction
     public BidsDTO getTopBidByAuctionId(String auctionId) {
-        BidsModels bidsModel = bidsModelsRepository.findFirstByAuctionIdOrderByAmountDesc(auctionId);
-        if (bidsModel == null) {
+        checkAuctionId(auctionId);
+        List<BidsModels> bids = checkAuctionId(auctionId).getBids();
+        if (bids == null || bids.isEmpty()) {
             throw new IllegalArgumentException("no bids exist for this auctionId");
         }
-        return convertToDTO(bidsModel);
-    }*/
+
+        BidsModels biggestBid = bids.get(0);
+
+        for (BidsModels bid : bids) {
+            if (bid.getAmount() > biggestBid.getAmount()) {
+                biggestBid = bid;
+            }
+        }
+
+        return convertToDTO(biggestBid);
+    }
 }
 
 
