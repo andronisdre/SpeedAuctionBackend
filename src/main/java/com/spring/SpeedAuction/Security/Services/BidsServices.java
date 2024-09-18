@@ -27,9 +27,6 @@ public class BidsServices {
     UserRepository userRepository;
     @Autowired
     BidsValidateService bidsValidateService;
-    @Autowired
-    BidsDataService bidsDataService;
-
 
 
     public BidsModels retrieveData(BidsDTO bidsDTO, AuctionModels auction, UserModels user) {
