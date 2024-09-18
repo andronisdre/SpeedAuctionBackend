@@ -1,7 +1,6 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.BidsModels;
-//import com.spring.SpeedAuction.Security.Services.BidsDataService;
 import com.spring.SpeedAuction.Security.Services.BidsValidateService;
 import com.spring.SpeedAuction.dto.BidsDTO;
 import com.spring.SpeedAuction.Security.Services.BidsServices;
@@ -16,8 +15,7 @@ import java.util.List;
 public class BidsController {
     @Autowired
     BidsServices bidsService;
-    //@Autowired
-    //BidsDataService bidsDataService;
+
     @Autowired
     BidsValidateService bidsValidateService;
 
