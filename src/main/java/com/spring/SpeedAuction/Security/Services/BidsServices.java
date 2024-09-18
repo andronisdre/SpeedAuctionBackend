@@ -7,10 +7,6 @@ import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-<<<<<<< HEAD
-=======
-import com.spring.SpeedAuction.DTO.BidsDTO;
->>>>>>> OOAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
