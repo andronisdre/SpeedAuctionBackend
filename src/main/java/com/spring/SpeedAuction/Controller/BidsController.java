@@ -2,7 +2,7 @@ package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Security.Services.BidsValidateService;
-import com.spring.SpeedAuction.dto.BidsDTO;
+import com.spring.SpeedAuction.DTO.BidsDTO;
 import com.spring.SpeedAuction.Security.Services.BidsServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,9 +13,9 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/bids")
 public class BidsController {
+
     @Autowired
     BidsServices bidsService;
-
     @Autowired
     BidsValidateService bidsValidateService;
 
@@ -41,9 +41,9 @@ public class BidsController {
 
     //PUT /bids/{id} - Uppdatera ett specifikt bid baserat på id.
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
-    @PutMapping("/{id}")
-    public BidsModels updateBidModel(@PathVariable String id, @RequestBody BidsModels bidsModels) {
-        return bidsService.updateBidModels(id, bidsModels);
+    @PutMapping("/{id}/{auctionId}")
+    public BidsModels updateBidModel(@PathVariable String id, @PathVariable String auctionId, @RequestBody BidsModels bidsModels) {
+        return bidsService.updateBidModels(id, auctionId, bidsModels);
     }
 
     //DELETE /bids/{id} - Ta bort ett bid baserat på id.

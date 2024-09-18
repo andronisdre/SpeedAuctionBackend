@@ -15,6 +15,7 @@ import java.util.List;
 public class AuctionsDTO {
     private String id;
     private String sellerId;
+    private List<String> bids;
     @Min(value = 100000, message = "starting price must be at least 100 thousand swedish crowns")
     private int startingPrice;
     private boolean isActive;
@@ -59,6 +60,14 @@ public class AuctionsDTO {
 
     public void setSellerId(String sellerId) {
         this.sellerId = sellerId;
+    }
+
+    public List<String> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<String> bids) {
+        this.bids = bids;
     }
 
     public int getStartingPrice() {

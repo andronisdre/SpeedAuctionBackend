@@ -46,6 +46,7 @@ public class SignupRequest {
     @NotBlank
     @Size(max = 20)
     private String postal_code;
+    private String profile_picture;
 
     private Set<String> roles;
 
@@ -135,5 +136,13 @@ public class SignupRequest {
 
     public void setRoles(Set<String> roles) {
         this.roles = roles;
+    }
+
+    public String getProfile_picture() {
+        return profile_picture;
+    }
+
+    public void setProfile_picture(String profile_picture) {
+        this.profile_picture = profile_picture;
     }
 }

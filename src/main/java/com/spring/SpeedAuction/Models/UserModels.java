@@ -34,7 +34,6 @@ public class UserModels {
     @Indexed(unique = true)
     @Size(max = 100)
     private String email;
-
     private String phone_number;
     @NotBlank
     @Size(max = 100)
@@ -48,9 +47,9 @@ public class UserModels {
     @NotBlank
     @Size(max = 20)
     private String postal_code;
+    private String profile_picture;
     @DBRef
     private List<AuctionModels> favourites_auction_id = new ArrayList<>();
-
     //roll
     @DBRef
     private Set<Role> roles = new HashSet<>();
@@ -61,7 +60,7 @@ public class UserModels {
     }
 
     public UserModels(String username, String first_name, String last_name, String password,
-                      String email, String phone_number, String address, String country, String city, String postal_code) {
+                      String email, String phone_number, String address, String country, String city, String postal_code, String profile_picture) {
 
         this.username = username;
         this.first_name = first_name;
@@ -73,6 +72,7 @@ public class UserModels {
         this.country = country;
         this.city = city;
         this.postal_code = postal_code;
+        this.profile_picture = profile_picture;
     }
 
     public UserModels(List<AuctionModels> favourites_auction_id) {
@@ -175,7 +175,6 @@ public class UserModels {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
 
-
     }
 
     public List<AuctionModels> getFavourites_auction_id() {
@@ -184,5 +183,13 @@ public class UserModels {
 
     public void setFavourites_auction_id(List<AuctionModels> favourites_auction_id) {
         this.favourites_auction_id = favourites_auction_id;
+    }
+
+    public String getProfile_picture() {
+        return profile_picture;
+    }
+
+    public void setProfile_picture(String profile_picture) {
+        this.profile_picture = profile_picture;
     }
 }

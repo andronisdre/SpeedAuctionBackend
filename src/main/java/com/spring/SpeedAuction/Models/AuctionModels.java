@@ -18,6 +18,8 @@ public class AuctionModels {
         private String id;
         @DBRef
         private UserModels seller;
+        @DBRef
+        private List<BidsModels> bids;
         private int startingPrice;
         private boolean isActive;
         @CreatedDate
@@ -34,9 +36,13 @@ public class AuctionModels {
         private ECondition condition;
         private String description;
 
-     public AuctionModels(AuctionBuilder builder) {
+    public AuctionModels() {
+    }
+
+    public AuctionModels(AuctionBuilder builder) {
          this.id = builder.id;
          this.seller = builder.seller;
+         this.bids = builder.bids;
          this.startingPrice = builder.startingPrice;
          this.isActive = builder.isActive;
          this.created_at = builder.created_at;
@@ -58,6 +64,8 @@ public class AuctionModels {
         private String id;
         @DBRef
         private UserModels seller;
+        @DBRef
+        private List<BidsModels> bids;
         private int startingPrice;
         private boolean isActive;
         @CreatedDate
@@ -81,6 +89,11 @@ public class AuctionModels {
 
         public AuctionBuilder seller(UserModels seller) {
             this.seller = seller;
+            return this;
+        }
+
+        public AuctionBuilder bids(List<BidsModels> bids) {
+            this.bids = bids;
             return this;
         }
 
@@ -151,7 +164,7 @@ public class AuctionModels {
         }
     }
 
-        public String getId() {
+    public String getId() {
         return id;
     }
 
@@ -189,6 +202,14 @@ public class AuctionModels {
 
         public void setSeller(UserModels seller) {
         this.seller = seller;
+    }
+
+        public List<BidsModels> getBids() {
+        return bids;
+    }
+
+        public void setBids(List<BidsModels> bids) {
+        this.bids = bids;
     }
 
         public Date getUpdated_at() {

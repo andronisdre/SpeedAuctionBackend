@@ -1,10 +1,9 @@
 package com.spring.SpeedAuction.Controller;
 
-import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.DTO.AuctionsDTO;
+import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Security.Services.AuctionServices;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/api/auctions")
 public class AuctionController {
-    @Autowired
-    AuctionServices auctionServices;
 
+    private final AuctionServices auctionServices;
+
+    public AuctionController(AuctionServices auctionServices) {
+        this.auctionServices = auctionServices;
+    }
 
     //post auction
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
