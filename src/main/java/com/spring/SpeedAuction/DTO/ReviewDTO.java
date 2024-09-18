@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.dto;
+package com.spring.SpeedAuction.DTO;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

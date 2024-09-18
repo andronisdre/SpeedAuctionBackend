@@ -14,8 +14,6 @@ public class BidsModels {
     @Id
     private String id;
     @DBRef
-    private AuctionModels auction;
-    @DBRef
     private UserModels bidder;
     private Integer amount;
     @CreatedDate
@@ -31,14 +29,6 @@ public class BidsModels {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public AuctionModels getAuction() {
-        return auction;
-    }
-
-    public void setAuction(AuctionModels auction) {
-        this.auction = auction;
     }
 
     public UserModels getBidder() {
