@@ -76,6 +76,7 @@ public class BidsServices {
         }
     }
 
+    //saves both bid and auction then returns bid
     public BidsModels saveBidAndAuction(AuctionModels auction, BidsModels bid) {
         List<BidsModels> bids = auction.getBids();
         bids.add(bid);
