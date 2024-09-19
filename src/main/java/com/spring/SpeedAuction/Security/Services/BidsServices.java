@@ -1,13 +1,16 @@
 package com.spring.SpeedAuction.Security.Services;
+
+import com.spring.SpeedAuction.DTO.BidsDTO;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.DTO.BidsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +32,11 @@ public class BidsServices {
     public BidsModels retrieveData(BidsDTO bidsDTO, UserModels user) {
         BidsModels newBid = new BidsModels();
         newBid.setBidder(user);
-        newBid.setTimeBidded(bidsDTO.getTimeBidded());
+        if (bidsDTO.getTimeBidded() != null) {
+            newBid.setTimeBidded(bidsDTO.getTimeBidded());
+        } else {
+            newBid.setTimeBidded(new Date());
+        }
         newBid.setAmount(bidsDTO.getAmount());
 
         return newBid;
@@ -37,17 +44,20 @@ public class BidsServices {
 
 
     //saves both bid and auction then returns bid
-   /* public BidsModels saveBidAndAuction(AuctionModels auction, BidsModels bid) {
-        List<BidsModels> bids = auction.getBids();
-        bids.add(bid);
-        auction.setBids(bids);
+    public BidsModels saveBidAndAuction(AuctionModels auction, BidsModels bid) {
+        List<BidsModels> existingBids = auction.getBids();
+        if (existingBids == null) {
+            existingBids = (new ArrayList<>());
+        }
+        existingBids.add(bid);
+        auction.setBids(existingBids);
 
         bidsRepository.save(bid);
 
         auctionRepository.save(auction);
 
         return bid;
-    }*/
+    }
 
     private BidsDTO convertToDTO(BidsModels bidsModels) {
         BidsDTO bidsDTO = new BidsDTO();
@@ -80,10 +90,7 @@ public class BidsServices {
         bidsValidateService.bidLargeEnough(newBid, auction);
         bidsValidateService.bidBeforeEndOfAuction(newBid, auction);
 
-        auction.getBids().add(newBid);  // Adding bid to the auction
-        auctionRepository.save(auction);  // Save auction with the new bid
-
-        return bidsRepository.save(newBid);  // Save the bid itself
+        return saveBidAndAuction(auction, newBid);
     }
 
     // PUT
@@ -102,6 +109,7 @@ public class BidsServices {
         }
 
         bidsValidateService.bidLargeEnough(existingBid, auction);
+
         return bidsRepository.save(existingBid);
     }
 

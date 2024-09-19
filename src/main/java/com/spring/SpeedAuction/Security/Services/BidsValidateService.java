@@ -6,7 +6,6 @@ import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.DTO.BidsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,18 +48,17 @@ public class BidsValidateService {
     }
 
     public void bidLargeEnough(BidsModels newBid, AuctionModels auction) {
-
         // ###### BRYTA NER TILL TVÅ OLIKA METODER
         if (newBid.getAmount() < auction.getStartingPrice()) {
             throw new IllegalArgumentException("bid is smaller than Starting bid!");
         }
-
         List<BidsModels> bidsModels = auction.getBids();
-        for (BidsModels existingBid : bidsModels) {
-            if (newBid.getAmount() < (existingBid.getAmount() + 1000)) {
-                throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");
+        if (bidsModels != null) {
+            for (BidsModels existingBid : bidsModels) {
+                if (newBid.getAmount() < (existingBid.getAmount() + 1000)) {
+                    throw new IllegalArgumentException("bid needs to be at least 1000 higher than the largest bid!");
+                }
             }
         }
     }
-
 }
