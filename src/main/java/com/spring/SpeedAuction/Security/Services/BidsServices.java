@@ -1,13 +1,12 @@
 package com.spring.SpeedAuction.Security.Services;
 
+import com.spring.SpeedAuction.DTO.BidsDTO;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.DTO.BidsDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,13 +16,16 @@ import java.util.stream.Collectors;
 @Service
 public class BidsServices {
 
-    //logic
-    @Autowired
-    BidsRepository bidsModelsRepository;
-    @Autowired
-    AuctionRepository auctionRepository;
-    @Autowired
-    UserRepository userRepository;
+    private final AuctionRepository auctionRepository;
+    private final UserRepository userRepository;
+    private final BidsRepository bidsRepository;
+
+    public BidsServices(AuctionRepository auctionRepository, UserRepository userRepository, BidsRepository bidsRepository) {
+        this.auctionRepository = auctionRepository;
+        this.userRepository = userRepository;
+        this.bidsRepository = bidsRepository;
+    }
+
 
     //util functions
     public UserModels checkUserId(String userId) {
@@ -82,7 +84,7 @@ public class BidsServices {
         bids.add(bid);
         auction.setBids(bids);
 
-        bidsModelsRepository.save(bid);
+        bidsRepository.save(bid);
 
         auctionRepository.save(auction);
 
@@ -100,13 +102,13 @@ public class BidsServices {
 
     // GET all
     public List<BidsDTO> getAllBidsModel() {
-        List<BidsModels> bidsModels = bidsModelsRepository.findAll();
+        List<BidsModels> bidsModels = bidsRepository.findAll();
         return bidsModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     // GET by id
     public BidsModels getBidsModel(String id) {
-        return bidsModelsRepository.findById(id).get();
+        return bidsRepository.findById(id).get();
     }
 
     // POST
@@ -125,7 +127,7 @@ public class BidsServices {
 
     // PUT
     public BidsModels updateBidModels(String id, String auctionId, BidsModels bidsModels) {
-        BidsModels existingBid = bidsModelsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
+        BidsModels existingBid = bidsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
         //update field
         if (bidsModels.getAmount() != null){
@@ -147,9 +149,9 @@ public class BidsServices {
 
     // DELETE
     public String deleteBidModels(String id){
-        BidsModels bidsModels = bidsModelsRepository.findById(id).orElse(null);
+        BidsModels bidsModels = bidsRepository.findById(id).orElse(null);
         if (bidsModels != null) {
-            bidsModelsRepository.deleteById(id);
+            bidsRepository.deleteById(id);
             return "bid deleted";
         } else {
             return "bid id doesn't exist";
@@ -159,7 +161,7 @@ public class BidsServices {
     //bid history for a user
     //find all by bidderId
     public List<BidsDTO> getBidsModelByUserId(String bidderId) {
-        List<BidsModels> bidsModels = bidsModelsRepository.findBidsModelsByBidderIdOrderByTimeBiddedDesc(bidderId);
+        List<BidsModels> bidsModels = bidsRepository.findBidsModelsByBidderIdOrderByTimeBiddedDesc(bidderId);
         if (bidsModels.isEmpty()) {
             throw new IllegalArgumentException("no bids exist for this userId");
         }
