@@ -5,26 +5,25 @@ import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
-import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class AuctionServices {
-    @Autowired
-    AuctionRepository auctionRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    private final AuctionRepository auctionRepository;
+    private final UserRepository userRepository;
 
-    private final BidsRepository bidsRepository;
 
-    public AuctionServices(BidsRepository bidsRepository) {
-        this.bidsRepository = bidsRepository;
+    public AuctionServices(AuctionRepository auctionRepository, UserRepository userRepository) {
+        this.auctionRepository = auctionRepository;
+        this.userRepository = userRepository;
     }
 
     //post 123
