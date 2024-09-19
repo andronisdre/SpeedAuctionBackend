@@ -1,6 +1,7 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.Models.BidsModels;
+import com.spring.SpeedAuction.Security.Services.BidsValidateService;
 import com.spring.SpeedAuction.DTO.BidsDTO;
 import com.spring.SpeedAuction.Security.Services.BidsServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,11 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/bids")
 public class BidsController {
+
     @Autowired
     BidsServices bidsService;
+    @Autowired
+    BidsValidateService bidsValidateService;
 
     //POST Lägg till ett nytt bid
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
