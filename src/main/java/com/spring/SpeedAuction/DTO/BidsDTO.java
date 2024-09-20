@@ -30,4 +30,5 @@ public class BidsDTO {
     public void setTimeBidded(Date timeBidded) {
         this.timeBidded = timeBidded;
     }
+
 }
