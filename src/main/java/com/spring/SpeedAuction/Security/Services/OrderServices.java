@@ -1,15 +1,13 @@
 package com.spring.SpeedAuction.Security.Services;
 
 import com.spring.SpeedAuction.DTO.OrderDto;
-
+import com.spring.SpeedAuction.DTO.OrderResponse;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.OrderRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.DTO.OrderResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,14 +18,15 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServices {
 
-    @Autowired
-    OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
+    private final AuctionRepository auctionRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    AuctionRepository auctionRepository;
-
-    @Autowired
-    UserRepository userRepository;
+    public OrderServices (OrderRepository orderRepository, AuctionRepository auctionRepository, UserRepository userRepository) {
+        this.orderRepository = orderRepository;
+        this.auctionRepository = auctionRepository;
+        this.userRepository = userRepository;
+    }
 
 
     public OrderModels createOrder(OrderDto orderDto) {

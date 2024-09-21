@@ -4,21 +4,20 @@ import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
-import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class BidsValidateService {
 
-    @Autowired
-    AuctionRepository auctionRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    BidsRepository bidsRepository;
+    private final AuctionRepository auctionRepository;
+    private final UserRepository userRepository;
+
+    public BidsValidateService(AuctionRepository auctionRepository, UserRepository userRepository) {
+        this.auctionRepository = auctionRepository;
+        this.userRepository = userRepository;
+    }
 
 
     public UserModels checkUserId(String userId) {

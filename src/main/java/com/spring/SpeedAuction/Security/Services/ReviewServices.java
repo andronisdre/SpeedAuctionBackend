@@ -5,7 +5,6 @@ import com.spring.SpeedAuction.Models.ReviewModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.ReviewRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +14,13 @@ import java.util.stream.Collectors;
 @Service
 public class ReviewServices {
 
-    @Autowired
-    ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    public ReviewServices (ReviewRepository reviewRepository, UserRepository userRepository) {
+        this.reviewRepository = reviewRepository;
+        this.userRepository = userRepository;
+    }
 
 
     public ReviewModels addReview(ReviewDTO reviewDTO) {    // POST Lägg till en review
