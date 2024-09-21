@@ -3,7 +3,6 @@ package com.spring.SpeedAuction.Controller;
 import com.spring.SpeedAuction.DTO.BidsDTO;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Security.Services.BidsServices;
-import com.spring.SpeedAuction.Security.Services.BidsValidateService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +11,11 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/bids")
 public class BidsController {
-    private final BidsServices bidsService;
-    private final BidsValidateService bidsValidateService;
 
-    public BidsController(BidsServices bidsService, BidsValidateService bidsValidateService) {
+    private final BidsServices bidsService;
+
+    public BidsController(BidsServices bidsService) {
         this.bidsService = bidsService;
-        this.bidsValidateService = bidsValidateService;
     }
 
     //POST Lägg till ett nytt bid
