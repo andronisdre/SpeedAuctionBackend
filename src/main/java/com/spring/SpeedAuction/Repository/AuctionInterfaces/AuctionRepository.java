@@ -1,4 +1,4 @@
-package com.spring.SpeedAuction.Repository;
+package com.spring.SpeedAuction.Repository.AuctionInterfaces;
 
 import com.spring.SpeedAuction.Models.AuctionModels;
 import org.springframework.data.mongodb.repository.MongoRepository;

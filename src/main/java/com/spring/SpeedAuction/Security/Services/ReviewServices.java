@@ -4,7 +4,7 @@ import com.spring.SpeedAuction.DTO.ReviewDTO;
 import com.spring.SpeedAuction.Models.ReviewModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.ReviewRepository;
-import com.spring.SpeedAuction.Repository.UserRepository;
+import com.spring.SpeedAuction.Repository.UserInterfaces.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
