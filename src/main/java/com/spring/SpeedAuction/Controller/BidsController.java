@@ -3,7 +3,6 @@ package com.spring.SpeedAuction.Controller;
 import com.spring.SpeedAuction.DTO.BidsDTO;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Security.Services.BidsServices;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/bids")
 public class BidsController {
-    @Autowired
-    BidsServices bidsService;
+
+    private final BidsServices bidsService;
+
+    public BidsController(BidsServices bidsService) {
+        this.bidsService = bidsService;
+    }
 
     //POST Lägg till ett nytt bid
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
