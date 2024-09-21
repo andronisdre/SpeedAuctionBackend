@@ -4,8 +4,10 @@ import com.spring.SpeedAuction.DTO.AuctionsDTO;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
+import com.spring.SpeedAuction.Repository.AuctionFilter;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -18,11 +20,13 @@ import java.util.stream.Collectors;
 public class AuctionServices {
 
     private final AuctionRepository auctionRepository;
+    private final AuctionFilter auctionFilter;
     private final UserRepository userRepository;
 
-
-    public AuctionServices(AuctionRepository auctionRepository, UserRepository userRepository) {
+    @Autowired
+    public AuctionServices(AuctionRepository auctionRepository, AuctionFilter auctionFilter, UserRepository userRepository) {
         this.auctionRepository = auctionRepository;
+        this.auctionFilter = auctionFilter;
         this.userRepository = userRepository;
     }
 
@@ -119,7 +123,7 @@ public class AuctionServices {
 
     //get all auctions that are either active or inactive
     public List<AuctionsDTO> getAuctionModelsByIsActive(boolean isActive) {
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByIsActive(isActive);
+        List<AuctionModels> auctionModels = auctionFilter.findAuctionModelsByIsActive(isActive);
         if (auctionModels.isEmpty()) {
             throw new IllegalArgumentException("no results for that value");
         }
@@ -128,7 +132,7 @@ public class AuctionServices {
 
     //get all auctions in the range between minStartingBid and maxStartingBid
     public List<AuctionsDTO> getAuctionModelsByStartingPriceBetween(int minStartingPrice, int maxStartingPrice) {
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByStartingPriceBetweenOrderByStartingPriceAsc((minStartingPrice - 1), (maxStartingPrice + 1));
+        List<AuctionModels> auctionModels = auctionFilter.findAuctionModelsByStartingPriceBetweenOrderByStartingPriceAsc((minStartingPrice - 1), (maxStartingPrice + 1));
         if (auctionModels.isEmpty()) {
             throw new IllegalArgumentException("no results for those values");
         }
@@ -137,35 +141,35 @@ public class AuctionServices {
 
     //get all auctions that match with color
     public List<AuctionsDTO> getAuctionModelsByColor(String color) {
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByColor(color);
+        List<AuctionModels> auctionModels = auctionFilter.findAuctionModelsByColor(color);
 
         return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     //get all auctions that match with brand
     public List<AuctionsDTO> getAuctionModelsByBrand(String brand) {
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByBrand(brand);
+        List<AuctionModels> auctionModels = auctionFilter.findAuctionModelsByBrand(brand);
 
         return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     //get all auctions that match with YearManufactured
     public List<AuctionsDTO> getAuctionModelsByYearManufactured(int minYearManufactured, int maxYearManufactured) {
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByYearManufacturedBetweenOrderByYearManufacturedDesc((minYearManufactured - 1),(maxYearManufactured + 1));
+        List<AuctionModels> auctionModels = auctionFilter.findAuctionModelsByYearManufacturedBetweenOrderByYearManufacturedDesc((minYearManufactured - 1),(maxYearManufactured + 1));
 
         return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     //get all auctions that match with MilesDriven
     public List<AuctionsDTO> getAuctionModelsByMilesDriven(int minMilesDriven, int maxMilesDriven) {
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByMilesDrivenBetweenOrderByMilesDrivenAsc((minMilesDriven - 1),(maxMilesDriven + 1));
+        List<AuctionModels> auctionModels = auctionFilter.findAuctionModelsByMilesDrivenBetweenOrderByMilesDrivenAsc((minMilesDriven - 1),(maxMilesDriven + 1));
 
         return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     //get all auctions that match with CONDITION
     public List<AuctionsDTO> getAuctionModelsByCondition(String condition){
-        List<AuctionModels> auctionModels = auctionRepository.findAuctionModelsByCondition(condition);
+        List<AuctionModels> auctionModels = auctionFilter.findAuctionModelsByCondition(condition);
 
         return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
