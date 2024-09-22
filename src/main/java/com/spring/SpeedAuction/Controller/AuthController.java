@@ -8,7 +8,8 @@ import com.spring.SpeedAuction.Payload.request.SignupRequest;
 import com.spring.SpeedAuction.Payload.response.MessageResponse;
 import com.spring.SpeedAuction.Payload.response.UserInfoResponse;
 import com.spring.SpeedAuction.Repository.RoleRepository;
-import com.spring.SpeedAuction.Repository.UserRepository;
+import com.spring.SpeedAuction.Repository.UserInterfaces.ExistsUserFilter;
+import com.spring.SpeedAuction.Repository.UserInterfaces.UserRepository;
 import com.spring.SpeedAuction.Security.Services.UserDetailImpl;
 import com.spring.SpeedAuction.Security.jwt.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,15 +40,18 @@ public class AuthController {
 
     private final UserRepository userRepository;
 
+    private final ExistsUserFilter existsUserFilter;
+
     private final RoleRepository roleRepository;
 
     private final PasswordEncoder encoder;
 
     private final JwtUtils jwtUtils;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, ExistsUserFilter existsUserFilter, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
+        this.existsUserFilter = existsUserFilter;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
@@ -86,7 +90,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody SignupRequest signupRequest) {
         // check if the username exist
-        if (userRepository.existsByUsername((signupRequest.getUsername()))) {
+        if (existsUserFilter.existsByUsername((signupRequest.getUsername()))) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error username already exist!"));
