@@ -5,9 +5,9 @@ import com.spring.SpeedAuction.DTO.OrderResponse;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Models.UserModels;
-import com.spring.SpeedAuction.Repository.AuctionRepository;
+import com.spring.SpeedAuction.Repository.AuctionInterfaces.AuctionRepository;
 import com.spring.SpeedAuction.Repository.OrderRepository;
-import com.spring.SpeedAuction.Repository.UserRepository;
+import com.spring.SpeedAuction.Repository.UserInterfaces.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
