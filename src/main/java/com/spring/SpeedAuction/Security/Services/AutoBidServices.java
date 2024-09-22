@@ -5,7 +5,7 @@ import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Repository.AuctionInterfaces.AuctionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,49 +13,57 @@ import java.util.List;
 public class AutoBidServices {
 
     private final AuctionRepository auctionRepository;
+    private final BidsValidateService bidsValidateService;
 
 
-    public AutoBidServices( AuctionRepository auctionRepository) {
+
+
+    public AutoBidServices(AuctionRepository auctionRepository, BidsValidateService bidsValidateService) {
         this.auctionRepository = auctionRepository;
+        this.bidsValidateService = bidsValidateService;
     }
 
     //
     //LOGIC TO HANDLE AUTOMATIC BIDDING
 
-
-
     public BidsModels placeAutoBid(AuctionModels auction, BidsModels currentBid){
-        BidsModels topBid = auction.getBids()
-                .stream().max(Comparator.comparingInt(BidsModels::getAmount))
-                .orElse(currentBid);
 
-        List<BidsModels> autoBids = auction.getBids();
-        if (autoBids.isEmpty()){
-            System.out.print("test1 ");
-            return null;
-
+        List<BidsModels> existingBids = auction.getBids();
+        if (existingBids == null || existingBids.isEmpty()) {
+            existingBids = (new ArrayList<>());
         }
-        System.out.println("test2 ");
-        for (BidsModels  autoBid: autoBids){
-            if(autoBid.getMaxAmount() > topBid.getAmount()){
-                int newBidAmount = topBid.getAmount() + 5000;
-                System.out.print("amout1 " + autoBid.getMaxAmount());
-                if(newBidAmount <= autoBid.getMaxAmount()){
-                    BidsModels newBid = new BidsModels();
-                    newBid.setBidder(autoBid.getBidder());
-                    newBid.setAmount(newBidAmount);
-                    newBid.setTimeBidded(new Date());
-                    return saveBidAndAuction(auction, newBid);
-                }
+
+
+        System.out.println("max amount is >>>>" + currentBid.getMaxAmount());
+        System.out.println("amount is >>>>" + currentBid.getAmount());
+
+
+        existingBids.add(currentBid);
+        auction.setBids(existingBids);
+
+        BidsModels topBid = existingBids.get(0);
+        for (BidsModels bid : existingBids) {
+            if (bid.getAmount() > topBid.getAmount()) {
+                topBid = bid;
             }
         }
 
-        return null;
+        System.out.println("test2 ");
+
+        for (BidsModels  autoBid: existingBids){
+            if(autoBid.getMaxAmount() > topBid.getAmount()){
+                int newBidAmount = topBid.getAmount() + 5000;
+
+                System.out.print("amout1 " + autoBid.getMaxAmount());
+
+                if(newBidAmount <= autoBid.getMaxAmount()){
+
+                    System.out.println("innan rad 61" +  currentBid);
+                    return bidsValidateService.saveBidAndAuction(auction, currentBid);
+                }
+            }
+        }
+        return currentBid;
     }
 
-    private BidsModels saveBidAndAuction(AuctionModels auction, BidsModels bid){
-        auction.getBids().add(bid);
-        auctionRepository.save(auction);
-        return bid;
-    }
 }

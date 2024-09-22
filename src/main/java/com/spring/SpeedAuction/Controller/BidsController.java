@@ -56,7 +56,7 @@ public class BidsController {
 
     }
 
-    //Hämtar alla bids med ett specifikt bidderId, nyaste budet kommer först
+    //Hämtar alla bids med ett specific bidderId, nyaste budet kommer först
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @GetMapping("/filterByBidderId/{bidderId}")
     public List<BidsDTO> getBidsModelByUserId(@PathVariable String bidderId) {

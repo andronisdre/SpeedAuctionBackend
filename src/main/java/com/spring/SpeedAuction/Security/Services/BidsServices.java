@@ -39,30 +39,17 @@ public class BidsServices {
             newBid.setTimeBidded(new Date());
         }
         newBid.setAmount(bidsDTO.getAmount());
+        newBid.setMaxAmount(bidsDTO.getMaxAmount());
 
         return newBid;
     }
 
-    //saves both bid and auction then returns bid
-    public BidsModels saveBidAndAuction(AuctionModels auction, BidsModels bid) {
-        List<BidsModels> existingBids = auction.getBids();
-        if (existingBids == null) {
-            existingBids = (new ArrayList<>());
-        }
-        existingBids.add(bid);
-        auction.setBids(existingBids);
-
-        bidsRepository.save(bid);
-
-        auctionRepository.save(auction);
-
-        return bid;
-    }
 
     private BidsDTO convertToDTO(BidsModels bidsModels) {
         BidsDTO bidsDTO = new BidsDTO();
         bidsDTO.setBidderId(bidsModels.getBidder().getId());
         bidsDTO.setAmount(bidsModels.getAmount());
+        bidsDTO.setMaxAmount(bidsDTO.getMaxAmount());
         bidsDTO.setTimeBidded(bidsModels.getTimeBidded());
 
         return bidsDTO;
@@ -81,7 +68,7 @@ public class BidsServices {
 
     // POST
     public BidsModels createBidModels(String auctionId, String userId, BidsDTO bidsDTO) {
-        System.out.println("84");
+
         UserModels user = bidsValidateService.checkUserId(userId);
         AuctionModels auction = bidsValidateService.checkAuctionId(auctionId);
         bidsValidateService.checkIsActive(auction);
@@ -91,7 +78,7 @@ public class BidsServices {
         bidsValidateService.bidLargeEnough(newBid, auction);
         bidsValidateService.bidBeforeEndOfAuction(newBid, auction);
 
-        return saveBidAndAuction(auction, newBid);
+        return autoBidServices.placeAutoBid(auction, newBid);
     }
 
     // PUT

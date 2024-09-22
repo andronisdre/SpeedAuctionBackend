@@ -4,19 +4,39 @@ import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionInterfaces.AuctionRepository;
+import com.spring.SpeedAuction.Repository.BidsRepository;
 import com.spring.SpeedAuction.Repository.UserInterfaces.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class BidsValidateService {
 
     private final AuctionRepository auctionRepository;
     private final UserRepository userRepository;
+    private final BidsRepository bidsRepository;
 
-    public BidsValidateService(AuctionRepository auctionRepository, UserRepository userRepository) {
+    public BidsValidateService(AuctionRepository auctionRepository, UserRepository userRepository, BidsRepository bidsRepository) {
         this.auctionRepository = auctionRepository;
         this.userRepository = userRepository;
+        this.bidsRepository = bidsRepository;
+    }
+
+    //saves both bid and auction then returns bid
+    public BidsModels saveBidAndAuction(AuctionModels auction, BidsModels bid) {
+        List<BidsModels> existingBids = auction.getBids();
+        if (existingBids == null) {
+            existingBids = (new ArrayList<>());
+        }
+        existingBids.add(bid);
+        auction.setBids(existingBids);
+
+        bidsRepository.save(bid);
+
+        auctionRepository.save(auction);
+
+        return bid;
     }
 
 
