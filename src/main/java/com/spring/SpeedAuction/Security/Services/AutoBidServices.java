@@ -58,6 +58,7 @@ public class AutoBidServices {
         return autoBidDTO;
     }
 
+
     //LOGIC TO HANDLE AUTOMATIC BIDDING
 
     public BidsModels placeBidAutomatically(AuctionModels auction, BidsModels currentBid){
@@ -78,9 +79,7 @@ public class AutoBidServices {
                     newBid.setBidder(autoBid.getAutoBidder());
                     newBid.setAmount(newBidAmount);
                     newBid.setTimeBidded(new Date());
-
                     return saveBidAndAuction(auction, newBid);
-
                 }
             }
         }
