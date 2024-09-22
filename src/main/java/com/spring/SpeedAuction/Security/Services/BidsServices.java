@@ -15,12 +15,16 @@ import java.util.stream.Collectors;
 @Service
 public class BidsServices {
 
+
+    private final AutoBidServices autoBidServices;
+
     private final AuctionRepository auctionRepository;
     private final BidsRepository bidsRepository;
     private final BidsValidateService bidsValidateService;
 
-    public BidsServices(AuctionRepository auctionRepository,
+    public BidsServices(AutoBidServices autoBidServices, AuctionRepository auctionRepository,
                         BidsRepository bidsRepository, BidsValidateService bidsValidateService) {
+        this.autoBidServices = autoBidServices;
         this.auctionRepository = auctionRepository;
         this.bidsRepository = bidsRepository;
         this.bidsValidateService = bidsValidateService;
@@ -77,6 +81,7 @@ public class BidsServices {
 
     // POST
     public BidsModels createBidModels(String auctionId, String userId, BidsDTO bidsDTO) {
+        System.out.println("84");
         UserModels user = bidsValidateService.checkUserId(userId);
         AuctionModels auction = bidsValidateService.checkAuctionId(auctionId);
         bidsValidateService.checkIsActive(auction);
