@@ -1,74 +1,92 @@
 package com.spring.SpeedAuction.Security.Services;
 
+import com.spring.SpeedAuction.DTO.BidsDTO;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.BidsModels;
+import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionInterfaces.AuctionRepository;
+import com.spring.SpeedAuction.Repository.UserInterfaces.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AutoBidServices {
 
     private final AuctionRepository auctionRepository;
     private final BidsValidateService bidsValidateService;
+    private final UserRepository userRepository;
 
 
-    public AutoBidServices(AuctionRepository auctionRepository, BidsValidateService bidsValidateService) {
+    public AutoBidServices(AuctionRepository auctionRepository, BidsValidateService bidsValidateService, UserRepository userRepository) {
         this.auctionRepository = auctionRepository;
         this.bidsValidateService = bidsValidateService;
+        this.userRepository = userRepository;
     }
 
     //
     //LOGIC TO HANDLE AUTOMATIC BIDDING
 
-    public BidsModels placeAutoBid(AuctionModels auction, BidsModels currentBid) {
+    public void checkForAutobids(AuctionModels auction) {
 
-        List<BidsModels> existingBids = auction.getBids();
-        if (existingBids == null || existingBids.isEmpty()) {
-            existingBids = (new ArrayList<>());
-        }
+        UserModels topUser = getTopUser(auction);
+        BidsDTO topBidDto = bidsValidateService.getTopBidByAuctionId(auction.getId());
+        BidsModels topBid = bidsValidateService.retrieveData(topBidDto, topUser);
 
+        List<BidsModels> otherUserBids = getOtherUsersBids(auction, topUser);
 
-        System.out.println("max amount is >>>>" + currentBid.getMaxAmount());
-        System.out.println("amount is >>>>" + currentBid.getAmount());
+        List<BidsModels> newAutoBids = new ArrayList<>();
 
+        boolean biddingContinues = true;
 
-        existingBids.add(currentBid);
-        auction.setBids(existingBids);
+        while (biddingContinues) {
+            biddingContinues = false;
 
-        boolean isBigger = true;
-
-        for (BidsModels autoBid : existingBids) {
-            while (isBigger) {
-                BidsModels topBid = existingBids.get(0);
-
-                for (BidsModels bid : existingBids) {
-                    if (bid.getAmount() > topBid.getAmount()) {
-                        topBid = bid;
-                    }
-                }
-
-                if (autoBid.getAmount() > topBid.getAmount()) {
-                    topBid.setAmount(autoBid.getAmount());
-                }
-                    int newBidAmount = topBid.getAmount() + 2000;
-
-
-                    if (newBidAmount <= autoBid.getMaxAmount()) {
-
-
-                        return bidsValidateService.saveBidAndAuction(auction, currentBid);
-                    }
-                if (autoBid.getMaxAmount() <= topBid.getAmount()) {
-                    isBigger = false;
-                    break;
-                }
+            for (BidsModels autoBid : otherUserBids) {
+                placeAutobids(topBid, autoBid, newAutoBids);
+                biddingContinues = true;
             }
         }
-        return currentBid;
+        for (BidsModels newAutoBid : newAutoBids) {
+            if (!auction.getBids().contains(newAutoBid)) {
+                auction.getBids().add(newAutoBid);
+            }
+            bidsValidateService.saveBidAndAuction(auction, newAutoBid);
+        }
     }
 
+    public UserModels getTopUser(AuctionModels auction) {
+        BidsDTO topBidDto = bidsValidateService.getTopBidByAuctionId(auction.getId());
+        return userRepository.findById(topBidDto.getBidderId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+    }
+
+    public List<BidsModels> getOtherUsersBids(AuctionModels auction, UserModels topUser) {
+        List<BidsModels> existingBids = auction.getBids();
+
+       return existingBids.stream()
+                .filter(bid -> !bid.getBidder().equals(topUser))
+                .collect(Collectors.toList());
+    }
+
+    public BidsModels placeAutobids(BidsModels topBid, BidsModels autoBid, List<BidsModels> newAutoBids) {
+        if (topBid.getAmount() < autoBid.getMaxAmount() && !topBid.getBidder().equals(autoBid.getBidder())) {
+            int newBidAmount = topBid.getAmount() + 1000;
+
+            if (newBidAmount > autoBid.getMaxAmount()) {
+                newBidAmount = autoBid.getMaxAmount();
+            }
+
+            BidsDTO autoBidDto = bidsValidateService.convertToDTO(autoBid);
+            BidsModels newAutoBid = bidsValidateService.retrieveData(autoBidDto, autoBid.getBidder());
+            newAutoBid.setAmount(newBidAmount);
+
+            newAutoBids.add(newAutoBid);
+
+            topBid = newAutoBid;
+        }
+        return topBid;
+    }
 }

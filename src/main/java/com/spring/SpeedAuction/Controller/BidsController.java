@@ -4,6 +4,7 @@ import com.spring.SpeedAuction.DTO.BidsDTO;
 import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Security.Services.AutoBidServices;
 import com.spring.SpeedAuction.Security.Services.BidsServices;
+import com.spring.SpeedAuction.Security.Services.BidsValidateService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +16,12 @@ public class BidsController {
 
     private final BidsServices bidsService;
     private final AutoBidServices autoBidService;
+    private final BidsValidateService bidsValidateService;
 
-    public BidsController(BidsServices bidsService, AutoBidServices autoBidService) {
+    public BidsController(BidsServices bidsService, AutoBidServices autoBidService, BidsValidateService bidsValidateService) {
         this.bidsService = bidsService;
         this.autoBidService = autoBidService;
+        this.bidsValidateService = bidsValidateService;
     }
 
     //POST Lägg till ett nytt bid or autobid
@@ -72,6 +75,6 @@ public class BidsController {
     //Hämtar det största budet (senaste budet på en auktion är alltid störst) i en auction
     @GetMapping("/getTopBidByAuctionId/{auctionId}")
     public BidsDTO getTopBidByAuctionId(@PathVariable String auctionId) {
-        return bidsService.getTopBidByAuctionId(auctionId);
+        return bidsValidateService.getTopBidByAuctionId(auctionId);
     }
 }
