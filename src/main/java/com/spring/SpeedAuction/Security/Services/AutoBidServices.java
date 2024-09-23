@@ -45,7 +45,7 @@ public class AutoBidServices {
             biddingContinues = false;
 
             for (BidsModels autoBid : otherUserBids) {
-                placeAutobids(topBid, autoBid, newAutoBids);
+                topBid = placeAutobids(topBid, autoBid, newAutoBids);
                 biddingContinues = true;
             }
         }
