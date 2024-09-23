@@ -45,8 +45,13 @@ public class AutoBidServices {
             biddingContinues = false;
 
             for (BidsModels autoBid : otherUserBids) {
-                topBid = placeAutobids(topBid, autoBid, newAutoBids);
-                biddingContinues = true;
+                BidsModels updatedTopBid = placeAutobids(topBid, autoBid, newAutoBids);
+                if (!updatedTopBid.equals(topBid)) {
+                    topBid = updatedTopBid;
+                    biddingContinues = true;
+                } else {
+                    break;
+                }
             }
         }
         for (BidsModels newAutoBid : newAutoBids) {
@@ -66,7 +71,7 @@ public class AutoBidServices {
     public List<BidsModels> getOtherUsersBids(AuctionModels auction, UserModels topUser) {
         List<BidsModels> existingBids = auction.getBids();
 
-       return existingBids.stream()
+        return existingBids.stream()
                 .filter(bid -> !bid.getBidder().equals(topUser))
                 .collect(Collectors.toList());
     }
