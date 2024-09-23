@@ -16,8 +16,6 @@ public class AutoBidServices {
     private final BidsValidateService bidsValidateService;
 
 
-
-
     public AutoBidServices(AuctionRepository auctionRepository, BidsValidateService bidsValidateService) {
         this.auctionRepository = auctionRepository;
         this.bidsValidateService = bidsValidateService;
@@ -26,7 +24,7 @@ public class AutoBidServices {
     //
     //LOGIC TO HANDLE AUTOMATIC BIDDING
 
-    public BidsModels placeAutoBid(AuctionModels auction, BidsModels currentBid){
+    public BidsModels placeAutoBid(AuctionModels auction, BidsModels currentBid) {
 
         List<BidsModels> existingBids = auction.getBids();
         if (existingBids == null || existingBids.isEmpty()) {
@@ -41,25 +39,32 @@ public class AutoBidServices {
         existingBids.add(currentBid);
         auction.setBids(existingBids);
 
-        BidsModels topBid = existingBids.get(0);
-        for (BidsModels bid : existingBids) {
-            if (bid.getAmount() > topBid.getAmount()) {
-                topBid = bid;
-            }
-        }
+        boolean isBigger = true;
 
-        System.out.println("test2 ");
+        for (BidsModels autoBid : existingBids) {
+            while (isBigger) {
+                BidsModels topBid = existingBids.get(0);
 
-        for (BidsModels  autoBid: existingBids){
-            if(autoBid.getMaxAmount() > topBid.getAmount()){
-                int newBidAmount = topBid.getAmount() + 5000;
+                for (BidsModels bid : existingBids) {
+                    if (bid.getAmount() > topBid.getAmount()) {
+                        topBid = bid;
+                    }
+                }
 
-                System.out.print("amout1 " + autoBid.getMaxAmount());
+                if (autoBid.getAmount() > topBid.getAmount()) {
+                    topBid.setAmount(autoBid.getAmount());
+                }
+                    int newBidAmount = topBid.getAmount() + 2000;
 
-                if(newBidAmount <= autoBid.getMaxAmount()){
 
-                    System.out.println("innan rad 61" +  currentBid);
-                    return bidsValidateService.saveBidAndAuction(auction, currentBid);
+                    if (newBidAmount <= autoBid.getMaxAmount()) {
+
+
+                        return bidsValidateService.saveBidAndAuction(auction, currentBid);
+                    }
+                if (autoBid.getMaxAmount() <= topBid.getAmount()) {
+                    isBigger = false;
+                    break;
                 }
             }
         }

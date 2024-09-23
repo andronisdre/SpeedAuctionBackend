@@ -78,7 +78,44 @@ public class BidsServices {
         bidsValidateService.bidLargeEnough(newBid, auction);
         bidsValidateService.bidBeforeEndOfAuction(newBid, auction);
 
-        return autoBidServices.placeAutoBid(auction, newBid);
+        bidsValidateService.saveBidAndAuction(auction, newBid);
+
+        List<BidsModels> existingBids = auction.getBids();
+        if (existingBids == null || existingBids.isEmpty()) {
+            existingBids = (new ArrayList<>());
+        }
+
+        existingBids.add(newBid);
+        auction.setBids(existingBids);
+
+        boolean isBigger = true;
+
+        for (BidsModels autoBid : existingBids) {
+            while (isBigger) {
+                BidsModels topBid = existingBids.get(0);
+
+                for (BidsModels bid : existingBids) {
+                    if (bid.getAmount() > topBid.getAmount()) {
+                        topBid = bid;
+                    }
+                }
+
+                if (autoBid.getAmount() > topBid.getAmount()) {
+                    topBid.setAmount(autoBid.getAmount());
+                }
+                int newBidAmount = topBid.getAmount() + 2000;
+
+                if (newBidAmount <= autoBid.getMaxAmount()) {
+                    autoBid.setAmount(newBidAmount);
+                    bidsRepository.save(autoBid);
+                }
+                if (autoBid.getMaxAmount() <= topBid.getAmount()) {
+                    isBigger = false;
+                    break;
+                }
+            }
+        }
+        return newBid;
     }
 
     // PUT
