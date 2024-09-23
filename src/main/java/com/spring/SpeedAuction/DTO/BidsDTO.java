@@ -6,7 +6,7 @@ public class BidsDTO {
     private String bidderId;
     private Integer amount;
     private Date timeBidded;
-    private Integer maxAmount;
+    private int maxAmount;
 
     public String getBidderId() {
         return bidderId;
@@ -33,11 +33,11 @@ public class BidsDTO {
     }
 
 
-    public Integer getMaxAmount() {
+    public int getMaxAmount() {
         return maxAmount;
     }
 
-    public void setMaxAmount(Integer maxAmount) {
+    public void setMaxAmount(int maxAmount) {
         this.maxAmount = maxAmount;
     }
 }

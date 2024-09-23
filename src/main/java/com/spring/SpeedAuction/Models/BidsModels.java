@@ -16,7 +16,7 @@ public class BidsModels {
     @DBRef
     private UserModels bidder;
     private Integer amount;
-    private Integer maxAmount;
+    private int maxAmount;
     @CreatedDate
     private Date timeBidded;
 
@@ -56,11 +56,11 @@ public class BidsModels {
         this.timeBidded = timeBidded;
     }
 
-    public Integer getMaxAmount() {
+    public int getMaxAmount() {
         return maxAmount;
     }
 
-    public void setMaxAmount(Integer maxAmount) {
+    public void setMaxAmount(int maxAmount) {
         this.maxAmount = maxAmount;
     }
 }

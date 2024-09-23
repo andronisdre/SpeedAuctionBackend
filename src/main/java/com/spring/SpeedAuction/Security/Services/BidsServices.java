@@ -49,7 +49,7 @@ public class BidsServices {
         BidsDTO bidsDTO = new BidsDTO();
         bidsDTO.setBidderId(bidsModels.getBidder().getId());
         bidsDTO.setAmount(bidsModels.getAmount());
-        bidsDTO.setMaxAmount(bidsDTO.getMaxAmount());
+        bidsDTO.setMaxAmount(bidsModels.getMaxAmount());
         bidsDTO.setTimeBidded(bidsModels.getTimeBidded());
 
         return bidsDTO;
@@ -77,40 +77,45 @@ public class BidsServices {
         bidsValidateService.compareSellerAndBidder(auction, newBid);
         bidsValidateService.bidLargeEnough(newBid, auction);
         bidsValidateService.bidBeforeEndOfAuction(newBid, auction);
-
         bidsValidateService.saveBidAndAuction(auction, newBid);
 
+        // RETIEVE ALL EXISTING BIDS
         List<BidsModels> existingBids = auction.getBids();
         if (existingBids == null || existingBids.isEmpty()) {
             existingBids = (new ArrayList<>());
         }
 
+        //ADD CURRENT BID TO LIST OF BIDS
         existingBids.add(newBid);
         auction.setBids(existingBids);
 
-        boolean isBigger = true;
+
+        BidsModels topBid = existingBids.get(0);
+        for (BidsModels bid : existingBids) {
+            if (bid.getAmount() > topBid.getAmount()) {
+                topBid = bid;
+            }
+        }
 
         for (BidsModels autoBid : existingBids) {
-            while (isBigger) {
-                BidsModels topBid = existingBids.get(0);
-
-                for (BidsModels bid : existingBids) {
-                    if (bid.getAmount() > topBid.getAmount()) {
-                        topBid = bid;
-                    }
-                }
-
-                if (autoBid.getAmount() > topBid.getAmount()) {
-                    topBid.setAmount(autoBid.getAmount());
-                }
+            System.out.println("fafa");
+            while (topBid.getAmount() < autoBid.getMaxAmount() && !topBid.getBidder().equals(autoBid.getBidder())) {
                 int newBidAmount = topBid.getAmount() + 2000;
 
-                if (newBidAmount <= autoBid.getMaxAmount()) {
-                    autoBid.setAmount(newBidAmount);
-                    bidsRepository.save(autoBid);
+                if (newBidAmount > autoBid.getMaxAmount()) {
+                    newBidAmount = autoBid.getMaxAmount();
                 }
-                if (autoBid.getMaxAmount() <= topBid.getAmount()) {
-                    isBigger = false;
+
+                BidsDTO autoBidDto = convertToDTO(autoBid);
+                BidsModels newAutoBid = retrieveData(autoBidDto, autoBid.getBidder());
+                newAutoBid.setAmount(newBidAmount);
+
+                auction.getBids().add(newAutoBid);
+                bidsValidateService.saveBidAndAuction(auction, newAutoBid);
+
+                topBid = newAutoBid;
+
+                if (newBidAmount >= autoBid.getMaxAmount()) {
                     break;
                 }
             }

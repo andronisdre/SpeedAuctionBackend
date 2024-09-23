@@ -25,17 +25,19 @@ public class BidsValidateService {
 
     //saves both bid and auction then returns bid
     public BidsModels saveBidAndAuction(AuctionModels auction, BidsModels bid) {
+        System.out.println("harea");
         List<BidsModels> existingBids = auction.getBids();
         if (existingBids == null) {
             existingBids = (new ArrayList<>());
         }
+        System.out.println("jhgskgf");
         existingBids.add(bid);
         auction.setBids(existingBids);
 
         bidsRepository.save(bid);
 
         auctionRepository.save(auction);
-
+        System.out.println("kljfiaio");
         return bid;
     }
 
