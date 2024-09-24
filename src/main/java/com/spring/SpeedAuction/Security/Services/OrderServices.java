@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class OrderServices {
@@ -29,62 +31,82 @@ public class OrderServices {
     @Autowired
     UserRepository userRepository;
 
-
     public OrderModels createOrder(OrderDto orderDto) {
+        UserModels seller = getUserById(orderDto.getSellerid(), "Invalid seller id");
+        UserModels buyer = getUserById(orderDto.getBuyerid(), "Invalid buyer id");
+        AuctionModels auction = getAuctionById(orderDto.getAuctionid(), "Invalid auction id");
 
-        // ###### BRYTA NER TILL TRE OLIKA METODER
-        UserModels user = userRepository.findById(orderDto.getSellerid())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
+        String createdAtString = String.valueOf(orderDto.getCreated_at());
 
-        UserModels buyer = userRepository.findById(orderDto.getBuyerid())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
+        // Definiera formatet på strängen (anpassa efter vad du har)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        AuctionModels auction = auctionRepository.findById(orderDto.getAuctionid())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid auction id"));
+        // Konvertera strängen till LocalDateTime
+        LocalDateTime createdAt = LocalDateTime.parse(createdAtString, formatter);
 
-        OrderModels NewOrder = new OrderModels();
-        NewOrder.setBuyer_id(buyer);
-        NewOrder.setSeller_id(user);
-        NewOrder.setAuction_id(auction);
-        NewOrder.setOrder_created(orderDto.getCreated_at());
+        // Skicka LocalDateTime till createAndSaveOrder
+        OrderModels newOrder = createAndSaveOrder(seller, buyer, auction, createdAt);
+        deactivateAuction(auction.getId());
 
-        AuctionModels existingAuction = auctionRepository.findById
-                (NewOrder.getAuction_id().getId()).orElseThrow(() -> new IllegalArgumentException("auction does not exist"));
+        return newOrder;
+    }
+
+    // Hämta användare
+    private UserModels getUserById(String userId, String errorMessage) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(errorMessage));
+    }
+
+    // Hämta auktion
+    private AuctionModels getAuctionById(String auctionId, String errorMessage) {
+        return auctionRepository.findById(auctionId)
+                .orElseThrow(() -> new IllegalArgumentException(errorMessage));
+    }
+
+    // Skapa och spara order
+    private OrderModels createAndSaveOrder(UserModels seller, UserModels buyer, AuctionModels auction, LocalDateTime createdAt) {
+        OrderModels newOrder = new OrderModels();
+        newOrder.setBuyer_id(buyer);
+        newOrder.setSeller_id(seller);
+        newOrder.setAuction_id(auction);
+        newOrder.setOrder_created(createdAt);
+
+        return orderRepository.save(newOrder);
+    }
+
+    // Inaktivera auktion
+    private void deactivateAuction(String auctionId) {
+        AuctionModels existingAuction = auctionRepository.findById(auctionId)
+                .orElseThrow(() -> new IllegalArgumentException("Auction does not exist"));
         existingAuction.setActive(false);
-        // #########
-
         auctionRepository.save(existingAuction);
-
-        return  orderRepository.save(NewOrder);
     }
 
     private OrderResponse convertToDto(OrderModels orderModels) {
-
-        OrderResponse orderesponse = new OrderResponse();
-        orderesponse.setAuctionId(orderModels.getAuction_id().getId());
-        orderesponse.setBuyerId(orderModels.getBuyer_id().getId());
-        orderesponse.setSellerId(orderModels.getSeller_id().getId());
-        orderesponse.setCreated_at(orderModels.getOrder_created());
-
-        return orderesponse;
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setAuctionId(orderModels.getAuction_id().getId());
+        orderResponse.setBuyerId(orderModels.getBuyer_id().getId());
+        orderResponse.setSellerId(orderModels.getSeller_id().getId());
+        orderResponse.setCreated_at(orderModels.getOrder_created());
+        return orderResponse;
     }
 
-    public List<OrderResponse> getAllOrder(){
-         List<OrderModels> orders = orderRepository.findAll();
-         return orders.stream().map(this::convertToDto).collect(Collectors.toList());
+    public List<OrderResponse> getAllOrder() {
+        List<OrderModels> orders = orderRepository.findAll();
+        return orders.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    public List<OrderResponse> getOrderById(String id) {
-         Optional<OrderModels> orders = orderRepository.findById(id);
-         return orders.stream().map(this::convertToDto).collect(Collectors.toList());
+    public OrderResponse getOrderById(String id) {
+        Optional<OrderModels> orderOptional = orderRepository.findById(id);
+        OrderModels order = orderOptional.orElseThrow(() -> new NoSuchElementException("Order not found with id: " + id));
+        return convertToDto(order);
     }
     public void deleteOrder(String id) {
         OrderModels orderModels = orderRepository.findById(id).orElse(null);
         if (orderModels != null) {
             orderRepository.deleteById(id);
-        }
-        else {
-            throw new IllegalArgumentException("order id doesnt exist");
+        } else {
+            throw new IllegalArgumentException("Order id doesn't exist");
         }
     }
 
