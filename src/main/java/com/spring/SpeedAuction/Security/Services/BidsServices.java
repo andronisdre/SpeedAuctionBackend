@@ -6,7 +6,6 @@ import com.spring.SpeedAuction.Models.BidsModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.BidsRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -109,4 +108,4 @@ public class BidsServices {
             }
             return bids.stream().map(bidsValidateService::convertToDTO).collect(Collectors.toList());
         }
-    }
+}
