@@ -44,6 +44,9 @@ public class AuctionServices {
         newAuction.setRegNumber(auctionsDTO.getRegNumber());
         newAuction.setYearManufactured(auctionsDTO.getYearManufactured());
 
+        // Anropa valideringsmetoden här
+        validateAuction(newAuction);
+
         return auctionRepository.save(newAuction);
     }
 
@@ -53,47 +56,47 @@ public class AuctionServices {
         return auctionModels.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    //get auction by id
+    //get auction by id... Använde orElseThrow istället för.get() för att hantera när ett objekt inte hittas.
     public AuctionModels getAuctionModelsById(String id) {
-        return auctionRepository.findById(id).get();
+        return auctionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Auction with id " + id + " not found"));
     }
 
     //update
     public AuctionModels updateAuctionModels(String id, AuctionModels auctionModels) {
         AuctionModels existingAuction = auctionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid id"));
 
-        //update field
-        if (auctionModels.getStartingPrice() != 0){
+        if (auctionModels.getStartingPrice() != 0) {
             existingAuction.setStartingPrice(auctionModels.getStartingPrice());
         }
-        if (auctionModels.getEndOfAuction() != null){
+        if (auctionModels.getEndOfAuction() != null) {
             existingAuction.setEndOfAuction(auctionModels.getEndOfAuction());
         }
-        if (auctionModels.getCondition() != null){
+        if (auctionModels.getCondition() != null) {
             existingAuction.setCondition(auctionModels.getCondition());
         }
-        if (auctionModels.getMilesDriven() != 0){
+        if (auctionModels.getMilesDriven() != 0) {
             existingAuction.setMilesDriven(auctionModels.getMilesDriven());
         }
-        if (auctionModels.getCarModel() != null){
+        if (auctionModels.getCarModel() != null) {
             existingAuction.setCarModel(auctionModels.getCarModel());
         }
-        if (auctionModels.getBrand() != null){
+        if (auctionModels.getBrand() != null) {
             existingAuction.setBrand(auctionModels.getBrand());
         }
         if (auctionModels.getYearManufactured() != 0) {
             existingAuction.setYearManufactured(auctionModels.getYearManufactured());
         }
-        if (auctionModels.getColor() != null){
+        if (auctionModels.getColor() != null) {
             existingAuction.setColor(auctionModels.getColor());
         }
-        if (auctionModels.getRegNumber() != null){
+        if (auctionModels.getRegNumber() != null) {
             existingAuction.setRegNumber(auctionModels.getRegNumber());
         }
-        if (auctionModels.getCarPng() != null){
+        if (auctionModels.getCarPng() != null) {
             existingAuction.setCarPng(auctionModels.getCarPng());
         }
-        if (auctionModels.getDescription() != null){
+        if (auctionModels.getDescription() != null) {
             existingAuction.setDescription(auctionModels.getDescription());
         }
 
@@ -103,7 +106,26 @@ public class AuctionServices {
         existingAuction.setUpdated_at(new Date());
         checkEndOfAuction(existingAuction);
 
+        // Anropar valideringsmetoden här
+        validateAuction(existingAuction);
+
         return auctionRepository.save(existingAuction);
+    }
+    // Valideringsmetod för att säkerställa att auktionen har korrekta och giltiga värden innan den sparas i databasen.
+    private void validateAuction(AuctionModels auctionModels) {
+        if (auctionModels.getStartingPrice() <= 0) {
+            throw new IllegalArgumentException("Starting price must be greater than zero");
+        }
+        if (auctionModels.getCarModel() == null || auctionModels.getCarModel().isEmpty()) {
+            throw new IllegalArgumentException("Car model is required");
+        }
+        if (auctionModels.getBrand() == null || auctionModels.getBrand().equals("")) {
+            throw new IllegalArgumentException("Brand is required");
+        }
+
+        if (auctionModels.getYearManufactured() <= 0) {
+            throw new IllegalArgumentException("Year manufactured must be valid");
+        }
     }
 
     //delete auction
