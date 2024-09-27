@@ -7,14 +7,9 @@ import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionInterfaces.AuctionRepository;
 import com.spring.SpeedAuction.Repository.OrderRepository;
-import com.spring.SpeedAuction.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.spring.SpeedAuction.Repository.UserInterfaces.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
