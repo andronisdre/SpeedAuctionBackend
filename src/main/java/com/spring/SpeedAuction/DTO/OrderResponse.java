@@ -1,6 +1,5 @@
 package com.spring.SpeedAuction.DTO;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class OrderResponse {
@@ -19,7 +18,7 @@ public class OrderResponse {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 

@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Document("orders")
@@ -48,11 +47,11 @@ public class OrderModels {
     }
 
 
-    public LocalDateTime getOrder_created() {
+    public Date getOrder_created() {
         return order_created;
     }
 
-    public void setOrder_created(LocalDateTime order_created) {
+    public void setOrder_created(Date order_created) {
         this.order_created = order_created;
     }
 

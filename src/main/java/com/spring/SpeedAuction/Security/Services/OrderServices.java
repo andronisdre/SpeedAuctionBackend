@@ -1,23 +1,24 @@
 package com.spring.SpeedAuction.Security.Services;
 
 import com.spring.SpeedAuction.DTO.OrderDto;
-
+import com.spring.SpeedAuction.DTO.OrderResponse;
 import com.spring.SpeedAuction.Models.AuctionModels;
 import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Repository.AuctionRepository;
 import com.spring.SpeedAuction.Repository.OrderRepository;
 import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.DTO.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Service
 public class OrderServices {
@@ -36,16 +37,7 @@ public class OrderServices {
         UserModels buyer = getUserById(orderDto.getBuyerid(), "Invalid buyer id");
         AuctionModels auction = getAuctionById(orderDto.getAuctionid(), "Invalid auction id");
 
-        String createdAtString = String.valueOf(orderDto.getCreated_at());
-
-        // Definiera formatet på strängen (anpassa efter vad du har)
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        // Konvertera strängen till LocalDateTime
-        LocalDateTime createdAt = LocalDateTime.parse(createdAtString, formatter);
-
-        // Skicka LocalDateTime till createAndSaveOrder
-        OrderModels newOrder = createAndSaveOrder(seller, buyer, auction, createdAt);
+        OrderModels newOrder = createAndSaveOrder(seller, buyer, auction, orderDto.getCreated_at());
         deactivateAuction(auction.getId());
 
         return newOrder;
@@ -64,7 +56,7 @@ public class OrderServices {
     }
 
     // Skapa och spara order
-    private OrderModels createAndSaveOrder(UserModels seller, UserModels buyer, AuctionModels auction, LocalDateTime createdAt) {
+    private OrderModels createAndSaveOrder(UserModels seller, UserModels buyer, AuctionModels auction, Date createdAt) {
         OrderModels newOrder = new OrderModels();
         newOrder.setBuyer_id(buyer);
         newOrder.setSeller_id(seller);
