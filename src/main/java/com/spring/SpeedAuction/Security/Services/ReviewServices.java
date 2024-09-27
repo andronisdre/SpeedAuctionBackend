@@ -23,68 +23,77 @@ public class ReviewServices {
     }
 
 
-    public ReviewModels addReview(ReviewDTO reviewDTO) {    // POST Lägg till en review
+        // POST här Läggs till en review
+        public ReviewModels addReview(ReviewDTO reviewDTO) {
+            UserModels user = getUserById(reviewDTO.getUser_id(), "Invalid user id");
+            UserModels reviewer = getUserById(reviewDTO.getReviewer_id(), "Invalid reviewer id");
 
-        // ###### BRYTA NER TILL TVÅ OLIKA METODER
-        UserModels user = userRepository.findById(reviewDTO.getUser_id())
-                .orElseThrow(() -> new NoSuchElementException("Invalid user id"));
+            ReviewModels review = createAndSaveReview(user, reviewer, reviewDTO);
 
-        UserModels reviewer = userRepository.findById(reviewDTO.getReviewer_id())
-                .orElseThrow(() -> new NoSuchElementException("Invalid reviewer id"));
+            return review;
+        }
 
-        ReviewModels review = new ReviewModels();
-        review.setReviewContent(reviewDTO.getReviewContent());
-        review.setRating(reviewDTO.getRating());
-        review.setUser_id(user);
-        review.setReviewer_id(reviewer);
-        // #######
-        return reviewRepository.save(review);
- }
+        // Hämta användare med hjälp av user_id
+        private UserModels getUserById(String userId, String errorMessage) {
+            return userRepository.findById(userId)
+                    .orElseThrow(() -> new NoSuchElementException(errorMessage));
+        }
 
-    public List<ReviewDTO> getAllReviews() {  // GET hämta alla reviews
-        List<ReviewModels> review = reviewRepository.findAll();
+        // Skapa och spara recension
+        private ReviewModels createAndSaveReview(UserModels user, UserModels reviewer, ReviewDTO reviewDTO) {
+            ReviewModels review = new ReviewModels();
+            review.setReviewContent(reviewDTO.getReviewContent());
+            review.setRating(reviewDTO.getRating());
+            review.setUser_id(user);
+            review.setReviewer_id(reviewer);
 
-        return review.stream().map(this::convertToDTO).collect(Collectors.toList());
-    }
+            return reviewRepository.save(review);
+        }
 
-    public ReviewModels getReviewById(String id) {  // GET hämta review genom id
-        return reviewRepository.findById(id).get();
-    }
+        // GET Hämta alla recensioner
+        public List<ReviewDTO> getAllReviews() {
+            List<ReviewModels> reviews = reviewRepository.findAll();
+            return reviews.stream().map(this::convertToDTO).collect(Collectors.toList());
+        }
 
-    public ReviewModels updateReview(String id, ReviewModels updateReview) { // PUT updatera review
-        return reviewRepository.findById(id)
-                .map(existingReviewModels -> {
-                    if (updateReview.getReviewContent() != null) {
-                        existingReviewModels.setReviewContent(updateReview.getReviewContent());
-                    }
-                    if (updateReview.getRating() != 0) {
-                        existingReviewModels.setRating(updateReview.getRating());
-                    }
-                    return reviewRepository.save(existingReviewModels);
-                })
-                .orElseThrow(() -> new NoSuchElementException("Invalid reviewer id"));
-    }
+        // GET för att Hämta review genom ID
+        public ReviewModels getReviewById(String id) {
+            return reviewRepository.findById(id).get();
+        }
 
-    public String deleteReview(String id) {
-        ReviewModels reviewModels = reviewRepository.findById(id).orElse(null);
-        if (reviewModels != null) {
-            reviewRepository.deleteById(id);
-            return "review is deleted";
-        } else {
-            return "Review id doesn't exist";
+        // PUT för att Uppdatera recension
+        public ReviewModels updateReview(String id, ReviewModels updateReview) {
+            return reviewRepository.findById(id)
+                    .map(existingReview -> {
+                        if (updateReview.getReviewContent() != null) {
+                            existingReview.setReviewContent(updateReview.getReviewContent());
+                        }
+                        if (updateReview.getRating() != 0) {
+                            existingReview.setRating(updateReview.getRating());
+                        }
+                        return reviewRepository.save(existingReview);
+                    })
+                    .orElseThrow(() -> new NoSuchElementException("Invalid review id"));
+        }
+
+        // DELETE - Radera recension
+        public String deleteReview(String id) {
+            ReviewModels review = reviewRepository.findById(id).orElse(null);
+            if (review != null) {
+                reviewRepository.deleteById(id);
+                return "Review is deleted";
+            } else {
+                return "Review id doesn't exist";
+            }
+        }
+
+        // Hjälpmetod för att konvertera ReviewModels till ReviewDTO
+        private ReviewDTO convertToDTO(ReviewModels review) {
+            ReviewDTO reviewDTO = new ReviewDTO();
+            reviewDTO.setUser_id(review.getUser_id().getId());
+            reviewDTO.setReviewer_id(review.getReviewer_id().getId());
+            reviewDTO.setReviewContent(review.getReviewContent());
+            reviewDTO.setRating(review.getRating());
+            return reviewDTO;
         }
     }
-
-    // Hjälpmetod
-    private ReviewDTO convertToDTO(ReviewModels reviewModels) {
-        ReviewDTO reviewDTO = new ReviewDTO();
-
-        reviewDTO.setUser_id(reviewModels.getUser_id().getId());
-        reviewDTO.setReviewer_id(reviewModels.getReviewer_id().getId());
-
-        reviewDTO.setReviewContent(reviewModels.getReviewContent());
-        reviewDTO.setRating(reviewModels.getRating());
-
-        return reviewDTO;
-    }
-}
