@@ -1,11 +1,10 @@
 package com.spring.SpeedAuction.Controller;
 
-import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.DTO.FavouriteDTO;
 import com.spring.SpeedAuction.DTO.UserResponsDTO;
+import com.spring.SpeedAuction.Models.UserModels;
 import com.spring.SpeedAuction.Security.Services.UserServices;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +17,11 @@ import java.util.NoSuchElementException;
 @RequestMapping(value = "/api/user")
 public class UserController {
 
-    @Autowired
-    UserServices userServices;
+    private final UserServices userServices;
 
-
+    public UserController(UserServices userServices) {
+        this.userServices = userServices;
+    }
 
     // GET ALL
     @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")

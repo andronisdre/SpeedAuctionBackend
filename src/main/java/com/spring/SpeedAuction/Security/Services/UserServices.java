@@ -1,12 +1,11 @@
 package com.spring.SpeedAuction.Security.Services;
 
-import com.spring.SpeedAuction.Models.AuctionModels;
-import com.spring.SpeedAuction.Models.UserModels;
-import com.spring.SpeedAuction.Repository.AuctionRepository;
-import com.spring.SpeedAuction.Repository.UserRepository;
 import com.spring.SpeedAuction.DTO.FavouriteDTO;
 import com.spring.SpeedAuction.DTO.UserResponsDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.spring.SpeedAuction.Models.AuctionModels;
+import com.spring.SpeedAuction.Models.UserModels;
+import com.spring.SpeedAuction.Repository.AuctionInterfaces.AuctionRepository;
+import com.spring.SpeedAuction.Repository.UserInterfaces.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +15,13 @@ import java.util.stream.Collectors;
 @Service
 public class UserServices {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final AuctionRepository auctionRepository;
 
-    @Autowired
-    AuctionRepository auctionRepository;
+    public UserServices(UserRepository userRepository, AuctionRepository auctionRepository) {
+        this.userRepository = userRepository;
+        this.auctionRepository = auctionRepository;
+    }
 
 
     public List<UserModels> getAllUsers() {     // GET Hämta en lista över alla användare

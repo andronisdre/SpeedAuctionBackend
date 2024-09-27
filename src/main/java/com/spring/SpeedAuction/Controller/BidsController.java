@@ -1,10 +1,10 @@
 package com.spring.SpeedAuction.Controller;
 
-import com.spring.SpeedAuction.Models.BidsModels;
-import com.spring.SpeedAuction.Security.Services.BidsValidateService;
 import com.spring.SpeedAuction.DTO.BidsDTO;
+import com.spring.SpeedAuction.Models.BidsModels;
+import com.spring.SpeedAuction.Security.Services.AutoBidServices;
 import com.spring.SpeedAuction.Security.Services.BidsServices;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.spring.SpeedAuction.Security.Services.BidsValidateService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +14,17 @@ import java.util.List;
 @RequestMapping(value = "api/bids")
 public class BidsController {
 
-    @Autowired
-    BidsServices bidsService;
-    @Autowired
-    BidsValidateService bidsValidateService;
+    private final BidsServices bidsService;
+    private final AutoBidServices autoBidService;
+    private final BidsValidateService bidsValidateService;
 
-    //POST Lägg till ett nytt bid
+    public BidsController(BidsServices bidsService, AutoBidServices autoBidService, BidsValidateService bidsValidateService) {
+        this.bidsService = bidsService;
+        this.autoBidService = autoBidService;
+        this.bidsValidateService = bidsValidateService;
+    }
+
+    //POST Lägg till ett nytt bid or autobid
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @PostMapping("/{auctionId}/{userId}")
     public BidsModels createBidModel(@PathVariable String auctionId, @PathVariable String userId, @RequestBody BidsDTO bidsDTO) {
@@ -54,7 +59,7 @@ public class BidsController {
 
     }
 
-    //Hämtar alla bids med ett specifikt bidderId, nyaste budet kommer först
+    //Hämtar alla bids med ett specific bidderId, nyaste budet kommer först
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
     @GetMapping("/filterByBidderId/{bidderId}")
     public List<BidsDTO> getBidsModelByUserId(@PathVariable String bidderId) {
@@ -70,6 +75,6 @@ public class BidsController {
     //Hämtar det största budet (senaste budet på en auktion är alltid störst) i en auction
     @GetMapping("/getTopBidByAuctionId/{auctionId}")
     public BidsDTO getTopBidByAuctionId(@PathVariable String auctionId) {
-        return bidsService.getTopBidByAuctionId(auctionId);
+        return bidsValidateService.getTopBidByAuctionId(auctionId);
     }
 }

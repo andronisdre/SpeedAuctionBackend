@@ -1,10 +1,9 @@
 package com.spring.SpeedAuction.Controller;
 
-import com.spring.SpeedAuction.Models.ReviewModels;
 import com.spring.SpeedAuction.DTO.ReviewDTO;
+import com.spring.SpeedAuction.Models.ReviewModels;
 import com.spring.SpeedAuction.Security.Services.ReviewServices;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,9 +16,11 @@ import java.util.NoSuchElementException;
 @RequestMapping(value = "/api/review")
 public class ReviewController {
 
-    @Autowired
-    ReviewServices reviewServices;
+    private final ReviewServices reviewServices;
 
+    public ReviewController(ReviewServices reviewServices) {
+        this.reviewServices = reviewServices;
+    }
 
     // POST
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")

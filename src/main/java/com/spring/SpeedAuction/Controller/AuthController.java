@@ -1,19 +1,19 @@
 package com.spring.SpeedAuction.Controller;
 
+import com.spring.SpeedAuction.Enums.ERole;
 import com.spring.SpeedAuction.Models.Role;
 import com.spring.SpeedAuction.Models.UserModels;
-import com.spring.SpeedAuction.Repository.RoleRepository;
-import com.spring.SpeedAuction.Repository.UserRepository;
-import com.spring.SpeedAuction.Enums.ERole;
 import com.spring.SpeedAuction.Payload.request.SigningRequest;
 import com.spring.SpeedAuction.Payload.request.SignupRequest;
 import com.spring.SpeedAuction.Payload.response.MessageResponse;
 import com.spring.SpeedAuction.Payload.response.UserInfoResponse;
+import com.spring.SpeedAuction.Repository.RoleRepository;
+import com.spring.SpeedAuction.Repository.UserInterfaces.ExistsUserFilter;
+import com.spring.SpeedAuction.Repository.UserInterfaces.UserRepository;
 import com.spring.SpeedAuction.Security.Services.UserDetailImpl;
 import com.spring.SpeedAuction.Security.jwt.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -36,20 +36,26 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth/")
 public class AuthController {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    RoleRepository roleRepository;
+    private final ExistsUserFilter existsUserFilter;
 
-    @Autowired
-    PasswordEncoder encoder;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    JwtUtils jwtUtils;
+    private final PasswordEncoder encoder;
+
+    private final JwtUtils jwtUtils;
+
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, ExistsUserFilter existsUserFilter, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.existsUserFilter = existsUserFilter;
+        this.roleRepository = roleRepository;
+        this.encoder = encoder;
+        this.jwtUtils = jwtUtils;
+    }
 
     //sign in
     @PostMapping("/signing")
@@ -84,7 +90,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody SignupRequest signupRequest) {
         // check if the username exist
-        if (userRepository.existsByUsername((signupRequest.getUsername()))) {
+        if (existsUserFilter.existsByUsername((signupRequest.getUsername()))) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error username already exist!"));

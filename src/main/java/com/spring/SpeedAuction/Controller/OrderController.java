@@ -1,12 +1,10 @@
 package com.spring.SpeedAuction.Controller;
 
 import com.spring.SpeedAuction.DTO.OrderDto;
-
-import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.DTO.OrderResponse;
+import com.spring.SpeedAuction.Models.OrderModels;
 import com.spring.SpeedAuction.Security.Services.OrderServices;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,8 +16,11 @@ import java.util.List;
 @RequestMapping("api/order")
 public class OrderController {
 
-    @Autowired
-    OrderServices orderService;
+    private final OrderServices orderService;
+
+    public OrderController(OrderServices orderService) {
+        this.orderService = orderService;
+    }
 
     // check role
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
