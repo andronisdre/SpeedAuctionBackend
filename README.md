@@ -1,2 +1,2 @@
-# The backend for a car auction site. Developed in Java, 
+# The backend for our car auction site, developed in Java. 
 ##click here for the frontend: https://github.com/Kassem2000/SpeedAuctionFrontend
